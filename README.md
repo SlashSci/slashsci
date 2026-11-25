@@ -136,19 +136,19 @@ index.sqlite            可重建
 <td align="center" width="33%">
 <img src="docs/img/readme/qr-discord.png" width="148" alt="Discord"><br>
 <b>Discord</b><br>
-<sub>扫码或通过链接加入 Discord 社区</sub><br>
+<sub>加入 Discord 社区</sub><br>
 <a href="https://discord.com/invite/ewNMAHvWsp">加入 Discord →</a>
 </td>
 <td align="center" width="33%">
 <img src="docs/img/readme/qr-wechat.png" width="148" alt="微信"><br>
 <b>微信</b><br>
-<sub>用微信扫码加入内测群</sub><br>
+<sub>加入微信内测群</sub><br>
 &nbsp;
 </td>
 <td align="center" width="33%">
 <img src="docs/img/readme/qr-xhs.png" width="148" alt="小红书"><br>
 <b>小红书</b><br>
-<sub>扫码或通过链接加入小红书群</sub><br>
+<sub>加入小红书内测群</sub><br>
 <a href="http://xhslink.com/m/MAL0EEu5FS">加入小红书群 →</a>
 </td>
 </tr>
