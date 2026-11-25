@@ -67,6 +67,7 @@ header .wrap{display:flex;align-items:center;height:64px}
 .dd .pop,.dd .menu{opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .16s var(--ease),transform .16s var(--ease),visibility 0s linear .16s;z-index:10}
 .dd.open .pop,.dd.open .menu{opacity:1;visibility:visible;transform:none;transition:opacity .16s var(--ease),transform .16s var(--ease),visibility 0s}
 /* an invisible bridge over the gap between the button and its menu */
+.pop .ph{padding:8px 10px 6px;font:500 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
 .dd .pop::before,.dd .menu::before{content:"";position:absolute;left:-1px;right:-1px;top:-14px;height:14px}
 .ptrig::after{transition:transform .16s var(--ease)}
 .dd.open .ptrig::after{transform:translateY(2px) rotate(225deg)}
@@ -447,7 +448,7 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
 <header id="hd"><div class="wrap">
   <a class="brand" href="./"><img src="/img/logo.svg" alt="">SlashSci</a>
   <div class="pmenu dd"><button type="button" class="ptrig ddbtn" aria-haspopup="true" aria-expanded="false">Products</button>
-    <div class="pop">
+    <div class="pop"><div class="ph">The SlashSci series</div>
       <div class="pi on"><span class="dot"></span><b>Library</b><i>In beta</i><p>Literature management and immersive reading</p></div>
       <div class="pi"><span class="dot"></span><b>Studio</b><i>In development</i><p>Research ideation and visual workflow orchestration</p></div>
       <div class="pi"><span class="dot"></span><b>Bot</b><i>In development</i><p>Personal research assistant and task automation</p></div>
@@ -590,7 +591,7 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
 
 <section class="series" id="products"><div class="wrap">
   <div class="label rv"><b>/</b> The SlashSci series</div>
-  <h2 class="rv d1">One platform, three products</h2>
+  <h2 class="rv d1">From reading papers to running research</h2>
   <div class="strip">
     <div class="cur rv"><span class="k">Slash / 01</span><h3><i>/</i>Library<span class="tag">In beta</span></h3><p>Literature management and immersive reading: import, read, translate, annotate, collect, search.</p></div>
     <div class="rv d1"><span class="k">Slash / 02</span><h3><i>/</i>Studio<span class="tag">In development</span></h3><p>Research ideation and visual workflow orchestration: from papers to hypotheses, from hypotheses to experiment design.</p></div>

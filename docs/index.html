@@ -67,6 +67,7 @@ header .wrap{display:flex;align-items:center;height:64px}
 .dd .pop,.dd .menu{opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .16s var(--ease),transform .16s var(--ease),visibility 0s linear .16s;z-index:10}
 .dd.open .pop,.dd.open .menu{opacity:1;visibility:visible;transform:none;transition:opacity .16s var(--ease),transform .16s var(--ease),visibility 0s}
 /* an invisible bridge over the gap between the button and its menu */
+.pop .ph{padding:8px 10px 6px;font:500 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
 .dd .pop::before,.dd .menu::before{content:"";position:absolute;left:-1px;right:-1px;top:-14px;height:14px}
 .ptrig::after{transition:transform .16s var(--ease)}
 .dd.open .ptrig::after{transform:translateY(2px) rotate(225deg)}
@@ -447,7 +448,7 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
 <header id="hd"><div class="wrap">
   <a class="brand" href="./"><img src="/img/logo.svg" alt="">SlashSci</a>
   <div class="pmenu dd"><button type="button" class="ptrig ddbtn" aria-haspopup="true" aria-expanded="false">产品</button>
-    <div class="pop">
+    <div class="pop"><div class="ph">斜杠科研系列</div>
       <div class="pi on"><span class="dot"></span><b>Library</b><i>内测中</i><p>文献管理与沉浸式阅读</p></div>
       <div class="pi"><span class="dot"></span><b>Studio</b><i>开发中</i><p>科研构思与可视化工作流编排</p></div>
       <div class="pi"><span class="dot"></span><b>Bot</b><i>开发中</i><p>个人科研助手与任务自动化</p></div>
@@ -590,7 +591,7 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
 
 <section class="series" id="products"><div class="wrap">
   <div class="label rv"><b>/</b> 斜杠科研系列</div>
-  <h2 class="rv d1">一个平台，三个产品</h2>
+  <h2 class="rv d1">从读文献，到做课题</h2>
   <div class="strip">
     <div class="cur rv"><span class="k">Slash / 01</span><h3><i>/</i>Library<span class="tag">内测中</span></h3><p>文献管理与沉浸式阅读：导入、阅读、翻译、批注、语料、检索。</p></div>
     <div class="rv d1"><span class="k">Slash / 02</span><h3><i>/</i>Studio<span class="tag">开发中</span></h3><p>科研构思与可视化工作流编排：从文献到假设，从假设到实验设计。</p></div>

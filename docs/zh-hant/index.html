@@ -67,6 +67,7 @@ header .wrap{display:flex;align-items:center;height:64px}
 .dd .pop,.dd .menu{opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .16s var(--ease),transform .16s var(--ease),visibility 0s linear .16s;z-index:10}
 .dd.open .pop,.dd.open .menu{opacity:1;visibility:visible;transform:none;transition:opacity .16s var(--ease),transform .16s var(--ease),visibility 0s}
 /* an invisible bridge over the gap between the button and its menu */
+.pop .ph{padding:8px 10px 6px;font:500 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
 .dd .pop::before,.dd .menu::before{content:"";position:absolute;left:-1px;right:-1px;top:-14px;height:14px}
 .ptrig::after{transition:transform .16s var(--ease)}
 .dd.open .ptrig::after{transform:translateY(2px) rotate(225deg)}
@@ -447,7 +448,7 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
 <header id="hd"><div class="wrap">
   <a class="brand" href="./"><img src="/img/logo.svg" alt="">SlashSci</a>
   <div class="pmenu dd"><button type="button" class="ptrig ddbtn" aria-haspopup="true" aria-expanded="false">產品</button>
-    <div class="pop">
+    <div class="pop"><div class="ph">斜槓科研系列</div>
       <div class="pi on"><span class="dot"></span><b>Library</b><i>內測中</i><p>文獻管理與沉浸式閱讀</p></div>
       <div class="pi"><span class="dot"></span><b>Studio</b><i>開發中</i><p>科研構思與視覺化工作流編排</p></div>
       <div class="pi"><span class="dot"></span><b>Bot</b><i>開發中</i><p>個人科研助手與任務自動化</p></div>
@@ -590,7 +591,7 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
 
 <section class="series" id="products"><div class="wrap">
   <div class="label rv"><b>/</b> 斜槓科研系列</div>
-  <h2 class="rv d1">一個平臺，三個產品</h2>
+  <h2 class="rv d1">從讀文獻，到做課題</h2>
   <div class="strip">
     <div class="cur rv"><span class="k">Slash / 01</span><h3><i>/</i>Library<span class="tag">內測中</span></h3><p>文獻管理與沉浸式閱讀：匯入、閱讀、翻譯、批註、語料、檢索。</p></div>
     <div class="rv d1"><span class="k">Slash / 02</span><h3><i>/</i>Studio<span class="tag">開發中</span></h3><p>科研構思與視覺化工作流編排：從文獻到假設，從假設到實驗設計。</p></div>
