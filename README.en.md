@@ -39,19 +39,18 @@ Your data stays local; your search stays instant.
 - **Journal metrics and AI sorting**: CAS and JCR quartiles, impact factors and citation counts at a glance; AI sorts papers by field; full-text search and de-duplication in Chinese and English
 - **Local-first, built for agents**: the whole library in open formats on your machine, exported in one click; a built-in MCP server lets Claude Code and other agents search it directly
 
-Currently available: **Library** (open beta). Studio and Bot are in development.
+Currently available: **Library** (in beta). Studio and Bot are in development.
 
 ## Download
 
 [Releases](../../releases/latest):
 
 - **macOS** (Apple silicon): `SlashSci-<version>-arm64.dmg`
-- **Windows** (64-bit): `SlashSci-<version>-x64.exe`
+- **Windows**: coming soon
 
 ### Install (the beta is not signed)
 
 - **Mac**: open the .dmg and drag SlashSci into Applications. If macOS says it can't verify the developer, go to System Settings → Privacy & Security and click “Open Anyway”.
-- **Windows**: double-click the .exe. If the blue “Windows protected your PC” screen appears, click “More info”, then “Run anyway”.
 
 When a new version is out, an “Update” button appears on the left of the app; click it to download.
 

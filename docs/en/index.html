@@ -358,6 +358,7 @@ html[data-mode=dark] .frame{background:#0a0a0a}
 .os b{font-size:28px;font-weight:600;letter-spacing:-.02em}
 .os small{font-size:13px;color:var(--ink3)}
 .os .file{font:12px/1 var(--mono);color:var(--ink2);margin-top:12px}
+.os.soon>*{opacity:.5}
 /* cards are frosted white: translucent, so the background shows softly through. --card for cards, --card2 for the notice,
    --card3 for the community cards (lighter still). Highlights (hover, the header, the active pill) are the data band's
    deep teal at low opacity: --hl for a hover, --hl2 for something chosen or held */
@@ -447,7 +448,7 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
   <a class="brand" href="./"><img src="/img/logo.svg" alt="">SlashSci</a>
   <div class="pmenu dd"><button type="button" class="ptrig ddbtn" aria-haspopup="true" aria-expanded="false">Products</button>
     <div class="pop">
-      <div class="pi on"><span class="dot"></span><b>Library</b><i>Open beta</i><p>Literature management and immersive reading</p></div>
+      <div class="pi on"><span class="dot"></span><b>Library</b><i>In beta</i><p>Literature management and immersive reading</p></div>
       <div class="pi"><span class="dot"></span><b>Studio</b><i>In development</i><p>Research ideation and visual workflow orchestration</p></div>
       <div class="pi"><span class="dot"></span><b>Bot</b><i>In development</i><p>Personal research assistant and task automation</p></div>
     </div></div>
@@ -467,7 +468,7 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
     <div><div class="intro"><p class="nm">/ SlashSci Library</p><p class="ld">Literature management, rebuilt for the AI era</p>
       <ul><li><b>Block-level</b>papers as structured data, not PDFs</li><li><b>Immersive</b>sentence-by-sentence translation, anchored notes</li><li><b>Local-first</b>every file stays on your machine</li><li><b>Agent-ready</b>built-in MCP for direct model access</li></ul></div>
       <div class="cta"><a class="btn" href="#community">Join the beta</a><a class="btn alt" href="#demo">Try it in the browser</a></div></div>
-    <p class="side">SlashSci Library · Beta 0.1<br>macOS (Apple silicon) · Windows 64-bit</p>
+    <p class="side">SlashSci Library · Beta 0.1<br>macOS (Apple silicon) first · Windows coming soon</p>
   </div>
 </section>
 
@@ -591,7 +592,7 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
   <div class="label rv"><b>/</b> The SlashSci series</div>
   <h2 class="rv d1">One platform, three products</h2>
   <div class="strip">
-    <div class="cur rv"><span class="k">Slash / 01</span><h3><i>/</i>Library<span class="tag">Open beta</span></h3><p>Literature management and immersive reading: import, read, translate, annotate, collect, search.</p></div>
+    <div class="cur rv"><span class="k">Slash / 01</span><h3><i>/</i>Library<span class="tag">In beta</span></h3><p>Literature management and immersive reading: import, read, translate, annotate, collect, search.</p></div>
     <div class="rv d1"><span class="k">Slash / 02</span><h3><i>/</i>Studio<span class="tag">In development</span></h3><p>Research ideation and visual workflow orchestration: from papers to hypotheses, from hypotheses to experiment design.</p></div>
     <div class="rv d2"><span class="k">Slash / 03</span><h3><i>/</i>Bot<span class="tag">In development</span></h3><p>A personal research assistant and task automation: watching the literature, running pipelines, drafting, all on your own library.</p></div>
   </div>
@@ -600,15 +601,14 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
 <section class="dl" id="download"><div class="wrap">
   <div class="label rv"><b>/</b> Download</div>
   <h2 class="rv d1">Download and install</h2>
-  <div class="notice rv"><div><span class="k">/ Closed beta · builds by invitation</span><p>SlashSci Library is in a small closed beta. So that every piece of feedback gets a prompt answer, builds are not publicly downloadable yet; they are shared through the beta community. Join any of the groups to get the latest build, install guidance and update notices.</p></div><a class="btn" href="#community">Join the beta community →</a></div>
+  <div class="notice rv"><div><span class="k">/ Closed beta · macOS first</span><p>SlashSci Library is in a small closed beta, opening first on macOS (Apple silicon); the Windows version will follow once it is stable. So that every piece of feedback gets a prompt answer, builds are not publicly downloadable yet; they are shared through the beta community. Join any of the groups to get the latest build, install guidance and update notices.</p></div><a class="btn" href="#community">Join the beta community →</a></div>
   <div class="box">
     <div class="os rv"><b>macOS</b><small>Apple silicon · macOS 13 or later</small><span class="file">Available to beta members</span></div>
-    <div class="os rv d1"><b>Windows</b><small>64-bit · Windows 10 or later</small><span class="file">Available to beta members</span></div>
+    <div class="os soon rv d1"><b>Windows</b><small>64-bit · Windows 10 or later</small><span class="file">Coming soon</span></div>
   </div>
-  <p class="how rv d2">Installing the beta</p>
+  <p class="how rv d2">Installing the macOS beta</p>
   <ol class="steps rv d2">
     <li><b>Mac</b>: open the .dmg and drag SlashSci into Applications. If macOS says it can't verify the developer, go to System Settings → Privacy &amp; Security and click “Open Anyway”.</li>
-    <li><b>Windows</b>: double-click the .exe. If the blue “Windows protected your PC” screen appears, click “More info”, then “Run anyway”.</li>
     <li>When a new version is out, an “Update” button appears on the left of the app; click it to download.</li>
   </ol>
 </div></section>

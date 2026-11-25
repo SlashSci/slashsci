@@ -46,12 +46,11 @@
 [Releases](../../releases/latest):
 
 - **macOS**（Apple 芯片）：`SlashSci-<版本>-arm64.dmg`
-- **Windows**（64 位）：`SlashSci-<版本>-x64.exe`
+- **Windows**：即将推出
 
 ### 安装（内测版尚未签名）
 
 - **Mac**：打开 .dmg，把 SlashSci 拖进「应用程序」。第一次打开如提示「无法验证开发者」，到「系统设置 → 隐私与安全性」点「仍要打开」。
-- **Windows**：双击 .exe。出现蓝色的「Windows 已保护你的电脑」时，点「更多信息」，再点「仍要运行」。
 
 有新版本时，应用左侧会出现「新版本」按钮，点一下即可下载。
 
