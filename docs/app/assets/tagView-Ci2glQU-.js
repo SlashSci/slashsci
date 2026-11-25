@@ -1,0 +1,1 @@
+import{C as e,w as t}from"./index-DdOQyY7E.js";function n(){let n=t();return(t,r)=>{let i=e(n,{color:t,kind:r?`corpus`:void 0});return{label:i.label,name:i.name,cls:i.cls.replace(/^corpus /,``)}}}export{n as t};

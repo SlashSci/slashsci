@@ -2,22 +2,44 @@
 
 [简体中文](README.md) · [繁體中文](README.zh-Hant.md) · [English](README.en.md)
 
-# SlashSci
+# SlashSci More Sides of Science
 
-**Reference management and close reading, designed for the AI era.** Read papers as structured full text, with annotations, notes, translation and AI Q&A in one place. Your library always stays on your own computer.
+**SlashSci Library: Literature management, rebuilt for the AI era**
+
+- **Block-level**: papers as structured data, not PDFs
+- **Immersive**: sentence-by-sentence translation, anchored notes
+- **Local-first**: every file stays on your machine
+- **Agent-ready**: built-in MCP for direct model access
 
 Website: [slashsci.com](https://slashsci.com)
 
 ## What it does
 
-- **Structured full text**: Takes the publisher’s structured full text first, keeping sections, formulas, figures and references, instead of a PDF you can’t copy from. Figures can be swapped for the publisher’s high-resolution versions.
-- **Immersive reading**: Original and translation side by side; hover for key terms and references. Typesetting made for close reading, smooth even on long papers.
-- **Annotations and notes**: Highlight text, box regions of a figure; notes quote the paper and jump back to the source. A corpus collects good sentences and vocabulary.
-- **Translation and AI**: Many translation engines and large models to choose from; AI answers are grounded in the paper and cite it. Keys stay on your own computer.
-- **One-step capture**: Import by DOI, arXiv ID or URL; the browser extension saves pages that need a login or subscription.
-- **Your data is yours**: Papers are stored as JSON, Markdown and XML in a local folder. Export the whole library as a backup and import it on another computer.
+### Understand
 
-Currently available: **Library** (in beta). Agent and Bot are planned.
+The paper itself, not the layout of a PDF.
+
+- **Block-level full text**: sections, equations, figures and references kept in structure; equations rendered with KaTeX; citations open in place and import in one click
+- **Sentence-by-sentence translation**: the translation and in-context glosses appear beside the sentence under the pointer; switch between original, translation and parallel views
+- **Publication-grade figures**: contents, citations and figures expand in place; replace any figure with the publisher's high-resolution original
+
+### Capture
+
+Every thought, anchored to the source.
+
+- **Floating anchored notes**: notes line the margin in real time, joined to their passages by curves; four colours for claim, method, data and question
+- **Two-way tracing**: click a note to land on its passage; notes take Markdown and LaTeX and jump back to what they quote
+- **Corpus and term bank**: keep strong sentences and key terms, each with translation, source and a note on the writing
+
+### Command
+
+Your data stays local; your search stays instant.
+
+- **Import from anywhere**: DOI, arXiv ID, PMCID or URL in one step; a PDF first looks online for structured full text; the browser extension saves pages behind a login
+- **Journal metrics and AI sorting**: CAS and JCR quartiles, impact factors and citation counts at a glance; AI sorts papers by field; full-text search and de-duplication in Chinese and English
+- **Local-first, built for agents**: the whole library in open formats on your machine, exported in one click; a built-in MCP server lets Claude Code and other agents search it directly
+
+Currently available: **Library** (open beta). Studio and Bot are in development.
 
 ## Download
 
@@ -28,7 +50,7 @@ Currently available: **Library** (in beta). Agent and Bot are planned.
 
 ### Install (the beta is not signed)
 
-- **Mac**: open the .dmg and drag SlashSci into Applications. If macOS says it can’t verify the developer, go to System Settings → Privacy & Security and click “Open Anyway”.
+- **Mac**: open the .dmg and drag SlashSci into Applications. If macOS says it can't verify the developer, go to System Settings → Privacy & Security and click “Open Anyway”.
 - **Windows**: double-click the .exe. If the blue “Windows protected your PC” screen appears, click “More info”, then “Run anyway”.
 
 When a new version is out, an “Update” button appears on the left of the app; click it to download.

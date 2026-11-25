@@ -1,52 +1,1043 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-mode="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SlashSci 斜杠科研 — 为 AI 时代设计的文献管理与精读工具</title>
-<meta name="description" content="SlashSci 斜杠科研：结构化全文阅读、批注与笔记、翻译与 AI 问答，文献数据保存在你自己的电脑上。">
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="stylesheet" href="site.css">
+<title>SlashSci 斜杠科研 — 科研不止一面</title>
+<meta name="description" content="SlashSci Library：为 AI 时代重构的文献管理。文献解构为块级结构化数据，沉浸式逐句译读与浮动锚定批注，数据全量本地存储，内置 MCP 供 AI Agent 直接调用。">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="alternate" hreflang="zh-Hans" href="https://slashsci.com/">
+<link rel="alternate" hreflang="zh-Hant" href="https://slashsci.com/zh-hant/">
+<link rel="alternate" hreflang="en" href="https://slashsci.com/en/">
+<link rel="alternate" hreflang="x-default" href="https://slashsci.com/">
+<script>
+// Day or night before the first paint: a saved choice wins, otherwise local time (the browser's time zone), day = 07:00–19:00.
+(function(){ var d = document.documentElement, h = new Date().getHours(), auto = h >= 7 && h < 19 ? "light" : "dark", m;
+  try { m = localStorage.getItem("slashsci-site-mode"); } catch (e) {}
+  d.dataset.auto = auto; d.dataset.mode = m === "light" || m === "dark" ? m : auto; })();
+</script>
+<style>
+@font-face{font-family:Geist;font-weight:100 900;font-display:swap;src:url(/fonts/Geist-Variable.woff2) format("woff2")}
+@font-face{font-family:"Geist Serif";font-weight:100 900;font-display:swap;src:url(/fonts/GeistSerif-Variable.woff2) format("woff2")}
+@font-face{font-family:"Geist Mono";font-weight:100 900;font-display:swap;src:url(/fonts/GeistMono-Variable.woff2) format("woff2")}
+@property --x{syntax:"<percentage>";inherits:true;initial-value:56%}
+/* day: paper page, ink face. --deep is the other face: the slash's half of the hero and the data band */
+:root{--paper:#eefbf7;--panel:#e5f4ef;--line:#cde3dd;--line2:#a9c6c3;--ink:#042f2e;--ink2:#2f5552;--ink3:#557780;--accent:#2d5a67;--accent-soft:#d6e9e6;
+--deep:#0f2c33;--deep-ink:#eaf6f2;--deep-ink2:#a9c4c4;--deep-ink3:#7f9ea3;--deep-line:#2a4a52;--deep-acc:#8ec5cf;
+--y:#f8e58c;--g:#c6e8b8;--b:#bcdcf5;--r:#f6c4bb;--ly:#c9a227;--lg:#3f9a5a;--lb:#3b82c4;--lr:#d0604c;
+--sans:Geist,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",system-ui,sans-serif;--serif:"Geist Serif",Charter,"Source Serif 4",Georgia,"Songti SC","Source Han Serif SC","Noto Serif CJK SC",serif;--mono:"Geist Mono",ui-monospace,Menlo,monospace;--ease:cubic-bezier(.2,.7,.2,1);color-scheme:light}
+/* night: the faces swap — a dark page, and the slash opens a light face */
+html[data-mode=dark]{--paper:#0b1a1d;--panel:#10242a;--line:#1e3940;--line2:#2f5059;--ink:#e4f2ef;--ink2:#a7c2c0;--ink3:#7896a0;--accent:#8ec5cf;--accent-soft:#173840;
+--deep:#e3f2ee;--deep-ink:#042f2e;--deep-ink2:#2f5552;--deep-ink3:#4d6e77;--deep-line:#a9c6c3;--deep-acc:#2d5a67;color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+html{-webkit-text-size-adjust:100%;background:var(--paper);overscroll-behavior-y:none}
+body{overscroll-behavior-y:none}
+body{font:16px/1.7 var(--sans);color:var(--ink);background:transparent;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:url(/img/bg.jpg) center/cover no-repeat;opacity:.5;pointer-events:none}
+body::after{content:"";position:fixed;top:0;bottom:0;left:50%;width:min(1280px,calc(100% - 32px));transform:translate(-50%);z-index:-1;pointer-events:none;
+background-image:linear-gradient(rgba(45,90,103,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(45,90,103,.025) 1px,transparent 1px);background-position:center top;background-size:72px 72px}
+/* night: the drawing inverted (pale paper turns dark, its lines turn light) and fainter; the grid in the light accent */
+html[data-mode=dark] body::before{filter:invert(1) hue-rotate(180deg);opacity:.22}
+html[data-mode=dark] body::after{background-image:linear-gradient(rgba(142,197,207,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(142,197,207,.035) 1px,transparent 1px)}
+img{display:block;max-width:100%}
+html[data-mode=dark] .brand img,html[data-mode=dark] body>footer .big img{filter:invert(1)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 40px}
+section[id]{scroll-margin-top:64px}
+.label{font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);display:flex;align-items:center;gap:10px}
+.label b{color:var(--accent);font-weight:500}
+.rv{opacity:0;transform:translateY(16px);transition:opacity .4s cubic-bezier(0,0,.2,1),transform .4s cubic-bezier(0,0,.2,1)}
+.rv.in{opacity:1;transform:none}
+/* header */
+header{position:fixed;top:0;left:0;right:0;z-index:30;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+header.solid{background:color-mix(in srgb,var(--chrome) 72%,transparent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-color:var(--line)}
+header .wrap{display:flex;align-items:center;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;text-decoration:none;font-size:15px;margin-right:12px}
+.brand img{height:18px}
+.nav{display:flex;align-items:center;gap:2px;margin-left:auto}
+.nav a,.ptrig{font:inherit;font-size:14px;color:var(--ink2);text-decoration:none;padding:8px 12px;background:none;border:0;cursor:pointer;transition:color .15s}
+.nav a:hover,.ptrig:hover{color:var(--ink)}
+/* header items that sit over the slash's face take that face's ink */
+#hd .inv{color:var(--deep-ink2)}
+#hd .inv:hover,#hd .langsel.inv.open .lbtn{color:var(--deep-ink)}
+.pmenu{position:relative}
+.ptrig::after{content:"";display:inline-block;width:5px;height:5px;margin:0 0 3px 7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg)}
+.pop{position:absolute;left:0;top:calc(100% + 8px);width:380px;padding:6px;background:var(--chrome);border:1px solid var(--line);box-shadow:0 24px 60px -24px rgba(0,0,0,.35)}
+/* header dropdowns (产品, language): opened by script with a short grace period on leaving; they fade and slide in and fade out */
+.dd .pop,.dd .menu{opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .16s var(--ease),transform .16s var(--ease),visibility 0s linear .16s;z-index:10}
+.dd.open .pop,.dd.open .menu{opacity:1;visibility:visible;transform:none;transition:opacity .16s var(--ease),transform .16s var(--ease),visibility 0s}
+/* an invisible bridge over the gap between the button and its menu */
+.dd .pop::before,.dd .menu::before{content:"";position:absolute;left:-1px;right:-1px;top:-14px;height:14px}
+.ptrig::after{transition:transform .16s var(--ease)}
+.dd.open .ptrig::after{transform:translateY(2px) rotate(225deg)}
+.pi{display:grid;grid-template-columns:10px 1fr auto;gap:0 12px;align-items:center;padding:12px}
+
+.pi .dot{width:8px;height:8px;background:var(--line2)}
+.pi.on .dot{background:var(--accent)}
+.pi b{font-weight:600;font-size:14px}
+.pi i{font:500 10.5px/1.6 var(--mono);padding:0 6px;border:1px solid var(--line);color:var(--ink3);letter-spacing:.06em}
+.pi.on i{border-color:var(--accent);color:var(--accent)}
+.pi p{grid-column:2/4;font-size:13px;color:var(--ink3);line-height:1.5}
+.btn{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 20px;background:var(--ink);color:var(--paper);text-decoration:none;font-weight:500;font-size:14px;border:1px solid var(--ink);transition:transform .15s var(--ease),background .15s}
+.btn:hover{background-color:color-mix(in srgb,var(--ink) 86%,var(--paper))}
+.btn.alt{background:transparent;color:var(--ink);border-color:var(--line2)}
+
+/* language and day/night: icons */
+.langsel{position:relative;margin-left:4px}
+.langsel .lbtn,.modebtn{list-style:none;cursor:pointer;width:36px;height:36px;display:grid;place-items:center;color:var(--ink2);background:none;border:0;padding:0;transition:color .15s,background .15s}
+.langsel .lbtn svg,.modebtn svg{width:18px;height:18px}
+.langsel .lbtn:hover,.langsel.open .lbtn,.modebtn:hover{color:var(--ink)}
+#hd .inv:hover,#hd .langsel.inv.open .lbtn{background:color-mix(in srgb,var(--deep-ink) 10%,transparent)}
+.langsel.inv .lbtn{color:inherit}
+.modebtn .i-moon,html[data-mode=dark] .modebtn .i-sun{display:none}
+html[data-mode=dark] .modebtn .i-moon{display:block}
+.langsel .menu{position:absolute;right:0;top:calc(100% + 6px);min-width:150px;background:var(--chrome);border:1px solid var(--line);box-shadow:0 18px 40px -20px rgba(0,0,0,.4)}
+.langsel .menu a{display:flex;align-items:center;gap:10px;margin:0;padding:9px 14px;color:var(--ink2);text-decoration:none;font-size:14px}
+.langsel .menu a::before{content:"";width:6px;height:6px;background:transparent}
+.langsel .menu a.on::before{background:var(--accent)}
+.langsel .menu a:hover{color:var(--ink)}
+.langsel .menu a.on{color:var(--ink);font-weight:500}
+/* hero: two faces of one quotation, split by the slash */
+.hero{position:relative;height:100svh;min-height:680px;overflow:hidden;--x:56%;cursor:crosshair}
+.face{position:absolute;inset:0;display:grid;place-items:center;padding:24vh 8vw 32vh}
+.face blockquote{position:relative;margin:0;max-width:1000px}
+/* quote transitions: drift moves words, so they become boxes (the underline follows each word); the wipe is a slash-edged panel */
+.hero.fx2 .tk{display:inline-block}
+.hero.fx2 .face p mark .tk{text-decoration:underline 2px var(--accent);text-underline-offset:.16em}
+.hero.fx2 .face.zh p mark .tk{text-decoration-color:var(--deep-acc)}
+.wipe{display:none}
+.hero.fx3 .face blockquote{overflow:hidden;padding:.3em .9em;margin:-.3em -.9em}
+.hero.fx3 .wipe{display:block;position:absolute;top:-10%;bottom:-10%;left:-8%;width:116%;z-index:1;pointer-events:none;background:var(--paper);transform:translateX(-120%) skewX(-14deg)}
+.hero.fx3 .face.zh .wipe{background:var(--deep)}
+.hero.fx3 .wipe::before,.hero.fx3 .wipe::after{content:"";position:absolute;top:0;bottom:0;width:2px;background:var(--accent)}
+.hero.fx3 .wipe::before{left:0}.hero.fx3 .wipe::after{right:0}
+.hero.fx3 .face.zh .wipe::before,.hero.fx3 .face.zh .wipe::after{background:var(--deep-acc)}
+.face p{font:400 clamp(20px,2.6vw,34px)/1.55 var(--serif);color:var(--ink3);letter-spacing:-.005em;text-wrap:balance}
+.face.en,.hero h1.ttl{clip-path:polygon(0 0,var(--x) 0,calc(var(--x) - 22%) 100%,0 100%)}
+.face.zh{background:color-mix(in srgb,var(--deep) 88%,transparent);clip-path:polygon(var(--x) 0,100% 0,100% 100%,calc(var(--x) - 22%) 100%)}
+.face.zh p{color:var(--deep-ink2)}
+.face p mark{background:none;text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:.16em;text-decoration-skip-ink:none;color:var(--ink)}
+.face.zh p mark{color:var(--deep-ink);text-decoration-color:var(--deep-acc)}
+.face footer{margin-top:26px;font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.face footer::before{content:"/ ";color:var(--accent)}
+.face.zh footer{color:var(--deep-ink3)}
+.face.zh footer::before{color:var(--deep-acc)}
+.divider{position:absolute;left:0;top:50%;width:2px;height:140vh;background:var(--accent);transform-origin:50% 50%;pointer-events:none}
+.hero .ttl{position:absolute;inset:0;margin:0;pointer-events:none;font:600 clamp(64px,10vw,150px)/1 var(--sans);letter-spacing:-.05em}
+html[lang=en] .hero .ttl{font-size:clamp(44px,9vw,136px);letter-spacing:-.045em}
+/* light ink in difference mode: dark over a light face, light over a dark face, in either mode, so no word can vanish */
+.hero .ttl .a,.hero .ttl .b{position:absolute;color:var(--ink);opacity:0;transform:translateY(24px);animation:rise 1s .3s var(--ease) forwards}
+.face.zh .ttl .a,.face.zh .ttl .b{color:var(--deep-ink)}
+.hero .ttl .a{left:5vw;top:9vh}
+.hero .ttl .b{right:5vw;bottom:20vh;animation-delay:.5s}
+@keyframes rise{to{opacity:1;transform:none}}
+.hero .bar{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:flex-end;justify-content:space-between;padding:0 5vw 36px;gap:24px;pointer-events:none}
+.hero .bar>*{pointer-events:auto}
+.intro,.hero .side{color:#dbf8ff;mix-blend-mode:difference}
+.intro .nm{font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;opacity:.75}
+.intro .ld{margin-top:10px;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.intro ul{margin:10px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:auto auto;gap:4px 28px;font-size:13.5px;line-height:1.6}
+.intro li{opacity:.82;white-space:nowrap}
+.intro li b{font-weight:600;opacity:1;margin-right:6px}
+.intro li::before{content:"/ ";opacity:.6}
+.hero .side{font-size:13px;text-align:right;opacity:.8;line-height:1.6}
+.hero .cta .btn.alt{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,transparent);background:none;transition:color .18s,background-color .18s,border-color .18s}
+.hero .cta .btn.alt:hover{color:var(--paper);border-color:var(--accent);background:var(--accent)}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+@media (hover:none){.hero{animation:sway 9s ease-in-out infinite alternate}@keyframes sway{from{--x:46%}to{--x:70%}}}
+/* features: one per band; the number, label and heading stack, and the mock's top meets the heading's */
+.faces{padding:0}
+.band{position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:64px;padding:96px 40px 120px;max-width:1280px;margin:0 auto;border-top:1px solid var(--line);--numh:calc(clamp(72px,10vw,132px) * .9)}
+.band .num{display:block;height:var(--numh);margin:0 0 22px -4px;font:600 clamp(72px,10vw,132px)/.9 var(--sans);letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1px var(--line2);user-select:none}
+.band .txt{min-width:0}
+.band .job{display:block;font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.band h3{margin-top:18px;font:600 clamp(40px,5vw,64px)/1.05 var(--sans);letter-spacing:-.04em}
+.band .d{margin-top:14px;font:400 21px/1.45 var(--serif);color:var(--ink)}
+.band ul{margin-top:26px;padding:0;list-style:none;display:grid;gap:14px;max-width:500px}
+.band li{position:relative;padding-left:20px;font-size:15px;color:var(--ink2);line-height:1.7}
+.band li b{color:var(--ink);font-weight:600}
+.band li::before{content:"/";position:absolute;left:0;top:0;color:var(--accent);font-weight:300}
+.band:nth-child(even) .txt{order:2}
+.band .vis{position:relative;min-width:0;padding-top:calc(var(--numh) + 22px + 12px + 18px)}
+.band .hint{margin-top:10px;font:500 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+/* the mocks: the app's own look, scoped variables so a mock can change theme */
+.mock{position:relative;border:1px solid var(--mline);background:var(--mp);color:var(--mink);box-shadow:0 30px 70px -36px rgba(0,0,0,.45);font:12.5px/1.5 var(--sans);overflow:hidden;--mp:#fff;--mpanel:#fafafa;--mraised:#fff;--mline:#ebebeb;--mink:#171717;--mink2:#5c5c5c;--mink3:#8f8f8f;--macc:#0a6cf0;--msoft:#ebf3ff;--mrail:#fafafa;--mrailink:#666;--mrailon:#171717}
+.mock[data-theme="geist"]{--mp:#ffffff;--mpanel:#fafafa;--mraised:#ffffff;--mline:#ebebeb;--mink:#171717;--mink2:#5c5c5c;--mink3:#8f8f8f;--macc:#0a6cf0;--msoft:#ebf3ff;--mrail:#fafafa;--mrailink:#666666;--mrailon:#171717}
+.mock[data-theme="paper"]{--mp:#fbf9f4;--mpanel:#f3f0e8;--mraised:#fffefb;--mline:#e2ddd0;--mink:#23221f;--mink2:#5f5c54;--mink3:#8d897e;--macc:#1f6b63;--msoft:#dcebe7;--mrail:#ece8de;--mrailink:#6b675e;--mrailon:#1f6b63}
+.mock[data-theme="mint"]{--mp:#fcfaf4;--mpanel:#e4eee8;--mraised:#ffffff;--mline:#d3e0d8;--mink:#1d2422;--mink2:#4a5853;--mink3:#82918b;--macc:#0b7a62;--msoft:#d2ebe2;--mrail:#dbe8e0;--mrailink:#3f6b5f;--mrailon:#0b7a62}
+.mock[data-theme="apricot"]{--mp:#fffcf8;--mpanel:#f9f1e7;--mraised:#ffffff;--mline:#ede2d3;--mink:#333333;--mink2:#666260;--mink3:#9c958d;--macc:#c4693a;--msoft:#f8e4d6;--mrail:#f5ebdf;--mrailink:#7a6f66;--mrailon:#c4693a}
+.mock[data-theme="aurora"]{--mp:#ffffff;--mpanel:#f6f7fb;--mraised:#ffffff;--mline:#e5e7f0;--mink:#18181b;--mink2:#52525e;--mink3:#8a8a97;--macc:#1677e6;--msoft:#e6f0fd;--mrail:#f3f1fd;--mrailink:#5b5b70;--mrailon:#7c3aed}
+.mock[data-theme="navy"]{--mp:#ffffff;--mpanel:#f4f6f9;--mraised:#ffffff;--mline:#e1e6ee;--mink:#16263b;--mink2:#4f5d70;--mink3:#8994a4;--macc:#e0491a;--msoft:#fde5db;--mrail:#133a5e;--mrailink:#b7c7da;--mrailon:#ff7a45}
+.mock[data-theme="geist-dark"]{--mp:#0a0a0a;--mpanel:#0f0f0f;--mraised:#141414;--mline:#262626;--mink:#ededed;--mink2:#a1a1a1;--mink3:#737373;--macc:#47a8ff;--msoft:#0d2a4d;--mrail:#0a0a0a;--mrailink:#a1a1a1;--mrailon:#ededed;--y:#5c4d12;--g:#22472a;--b:#1d3f66;--r:#5c2526}
+.mock[data-theme="gold"]{--mp:#1b202b;--mpanel:#212733;--mraised:#29303d;--mline:#353d4c;--mink:#ece6d8;--mink2:#b6ae9e;--mink3:#847d70;--macc:#c9a55c;--msoft:#3a3426;--mrail:#161a23;--mrailink:#a39b8a;--mrailon:#d9b56a;--y:#5c4d12;--g:#22472a;--b:#1d3f66;--r:#5c2526}
+.mock[data-theme="nebula"]{--mp:#0d0b1a;--mpanel:#131025;--mraised:#1a1631;--mline:#2a2546;--mink:#e8e5f6;--mink2:#a8a2c6;--mink3:#736d97;--macc:#9d85ff;--msoft:#2a2350;--mrail:#0a0815;--mrailink:#8d86b3;--mrailon:#b9a6ff;--y:#5c4d12;--g:#22472a;--b:#1d3f66;--r:#5c2526}
+.mock[data-theme="ink"]{--mp:#1c1d1f;--mpanel:#232427;--mraised:#2b2c30;--mline:#36373b;--mink:#e6e3dc;--mink2:#aca89e;--mink3:#7f7c74;--macc:#6fc2b4;--msoft:#24403c;--mrail:#18191b;--mrailink:#9a968d;--mrailon:#6fc2b4;--y:#5c4d12;--g:#22472a;--b:#1d3f66;--r:#5c2526}
+.mk-top{display:flex;align-items:center;gap:14px;height:36px;padding:0 12px;border-bottom:1px solid var(--mline);font-size:11.5px;color:var(--mink2);white-space:nowrap;overflow:hidden}
+.mk-crumb{display:flex;align-items:center;gap:5px;color:var(--mink);font-weight:500}
+.mk-logo{width:16px;height:10px;background:currentColor;-webkit-mask:url(/img/logo.svg) center/contain no-repeat;mask:url(/img/logo.svg) center/contain no-repeat;margin-right:3px}
+.mk-crumb .sep{color:var(--mline);font-weight:300;font-size:16px;padding:0 3px}
+.mk-crumb em{width:7px;height:7px;background:var(--macc);display:inline-block;margin-right:2px}
+.mk-seg{display:flex;border:1px solid var(--mline);background:var(--mpanel)}
+.mk-seg span{padding:2px 8px;color:var(--mink3)}
+.mk-seg span.on{background:var(--mraised);color:var(--mink);box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.mk-tool b{color:var(--macc);font-weight:500}
+.mk-body{display:grid;grid-template-columns:40px 1fr}
+.mk-body.learn{grid-template-columns:40px 1fr 172px}
+.mk-body.notes{position:relative;grid-template-columns:40px 172px 1fr}
+.mk-body.lib{grid-template-columns:40px 118px 1fr}
+.mk-rail{background:var(--mrail);border-right:1px solid var(--mline);display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:12px}
+.mk-rail i{width:12px;height:12px;border:1.3px solid var(--mrailink);opacity:.7}
+.mk-rail i:first-child{border-color:var(--mrailon);opacity:1}
+.mk-paper{padding:20px 18px 22px;font:13.5px/1.7 var(--serif);color:var(--mink)}
+.mk-paper h4{font:500 15px/1.3 var(--serif);margin-bottom:4px}
+.mk-paper h5{font:600 13.5px/1.4 var(--serif);margin:16px 0 6px}
+.mk-paper .meta{font:10.5px/1.6 var(--mono);color:var(--mink3);margin-bottom:12px}
+.mk-paper p{margin-bottom:10px}
+.mk-paper p:last-child{margin-bottom:0}
+.mock{display:flex;flex-direction:column;aspect-ratio:16/9;font-size:11.5px}
+.mk-top{flex:none;height:32px}
+.mk-body{flex:1;min-height:0}
+.mk-body.learn{grid-template-columns:40px 1fr 164px}
+.mock .mk-paper{font-size:12px;line-height:1.62;padding:14px 16px}
+.mock .mk-paper h4{font-size:13.5px}
+.mock.learn .mk-paper{overflow:hidden;font-size:11.5px;line-height:1.55;padding:12px 14px}
+.mock .mk-paper h4{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mock.learn .mk-paper .meta{margin-bottom:8px}
+.mock.learn .mk-paper p{margin-bottom:7px}
+.mock .nc{padding:6px 9px 7px 11px;font-size:11px}
+.mock .nc small{margin-bottom:3px}
+.nc span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mk-rail{gap:10px;padding-top:10px}
+/* 01 */
+.ls{transition:background .25s;box-decoration-break:clone;-webkit-box-decoration-break:clone;cursor:default}
+.ls.on{background:var(--msoft)}
+.mk-learn{position:relative}
+.lcard{position:absolute;left:0;right:12px;padding:9px 11px;font-size:11.5px;background:var(--mraised);border:1px solid var(--mline);box-shadow:0 14px 34px -18px rgba(0,0,0,.3);line-height:1.55;transition:transform .35s var(--ease)}
+.lcard::before{content:"";position:absolute;left:-1px;top:0;bottom:0;width:2px;background:var(--macc)}
+.lcard .vk{margin-top:8px;padding-top:8px;border-top:1px solid var(--mline)}
+.lcard small{display:block;font:500 10px/1 var(--mono);letter-spacing:.1em;color:var(--mink3);margin-bottom:6px}
+.lcard .w{margin-bottom:5px;font-size:11.5px;color:var(--mink2)}
+.lcard .w b{font:500 12px var(--serif);color:var(--mink);margin-right:6px}
+.lcard .w em{display:block;font-style:normal;font-size:11px;color:var(--mink3)}
+/* 02 — as NotesColumn.tsx: a card, a port on its right edge, a curve to a dot at the passage */
+.mk-margin{position:relative;overflow:hidden}
+.nc{position:absolute;left:10px;right:12px;top:0;display:block;text-align:left;font:inherit;padding:8px 10px 9px 12px;background:var(--mraised);border:1px solid var(--mline);box-shadow:0 10px 26px -16px rgba(0,0,0,.3);font-size:11.5px;line-height:1.45;color:var(--mink);cursor:pointer;transition:transform .2s var(--ease),box-shadow .2s,border-color .2s,opacity .6s var(--ease)}
+.mock .nc{transition:opacity .15s,border-color .2s,box-shadow .2s,translate .2s;will-change:transform}
+/* a passage already read: its card folds into one line at the top of the column */
+.mock .nc.row{height:22px;padding:0 8px 0 11px;display:flex;align-items:center;gap:7px;white-space:nowrap;overflow:hidden;transition:transform .2s ease-out,opacity .15s}
+.mock .nc.row small{margin:0;flex:none}
+.mock .nc.row span{display:block;overflow:hidden;text-overflow:ellipsis;color:var(--mink2)}
+.nc-more{position:absolute;left:10px;right:12px;bottom:6px;z-index:4;padding:2px 0;text-align:center;font-size:10.5px;color:var(--mink3);background:var(--mpanel);box-shadow:0 0 0 4px var(--mp)}
+.nc::before{content:"";position:absolute;left:-1px;top:0;bottom:0;width:3px;background:var(--lc)}
+.nc small{display:flex;align-items:center;gap:5px;font:500 10px/1 var(--mono);letter-spacing:.1em;color:var(--mink3);margin-bottom:4px}
+.nc small i{width:7px;height:7px;background:var(--lc)}
+.nc q{display:none;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font:11px/1.4 var(--serif);color:var(--mink2);margin-bottom:3px}
+.nc q::before,.nc q::after{content:""}
+.nc:hover,.nc.focus{border-color:color-mix(in srgb,var(--mink) 45%,var(--mline));box-shadow:0 14px 30px -14px rgba(0,0,0,.4);translate:2px 0}
+.nc:focus-visible{outline:2px solid var(--macc);outline-offset:1px}
+.mk-scroll{position:relative;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--mline) transparent}
+.mk-scroll .mk-paper{padding:14px 18px 90px 28px}
+.hl{background:var(--c);color:var(--mink);box-decoration-break:clone;-webkit-box-decoration-break:clone;cursor:pointer;transition:box-shadow .2s}
+.hl.focus{box-shadow:0 0 0 1.5px color-mix(in srgb,var(--mink) 55%,transparent)}
+.mk-links{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3;overflow:hidden}
+.mk-links path{fill:none;stroke-width:1.3;opacity:.75}
+.mk-links g.on path{stroke-width:2;opacity:1}
+.mk-links g{transition:opacity .2s}
+/* 03 */
+.libwrap{position:relative}
+.libwrap .over{position:absolute;inset:0;opacity:0;box-shadow:none;transition:opacity 1.1s var(--ease)}
+.libwrap .over.show{opacity:1}
+.libwrap .over.snap{transition:none}
+.mk-side{padding:10px 8px;border-right:1px solid var(--mline)}
+.mk-side small{display:block;font:500 10px/1 var(--mono);letter-spacing:.1em;color:var(--mink3);margin:8px 6px 6px}
+.mk-nav{display:flex;justify-content:space-between;gap:6px;padding:2px 6px;font-size:11.5px;color:var(--mink2);white-space:nowrap}
+.mk-nav span{overflow:hidden;text-overflow:ellipsis}
+.mk-nav.on{background:color-mix(in srgb,var(--mink) 8%,transparent);color:var(--mink);font-weight:500}
+.mk-nav b{font:10.5px var(--mono);color:var(--mink3);font-weight:400}
+.mk-table{font-size:11.5px;overflow:hidden;min-width:0}
+.mk-row{display:grid;grid-template-columns:16px 1fr 70px 54px 24px 32px;gap:6px;align-items:center;padding:0 10px;height:24px;border-bottom:1px solid var(--mline);color:var(--mink2);white-space:nowrap}
+.mk-row>span{overflow:hidden;text-overflow:ellipsis;min-width:0}
+.mk-row>span:nth-child(3){display:none}
+.mk-row.h{height:24px;color:var(--mink3);font-size:11px;background:var(--mpanel)}
+.mk-row .t{color:var(--mink)}
+.mk-row .st{color:var(--mink3);font-size:12px;opacity:.6}
+.mk-row .st.on{color:#f2a900;opacity:1}
+.mk-row.sel{background:color-mix(in srgb,var(--mink) 8.5%,transparent);box-shadow:inset 2px 0 0 var(--macc)}
+.mk-row i{font-style:normal;font:500 10px/1.7 var(--mono);padding:0 5px}
+.mk-row i.r1{color:color-mix(in srgb,#c8452f 76%,var(--mink));background:color-mix(in srgb,#c8452f 14%,var(--mp))}
+.mk-row i.q{color:color-mix(in srgb,#b97a12 76%,var(--mink));background:color-mix(in srgb,#b97a12 15%,var(--mp))}
+.mk-row .if{font:11px var(--mono);text-align:right}
+.mk-foot{padding:4px 10px;font:10.5px var(--mono);color:var(--mink3)}
+/* the mocks are small pictures of the app: about two sizes smaller than the app itself, so they read as a whole, not line by line */
+.mock{font-size:10.5px}
+.mk-body.learn{grid-template-columns:40px 1fr 196px}
+.mock .mk-top{height:28px;gap:12px;padding:0 10px;font-size:10px}
+.mock .mk-crumb .sep{font-size:13px}
+.mock .mk-seg span{padding:1px 6px}
+.mock .mk-rail{gap:9px;padding-top:9px}
+.mock .mk-rail i{width:10px;height:10px}
+.mock .mk-paper,.mock.learn .mk-paper{font-size:10.5px;line-height:1.6}
+.mock .mk-paper h4{font-size:12px}
+.mock .mk-paper h5{font-size:11px;margin:12px 0 4px}
+.mock .mk-paper .meta{font-size:9px;margin-bottom:8px}
+.mock .mk-paper p{margin-bottom:7px}
+.mock .lcard{font-size:10px;line-height:1.5;padding:8px 10px}
+.mock .lcard small{font-size:9px;margin-bottom:5px}
+.mock .lcard .vk{margin-top:6px;padding-top:6px}
+.mock .lcard .w{font-size:10px;margin-bottom:4px}
+.mock .lcard .w b{font-size:10.5px}
+.mock .lcard .w em{font-size:9.5px}
+.mock .nc{font-size:10px;line-height:1.45;padding:5px 8px 6px 10px}
+.mock .nc small{font-size:9px;margin-bottom:2px}
+.mock .nc.row{height:20px}
+.mock .nc-more{font-size:9.5px}
+.mock .mk-side small{font-size:9px}
+.mock .mk-nav{font-size:10px}
+.mock .mk-nav b{font-size:9px}
+.mock .mk-table{font-size:10px}
+.mock .mk-row{height:22px;gap:5px}
+.mock .mk-row.h{height:22px;font-size:9.5px}
+.mock .mk-row i{font-size:9px}
+.mock .mk-row .if{font-size:9.5px}
+.mock .mk-foot{font-size:9px}
+.themes{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:14px}
+.themes .k{font:500 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-right:6px}
+.sw{display:inline-flex;align-items:center;gap:6px;padding:3px 8px 3px 4px;border:1px solid var(--line);background:var(--paper);font:inherit;font-size:11.5px;color:var(--ink3);cursor:pointer;transition:border-color .15s,color .15s,opacity .15s}
+.sw:hover,.sw.on{border-color:var(--ink);color:var(--ink)}
+html[data-mode=light] .sw[data-mode=dark]:not(.on),html[data-mode=dark] .sw[data-mode=light]:not(.on){opacity:.55}
+.sw i{display:block;width:14px;height:14px;background:linear-gradient(135deg,var(--a) 0 50%,var(--b) 50% 100%);border:1px solid var(--line);position:relative}
+.sw i::after{content:"";position:absolute;right:2px;bottom:2px;width:4px;height:4px;background:var(--c)}
+/* demo */
+.demo{padding:120px 0;background:color-mix(in srgb,var(--accent) 5.5%,transparent);border-top:1px solid var(--line)}
+.demo h2{font:600 clamp(32px,4vw,52px)/1.1 var(--sans);letter-spacing:-.035em;margin:16px 0 12px}
+.demo .sub{font-size:17px;color:var(--ink2);max-width:600px;margin:0 auto}
+.pills{display:flex;justify-content:center;gap:10px;margin:28px 0 20px;flex-wrap:wrap}
+.pills span{padding:7px 16px;border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);color:var(--accent);font-size:14px;background:none;transition:color .15s,border-color .15s,background .15s}
+.pills span.on{color:var(--paper);border-color:var(--accent);background:var(--accent)}
+.frame{position:relative;overflow:hidden;width:min(1160px,calc(100vw - 48px));margin:0 auto;border:1px solid var(--line);box-shadow:0 40px 100px -40px rgba(0,0,0,.45);background:#fff}
+html[data-mode=dark] .frame{background:#0a0a0a}
+.frame iframe{width:1440px;height:820px;border:0;transform-origin:0 0;display:block}
+.refs{width:min(1160px,calc(100vw - 48px));margin:18px auto 0;display:grid;grid-template-columns:auto 1fr;gap:4px 18px;align-items:baseline;font-size:11.5px;line-height:1.6;color:var(--ink3)}
+.refs .rk{font:500 10.5px/1.8 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.refs ol{margin:0;padding-left:1.4em;display:grid;gap:2px}
+.refs i{font-style:italic}
+.refs li{overflow-wrap:anywhere}
+.refs a{color:var(--ink2);text-decoration:none;font-family:var(--mono);font-size:11px}
+.refs a:hover{color:var(--accent)}
+/* data: the other face */
+.trust{background:color-mix(in srgb,var(--deep) 90%,transparent);color:var(--deep-ink);padding:120px 0}
+.trust .label{color:var(--deep-ink3)}.trust .label b{color:var(--deep-acc)}
+.trust h2{font:600 clamp(36px,5vw,72px)/1.05 var(--sans);letter-spacing:-.04em;margin-top:18px;max-width:900px}
+.trust .grid{margin-top:56px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px}
+.trust h3{font-size:17px;font-weight:600;display:flex;align-items:center;gap:10px}
+.trust h3::before{content:"";width:8px;height:8px;background:var(--deep-acc)}
+.trust p{margin-top:8px;font-size:14.5px;color:var(--deep-ink2);line-height:1.65}
+.trust .fmt{margin-top:56px;padding-top:28px;border-top:1px solid var(--deep-line);display:flex;flex-wrap:wrap;gap:12px 40px;font:13px/1.6 var(--mono);color:var(--deep-ink3)}
+.trust .fmt b{color:var(--deep-ink);font-weight:500}
+/* series */
+.series{padding:120px 0 100px}
+.series h2{font:600 clamp(32px,4vw,52px)/1.1 var(--sans);letter-spacing:-.035em;margin:16px 0 12px}
+.strip{margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.strip>div{padding:36px 28px 40px;border-right:1px solid var(--line);position:relative;transition:background .25s}
+.strip>div:last-child{border-right:0}
+
+.strip .k{font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.strip h3{margin-top:16px;font:600 40px/1 var(--sans);letter-spacing:-.04em;display:flex;align-items:baseline;gap:12px}
+.strip h3 i{font-style:normal;font-weight:300;color:var(--accent)}
+.strip .tag{font:500 10.5px/1.7 var(--mono);padding:0 7px;border:1px solid var(--line2);color:var(--ink3);letter-spacing:.06em;align-self:center}
+.strip .cur .tag{border-color:var(--accent);color:var(--accent)}
+.strip p{margin-top:14px;font-size:14.5px;color:var(--ink2)}
+.strip .cur::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--accent)}
+/* download */
+.dl{padding:0 0 120px}
+.dl h2{font:600 clamp(32px,4vw,52px)/1.1 var(--sans);letter-spacing:-.035em;margin:16px 0 12px}
+.dl .box{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);margin-top:40px}
+.os+.os{border-left:1px solid var(--line)}
+.os{background:var(--card);padding:36px;display:flex;flex-direction:column;gap:6px;text-decoration:none;transition:background .2s}
+
+.os b{font-size:28px;font-weight:600;letter-spacing:-.02em}
+.os small{font-size:13px;color:var(--ink3)}
+.os .file{font:12px/1 var(--mono);color:var(--ink2);margin-top:12px}
+/* cards are frosted white: translucent, so the background shows softly through. --card for cards, --card2 for the notice,
+   --card3 for the community cards (lighter still). Highlights (hover, the header, the active pill) are the data band's
+   deep teal at low opacity: --hl for a hover, --hl2 for something chosen or held */
+:root{--card:rgba(255,255,255,.58);--card2:rgba(255,255,255,.7);--card3:rgba(255,255,255,.4);--card-blur:blur(6px);
+--hl:color-mix(in srgb,var(--deep) 4%,transparent);--hl2:color-mix(in srgb,var(--deep) 8%,transparent)}
+/* --chrome: the colour of the hero's page face as rendered (paper with the drawing over it), for the header and menus.
+   --qr: the colour of the slash's face as rendered, for the QR codes */
+:root{--chrome:#f2f5f3;--qr:#2a454a}
+html[data-mode=dark]{--chrome:#0d171a;--qr:#cad8d4}
+/* a highlight is a tinted panel set in from the edge of its button or card. The inset is the same on all four sides and
+   is 2% of the element's shorter side (1-4px), set by script on hover (--hli). It fades in and out; nothing moves */
+@property --hla{syntax:"<color>";inherits:false;initial-value:transparent}
+:is(.pi,.btn.alt,.langsel .lbtn,.modebtn,.langsel .menu a,.strip>div,.gbtn){--hla:transparent;
+background-image:linear-gradient(var(--hla),var(--hla));background-repeat:no-repeat;background-position:center;
+background-size:calc(100% - 2 * var(--hli,1px)) calc(100% - 2 * var(--hli,1px));transition:--hla .18s ease,color .15s,border-color .15s}
+:is(.pi,.btn.alt,.langsel .lbtn,.modebtn,.langsel .menu a,.strip>div,.gbtn):hover,.langsel.open .lbtn{--hla:var(--hl)}
+html[data-mode=dark]{--card:rgba(16,36,42,.58);--card2:rgba(16,36,42,.72);--card3:rgba(16,36,42,.38)}
+.notice,.cc,.os{-webkit-backdrop-filter:var(--card-blur);backdrop-filter:var(--card-blur)}
+.notice{margin-top:40px;display:flex;align-items:center;justify-content:space-between;gap:32px;padding:28px 32px;border:1px solid var(--line);border-left:3px solid var(--accent);background:var(--card2)}
+.notice .k{font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.notice p{margin-top:12px;max-width:640px;font-size:15px;color:var(--ink2)}
+.notice .btn{flex:none}
+.dl .box{margin-top:20px}
+
+.os .file::before{content:"";display:inline-block;width:6px;height:6px;margin-right:8px;vertical-align:1px;background:var(--accent)}
+.how{margin-top:36px;font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.how+.steps{margin-top:14px}
+@media (max-width:980px){.notice{flex-direction:column;align-items:flex-start;padding:24px}}
+.groups{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:28px}
+.groups .k{font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-right:6px}
+.gbtn{display:inline-flex;align-items:center;gap:9px;height:38px;padding:0 16px;border:1px solid var(--line2);text-decoration:none;font-size:14px;color:var(--ink);transition:border-color .15s,background .15s}
+.gbtn:hover{border-color:var(--ink)}
+.gbtn i{width:9px;height:9px;background:var(--bc)}
+/* community */
+.community{padding:0 0 120px}
+.community h2{font:600 clamp(32px,4vw,52px)/1.1 var(--sans);letter-spacing:-.035em;margin:16px 0 12px}
+.community .sub{font-size:17px;color:var(--ink2);max-width:600px}
+.cgrid{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line)}
+.cc+.cc{border-left:1px solid var(--line)}
+.cc{background:var(--card3);padding:28px;display:flex;flex-direction:column;gap:10px}
+.ch{display:flex;align-items:center;gap:10px;font-size:20px;letter-spacing:-.01em}
+.ch i{width:10px;height:10px;background:var(--bc)}
+.ch b{font-weight:600}
+.cc p{font-size:14px;color:var(--ink3)}
+.qr{margin:8px 0 0;width:132px}
+.qrm{display:block;width:132px;height:132px;padding:5px;background:transparent;border:1px solid var(--line);position:relative}
+.qrm::after{content:"";position:absolute;inset:5px;background:var(--qr);-webkit-mask:var(--q) center/contain no-repeat;mask:var(--q) center/contain no-repeat}
+
+.qr figcaption{margin-top:6px;font:500 10.5px/1 var(--mono);letter-spacing:.12em;color:var(--ink3)}
+.qr.empty{height:132px;display:grid;place-items:center;border:1px dashed var(--line2);font:500 11px/1.4 var(--mono);color:var(--ink3);text-align:center;padding:10px}
+.cc .btn{margin-top:auto;align-self:flex-start;height:38px;font-size:13px}
+.steps{margin-top:36px;padding-left:1.3em;color:var(--ink2);max-width:760px;display:grid;gap:8px;font-size:15px}
+body>footer{border-top:1px solid var(--line);padding:48px 0 60px;font-size:13px;color:var(--ink3)}
+body>footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:center}
+body>footer .big{display:flex;align-items:center;gap:14px;font:600 20px/1 var(--sans);color:var(--ink);letter-spacing:-.02em}
+body>footer .big img{height:22px}
+body>footer a{text-decoration:none;margin-left:20px;display:inline-flex;align-items:center;gap:6px}
+body>footer a svg{width:14px;height:14px;flex:none}
+/* custom cursor: a dot, a ring over anything clickable */
+.cdot{position:fixed;left:0;top:0;width:0;height:0;pointer-events:none;z-index:1000;opacity:0;transition:opacity .15s;will-change:transform}
+.cdot.vis{opacity:1}.cdot.away{opacity:0}
+/* the cursor is the brand's slash: a thick accent bar leaning like "/", centred on the pointer */
+.cdot::before{content:"";position:absolute;left:-1.5px;top:-9px;width:3px;height:18px;background:var(--accent);box-shadow:0 0 0 1px color-mix(in srgb,var(--paper) 85%,transparent);transform:rotate(22deg);transition:transform .18s var(--ease),opacity .18s}
+.cdot.ring::before{transform:rotate(22deg) scaleY(1.6);opacity:.45}
+/* the system cursor is hidden everywhere the dot is drawn (overriding every element's own cursor) */
+html.has-cur,html.has-cur *{cursor:none!important}
+html.has-cur iframe{cursor:auto!important}
+/* back to top */
+.totop{position:fixed;right:24px;bottom:24px;z-index:40;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;padding:0;
+color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);background:color-mix(in srgb,var(--chrome) 82%,transparent);
+-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 10px 24px -12px rgba(0,0,0,.35);
+opacity:0;transform:translateY(14px) scale(.6);pointer-events:none;transition:opacity .2s ease,transform .3s cubic-bezier(.34,1.56,.64,1)}
+.totop svg{width:18px;height:18px}
+.totop.show{opacity:1;transform:none;pointer-events:auto}
+.totop.show:hover{transform:translateY(-3px)}
+body>footer a:hover{color:var(--ink)}
+body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1px solid var(--line);font-size:12px;color:var(--ink3)}
+@media (max-width:980px){.face footer{font-size:10px;letter-spacing:.08em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}.refs{grid-template-columns:1fr;padding:0 24px;width:auto}.langsel{margin-left:auto}.band{grid-template-columns:1fr;padding:72px 24px 96px}.band:nth-child(even) .txt{order:0}.band .vis{padding-top:0}.trust .grid,.strip,.dl .box{grid-template-columns:1fr}.pmenu,.nav a{display:none}.frame,.pills{display:none}.hero .bar{flex-direction:column;align-items:flex-start}.hero .side{display:none}.intro ul{grid-template-columns:1fr}.face{padding:20vh 24px 36vh}.face p{font-size:19px}.hero .ttl .b{bottom:34vh}
+.mk-body.learn{grid-template-columns:40px 1fr}.mk-learn{grid-column:1/-1;padding:0 12px 14px}.lcard{position:static;transform:none!important}
+.mock{aspect-ratio:auto}.cgrid{grid-template-columns:1fr}.cc+.cc,.os+.os{border-left:0;border-top:1px solid var(--line)}.mk-body.notes{grid-template-columns:40px 1fr;height:auto}.mk-scroll{height:280px}.mk-margin{grid-column:1/-1;order:2;padding:12px;display:grid;gap:6px}.mk-margin .nc{position:relative;left:0;right:0}.nc-more{display:none}.mk-links{display:none}
+.mk-body.lib{grid-template-columns:40px 1fr}.mk-side{display:none}.mk-row{grid-template-columns:16px 1fr 58px 28px}.mk-row>span:nth-child(4),.mk-row>span:nth-child(7){display:none}.mk-top .mk-tool,.mk-top .mk-seg{display:none}}
+@media (prefers-reduced-motion:reduce){.hero .ttl .a,.hero .ttl .b{opacity:1;transform:none;animation:none;transition:none}.hero{animation:none}}
+</style>
 </head>
 <body>
-<header><div class="wrap">
-  <a class="brand" href="./"><img src="img/logo.png" alt="">SlashSci</a>
-  <nav><a href="#features">功能</a><a href="#download">下载</a><a href="https://github.com/SlashSci/slashsci/issues">反馈</a><span class="lang"><a class="on" href="./">简</a><a href="zh-hant/">繁</a><a href="en/">EN</a></span></nav>
+<header id="hd"><div class="wrap">
+  <a class="brand" href="./"><img src="/img/logo.svg" alt="">SlashSci</a>
+  <div class="pmenu dd"><button type="button" class="ptrig ddbtn" aria-haspopup="true" aria-expanded="false">产品</button>
+    <div class="pop">
+      <div class="pi on"><span class="dot"></span><b>Library</b><i>内测中</i><p>文献管理与沉浸式阅读</p></div>
+      <div class="pi"><span class="dot"></span><b>Studio</b><i>开发中</i><p>科研构思与可视化工作流编排</p></div>
+      <div class="pi"><span class="dot"></span><b>Bot</b><i>开发中</i><p>个人科研助手与任务自动化</p></div>
+    </div></div>
+  <nav class="nav"><a href="#faces">功能</a><a href="#demo">演示</a><a href="#trust">数据</a><a href="#download">下载</a><a href="#community">内测</a><a href="https://github.com/SlashSci/slashsci/issues" target="_blank" rel="noopener">反馈</a>
+    <div class="langsel dd" id="langsel"><button type="button" class="lbtn ddbtn" aria-haspopup="true" aria-expanded="false" aria-label="语言 / Language" title="语言 / Language"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="6.3"/><path d="M1.7 8h12.6M8 1.7c-2.2 2.1-2.2 10.5 0 12.6M8 1.7c2.2 2.1 2.2 10.5 0 12.6"/></svg></button>
+      <div class="menu"><a class="on" hreflang="zh-Hans" data-lang="zh" href="./">简体中文</a><a hreflang="zh-Hant" data-lang="zh-hant" href="zh-hant/">繁體中文</a><a hreflang="en" data-lang="en" href="en/">English</a></div></div>
+    <button type="button" class="modebtn" id="modebtn" aria-label="切换日间 / 夜间" title="切换日间 / 夜间"><svg class="i-sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1.5v1.6M8 12.9v1.6M1.5 8h1.6M12.9 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1"/></svg><svg class="i-moon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" aria-hidden="true"><path d="M13.2 10.1A5.6 5.6 0 0 1 5.9 2.8a5.6 5.6 0 1 0 7.3 7.3z"/></svg></button></nav>
 </div></header>
+
 <main>
-<div class="wrap hero">
-  <h1><i>/</i> 斜杠科研<br>SlashSci</h1>
-  <p>为 AI 时代设计的文献管理与精读工具。把论文读成结构化的全文，批注、笔记、翻译和 AI 问答都在同一处；你的文献始终保存在自己的电脑上。</p>
-  <div class="cta"><a class="btn" href="https://github.com/SlashSci/slashsci/releases/latest">下载内测版</a><a class="btn alt" href="#features">了解功能</a></div>
-  <p class="note">支持 macOS（Apple 芯片）和 Windows。内测版尚未签名，安装说明见下方。</p>
-</div>
-<div class="wrap shots">
-  <figure class="shot"><img src="img/reader.jpg" alt="SlashSci 阅读界面：论文正文、信息栏与期刊分区" width="1600" height="1000"></figure>
-  <figure class="shot"><img src="img/library.jpg" alt="SlashSci 文献库：列表、分类与期刊分区" width="1600" height="1000" loading="lazy"></figure>
-</div>
-<section class="block" id="features"><div class="wrap">
-  <div class="label"><b>/</b> 文献库</div><h2>读得更深，管得更省心</h2>
-  <div class="grid"><div><h3>结构化全文</h3><p>优先取出版商的结构化全文，保留章节、公式、图表和参考文献，而不是一份难以复制的 PDF。图片可一键换成出版商的高清版。</p></div>
-    <div><h3>沉浸阅读</h3><p>原文与译文对照，悬停即看关键词和参考文献。专为精读设计的排版，长论文也流畅。</p></div>
-    <div><h3>批注与笔记</h3><p>划词高亮、框选图片区域，笔记直接引用原文并可跳回出处。语料库收集好句和词汇。</p></div>
-    <div><h3>翻译与 AI</h3><p>多种翻译引擎和大模型可选，问 AI 时严格依据论文并标出处。密钥保存在你自己的电脑上。</p></div>
-    <div><h3>一键收藏</h3><p>输入 DOI、arXiv 编号或网址即可导入；浏览器插件能收藏需要登录或订阅才能看的页面。</p></div>
-    <div><h3>数据属于你</h3><p>文献以 JSON、Markdown 和 XML 保存在本机文件夹，可随时整库导出备份，换电脑一键导入。</p></div></div>
+<section class="hero" id="hero">
+  <div class="face en" aria-hidden="true"><blockquote><i class="wipe" aria-hidden="true"></i><p id="q-en">After a certain high level of technical skill is achieved, science and art tend to coalesce in esthetics, plasticity, and form. <mark>The greatest scientists are always artists as well.</mark></p><footer id="q-en-by">Albert Einstein · 1923</footer></blockquote></div>
+  <h1 class="ttl"><span class="a">科研</span><span class="b">不止一面</span></h1>
+  <div class="face zh" id="zh"><div class="ttl" aria-hidden="true"><span class="a">科研</span><span class="b">不止一面</span></div><blockquote><i class="wipe" aria-hidden="true"></i><p id="q-zh">技艺臻于一定高度之后，科学与艺术便在美感、可塑性与形式上趋于融合。<mark>最伟大的科学家，无一不是艺术家。</mark></p><footer id="q-zh-by">阿尔伯特·爱因斯坦 · 1923</footer></blockquote></div>
+  <div class="divider" id="div"></div>
+  <div class="bar">
+    <div><div class="intro"><p class="nm">/ SlashSci Library</p><p class="ld">为 AI 时代重构的文献管理</p>
+      <ul><li><b>块级解构</b>告别 PDF，文献即结构化数据</li><li><b>沉浸译读</b>逐句翻译，浮动锚定批注</li><li><b>本地优先</b>全部数据存于本机</li><li><b>Agent 就绪</b>内置 MCP，模型直接调用</li></ul></div>
+      <div class="cta"><a class="btn" href="#community">加入内测</a><a class="btn alt" href="#demo">在浏览器里试试</a></div></div>
+    <p class="side">SlashSci Library · 内测版 0.1<br>macOS（Apple 芯片）· Windows 64 位</p>
+  </div>
+</section>
+
+<section class="faces" id="faces">
+  <article class="band rv">
+    <div class="txt"><span class="num">01</span><span class="job">结构化精读</span><h3>读懂</h3><p class="d">回到论文本身，而非 PDF 的版面。</p>
+      <ul><li><b>块级全文解析</b>：章节、公式、图表与参考文献按结构完整保留；公式以 KaTeX 渲染，引文就地展开并可一键收录</li><li><b>沉浸式逐句译读</b>：译文与语境词汇释义随光标浮现于句侧，原文、译文、对照三种视图即时切换</li><li><b>出版级图像</b>：目录、引文与图表就地展开，插图可一键替换为出版商高清原图</li></ul></div>
+    <div class="vis"><div class="mock learn" id="mlearn" data-theme="geist" aria-label="将光标移到任意一句">
+  <div class="mk-top"><span class="mk-crumb"><i class="mk-logo"></i>SlashSci<span class="sep">/</span><em></em>Library<span class="sep">/</span>阅读</span><span class="mk-seg"><span>阅读</span><span class="on">沉浸</span></span><span class="mk-tool">侧窗 · 词汇 ⌄</span><span class="mk-tool">翻译 <b>✓</b></span></div>
+  <div class="mk-body learn"><div class="mk-rail"><i></i><i></i><i></i><i></i></div>
+    <div class="mk-paper" id="mlearn-p">
+      <h4>How to Build the Virtual Cell with Artificial Intelligence</h4><p class="meta">Bunne et al. · Cell · 2024</p>
+      <p><span class="ls" data-i="0">The cell is arguably the most fundamental unit of life and is central to understanding biology.</span> <span class="ls" data-i="1">Every cell is a dynamic and adaptive system, continually changing its state in response to its environment.</span></p>
+      <p><span class="ls" data-i="2">Meanwhile, single-cell and spatial omics data are accumulating at an unprecedented rate, doubling every six months for the past several years.</span> <span class="ls" data-i="3">A defining function of an AI virtual cell will be its ability to model cellular responses and dynamics, rather than static states alone.</span> <span class="ls" data-i="4">Such a model should integrate broad knowledge across cell biology and generalize to states not present in its training data.</span></p>
+    </div>
+    <div class="mk-learn"><div class="lcard" id="mlearn-c"><div class="zh"></div><div class="vk"><small>重点词汇</small><div class="chips"></div></div></div></div>
+  </div>
+</div><p class="hint">/ 将光标移到任意一句</p></div>
+  </article>
+  <article class="band rv">
+    <div class="txt"><span class="num">02</span><span class="job">锚定式批注</span><h3>沉淀</h3><p class="d">每一处思考，都锚定在原文之上。</p>
+      <ul><li><b>浮动锚定批注</b>：批注沿页边实时排布，以曲线连回原文位置；观点、方法、数据、疑问四色分类</li><li><b>双向溯源</b>：点击批注即定位原文，笔记支持 Markdown 与 LaTeX，引用后一键回到出处</li><li><b>语料与术语库</b>：收录佳句与重点术语，自动附译文、出处与写法解读</li></ul></div>
+    <div class="vis"><div class="mock notes" id="mnotes" data-theme="geist" aria-label="滚动正文，批注随原文移动并堆叠；点击批注即跳到原文">
+  <div class="mk-top"><span class="mk-crumb"><i class="mk-logo"></i>SlashSci<span class="sep">/</span><em></em>Library<span class="sep">/</span>阅读</span><span class="mk-tool" style="margin-left:auto">批注 <b>5</b></span></div>
+  <div class="mk-body notes"><div class="mk-rail"><i></i><i></i><i></i><i></i></div>
+    <div class="mk-margin">
+      <button type="button" class="nc" data-n="0" data-c="g" style="--c:var(--g);--lc:var(--lg)"><small><i></i>方法</small><q>Every cell is a dynamic and adaptive system</q><span>动态、自适应的系统，正是建模的难点。</span></button>
+      <button type="button" class="nc" data-n="1" data-c="y" style="--c:var(--y);--lc:var(--ly)"><small><i></i>观点</small><q>an unprecedented opportunity for an ambitious vision of an AI Virtual Cell</q><span>核心主张：AI 与组学两场革命让虚拟细胞成为可能。</span></button>
+      <button type="button" class="nc" data-n="2" data-c="b" style="--c:var(--b);--lc:var(--lb)"><small><i></i>数据</small><q>data doubling every six months</q><span>关键数字：数据每六个月翻一番。</span></button>
+      <button type="button" class="nc" data-n="3" data-c="y" style="--c:var(--y);--lc:var(--ly)"><small><i></i>观点</small><q>a virtual cell should integrate broad knowledge across cell biology</q><span>虚拟细胞要整合细胞生物学的广泛知识。</span></button>
+      <button type="button" class="nc" data-n="4" data-c="r" style="--c:var(--r);--lc:var(--lr)"><small><i></i>疑问</small><q>generalize to new states not present within the data</q><span>训练数据之外的状态，如何证明泛化？</span></button>
+      <div class="nc-more" data-t="下方还有 {n} 条" hidden></div>
+    </div>
+    <div class="mk-scroll"><div class="mk-paper">
+      <h4>How to Build the Virtual Cell with Artificial Intelligence</h4><p class="meta">Bunne et al. · Cell · 2024</p>
+      <h5>Main</h5>
+      <p>The cell, the fundamental unit of life, is a wondrously intricate entity with properties and behaviors that challenge the limits of physical and computational modeling. <mark class="hl" data-n="0" style="--c:var(--g)">Every cell is a dynamic and adaptive system</mark> in which complex behavior emerges from a myriad of molecular interactions. Some aspects are remarkably robust to perturbations, such as the elimination of genes or their replacement with homologs from different species.</p>
+      <p>Two exciting revolutions in science and technology—in AI and in ’omics—now enable the construction of cell models learned directly from data. These parallel revolutions provide <mark class="hl" data-n="1" style="--c:var(--y)">an unprecedented opportunity for an ambitious vision of an AI Virtual Cell</mark> (AIVC), a multi-scale, multi-modal, large neural network-based model that can represent and simulate the behavior of molecules, cells and tissues across diverse states.</p>
+      <p>Experimentally, the exponential increase in the throughput of measurement technologies has led to the collection of large and growing reference datasets within and across different cell and tissue systems, with <mark class="hl" data-n="2" style="--c:var(--b)">data doubling every six months</mark> for the past several years, along with the ability to couple these measurements with systematic perturbations.</p>
+      <h5>AI Virtual Cells</h5>
+      <p>Our view of an AI Virtual Cell is a learned simulator of cells and cellular systems under varying conditions and changing contexts, such as differentiation states, perturbations, disease states, stochastic fluctuations, and environmental conditions. In this context, <mark class="hl" data-n="3" style="--c:var(--y)">a virtual cell should integrate broad knowledge across cell biology</mark>.</p>
+      <h5>Universal representations</h5>
+      <p>An AIVC would map biological data to universal representational spaces, facilitating insights into shared states and serving as a comprehensive reference. These universal representations should integrate across three physical scales: molecular, cellular and multicellular, and accommodate contributions from any relevant modality and context.</p>
+      <p>Importantly, the multilevel representation should <mark class="hl" data-n="4" style="--c:var(--r)">generalize to new states not present within the data</mark> used to train the AIVC. Such an emergent capability would unlock discoveries about biological states that have not been directly observed, or might not even occur in nature.</p>
+      <h5>Predicting cell behavior and understanding mechanisms</h5>
+      <p>A defining function of an AIVC will be its ability to model cellular responses and dynamics. By training on a wide range of snapshots, time-resolved, non-interventional and interventional datasets collected across contexts and scales, the AIVC can develop an understanding of the molecular, cellular, and tissue dynamics that occur under natural or engineered signals. An AIVC should be able to predict responses to perturbations that have not been previously tested in the lab, while also accounting for the specific features of the cellular context within which the perturbation is being tested.</p>
+    </div></div>
+    <svg class="mk-links" aria-hidden="true"></svg>
+  </div>
+</div><p class="hint">/ 滚动正文，批注随原文移动并堆叠；点击批注即跳到原文</p></div>
+  </article>
+  <article class="band rv">
+    <div class="txt"><span class="num">03</span><span class="job">本地文献库</span><h3>掌控</h3><p class="d">数据留在本地，检索尽在指尖。</p>
+      <ul><li><b>多源收录</b>：DOI、arXiv、PMCID 或网址一步导入；PDF 优先联网匹配结构化全文；浏览器插件支持需登录的页面</li><li><b>期刊指标与智能分类</b>：中科院分区、JCR、影响因子与被引次数一览；AI 按学科自动归类，中英文全文检索与查重</li><li><b>本地优先，为 Agent 而生</b>：全库以开放格式存于本机，一键导出迁移；内置 MCP 服务，Claude Code 等 Agent 可直接检索</li></ul></div>
+    <div class="vis"><div class="libwrap"><div class="mock lib base" data-theme="geist">
+  <div class="mk-top"><span class="mk-crumb"><i class="mk-logo"></i>SlashSci<span class="sep">/</span><em></em>Library<span class="sep">/</span>文献库</span></div>
+  <div class="mk-body lib"><div class="mk-rail"><i></i><i></i><i></i><i></i></div>
+    <div class="mk-side"><small>我的文献库</small><div class="mk-nav on"><span>/ 全部文献</span><b>11</b></div><div class="mk-nav"><span>重点</span><b>3</b></div><div class="mk-nav"><span>未读</span><b>6</b></div><div class="mk-nav"><span>在读</span><b>2</b></div>
+      <small>AI 分类</small><div class="mk-nav"><span>· 生命科学</span><b>5</b></div><div class="mk-nav"><span>· 计算与人工智能</span><b>7</b></div></div>
+    <div class="mk-table">
+      <div class="mk-row h"><span>★</span><span>标题</span><span>作者</span><span>期刊</span><span>中科院</span><span>JCR</span><span class="if">IF</span></div>
+      <div class="mk-row sel"><span class="st on">★</span><span class="t">How to Build the Virtual Cell with Artificial Intelligence: Priorities and Opportunities</span><span>Bunne 等</span><span>Cell</span><span><i class="r1">1区 Top</i></span><span><i class="q">Q1</i></span><span class="if">45.5</span></div>
+      <div class="mk-row"><span class="st on">★</span><span class="t">Attention Is All You Need</span><span>Vaswani 等</span><span>NeurIPS 2017</span><span>—</span><span>—</span><span class="if">—</span></div>
+      <div class="mk-row"><span class="st on">★</span><span class="t">Accurate structure prediction of biomolecular interactions with AlphaFold 3</span><span>Abramson 等</span><span>Nature</span><span><i class="r1">1区 Top</i></span><span><i class="q">Q1</i></span><span class="if">50.5</span></div>
+      <div class="mk-row"><span class="st">☆</span><span class="t">scGPT: toward building a foundation model for single-cell multi-omics</span><span>Cui 等</span><span>Nature Methods</span><span><i class="r1">1区 Top</i></span><span><i class="q">Q1</i></span><span class="if">36.1</span></div>
+      <div class="mk-row"><span class="st">☆</span><span class="t">Transfer learning enables predictions in network biology</span><span>Theodoris 等</span><span>Nature</span><span><i class="r1">1区 Top</i></span><span><i class="q">Q1</i></span><span class="if">50.5</span></div>
+      <div class="mk-row"><span class="st">☆</span><span class="t">GraphCast: Learning skillful medium-range global weather forecasting</span><span>Lam 等</span><span>Science</span><span><i class="r1">1区 Top</i></span><span><i class="q">Q1</i></span><span class="if">44.7</span></div>
+      <div class="mk-row"><span class="st">☆</span><span class="t">De novo design of protein structure and function with RFdiffusion</span><span>Watson 等</span><span>Nature</span><span><i class="r1">1区 Top</i></span><span><i class="q">Q1</i></span><span class="if">50.5</span></div>
+      <div class="mk-row"><span class="st">☆</span><span class="t">Large language models encode clinical knowledge</span><span>Singhal 等</span><span>Nature</span><span><i class="r1">1区 Top</i></span><span><i class="q">Q1</i></span><span class="if">50.5</span></div>
+      <div class="mk-row"><span class="st">☆</span><span class="t">Highly accurate protein structure prediction for the human proteome</span><span>Tunyasuvunakool 等</span><span>Nature</span><span><i class="r1">1区 Top</i></span><span><i class="q">Q1</i></span><span class="if">50.5</span></div>
+      <div class="mk-foot">11 篇</div>
+    </div>
+  </div>
+</div><div class="mock lib over" data-theme="geist" aria-hidden="true">
+  <div class="mk-top"><span class="mk-crumb"><i class="mk-logo"></i>SlashSci<span class="sep">/</span><em></em>Library<span class="sep">/</span>文献库</span></div>
+  <div class="mk-body lib"><div class="mk-rail"><i></i><i></i><i></i><i></i></div>
+    <div class="mk-side"><small>我的文献库</small><div class="mk-nav on"><span>/ 全部文献</span><b>11</b></div><div class="mk-nav"><span>重点</span><b>3</b></div><div class="mk-nav"><span>未读</span><b>6</b></div><div class="mk-nav"><span>在读</span><b>2</b></div>
+      <small>AI 分类</small><div class="mk-nav"><span>· 生命科学</span><b>5</b></div><div class="mk-nav"><span>· 计算与人工智能</span><b>7</b></div></div>
+    <div class="mk-table">
+      <div class="mk-row h"><span>★</span><span>标题</span><span>作者</span><span>期刊</span><span>中科院</span><span>JCR</span><span class="if">IF</span></div>
+      <div class="mk-row sel"><span class="st on">★</span><span class="t">How to Build the Virtual Cell with Artificial Intelligence: Priorities and Opportunities</span><span>Bunne 等</span><span>Cell</span><span><i class="r1">1区 Top</i></span><span><i class="q">Q1</i></span><span class="if">45.5</span></div>
+      <div class="mk-row"><span class="st on">★</span><span class="t">Attention Is All You Need</span><span>Vaswani 等</span><span>NeurIPS 2017</span><span>—</span><span>—</span><span class="if">—</span></div>
+      <div class="mk-row"><span class="st on">★</span><span class="t">Accurate structure prediction of biomolecular interactions with AlphaFold 3</span><span>Abramson 等</span><span>Nature</span><span><i class="r1">1区 Top</i></span><span><i class="q">Q1</i></span><span class="if">50.5</span></div>
+      <div class="mk-row"><span class="st">☆</span><span class="t">scGPT: toward building a foundation model for single-cell multi-omics</span><span>Cui 等</span><span>Nature Methods</span><span><i class="r1">1区 Top</i></span><span><i class="q">Q1</i></span><span class="if">36.1</span></div>
+      <div class="mk-row"><span class="st">☆</span><span class="t">Transfer learning enables predictions in network biology</span><span>Theodoris 等</span><span>Nature</span><span><i class="r1">1区 Top</i></span><span><i class="q">Q1</i></span><span class="if">50.5</span></div>
+      <div class="mk-row"><span class="st">☆</span><span class="t">GraphCast: Learning skillful medium-range global weather forecasting</span><span>Lam 等</span><span>Science</span><span><i class="r1">1区 Top</i></span><span><i class="q">Q1</i></span><span class="if">44.7</span></div>
+      <div class="mk-row"><span class="st">☆</span><span class="t">De novo design of protein structure and function with RFdiffusion</span><span>Watson 等</span><span>Nature</span><span><i class="r1">1区 Top</i></span><span><i class="q">Q1</i></span><span class="if">50.5</span></div>
+      <div class="mk-row"><span class="st">☆</span><span class="t">Large language models encode clinical knowledge</span><span>Singhal 等</span><span>Nature</span><span><i class="r1">1区 Top</i></span><span><i class="q">Q1</i></span><span class="if">50.5</span></div>
+      <div class="mk-row"><span class="st">☆</span><span class="t">Highly accurate protein structure prediction for the human proteome</span><span>Tunyasuvunakool 等</span><span>Nature</span><span><i class="r1">1区 Top</i></span><span><i class="q">Q1</i></span><span class="if">50.5</span></div>
+      <div class="mk-foot">11 篇</div>
+    </div>
+  </div>
+</div></div>
+      <div class="themes"><span class="k">主题</span><button type="button" class="sw" data-id="geist" data-mode="light" style="--a:#ffffff;--b:#171717;--c:#0a6cf0" title="素白"><i></i>素白</button><button type="button" class="sw" data-id="paper" data-mode="light" style="--a:#fbf9f4;--b:#23221f;--c:#1f6b63" title="宣纸"><i></i>宣纸</button><button type="button" class="sw" data-id="mint" data-mode="light" style="--a:#fcfaf4;--b:#1d2422;--c:#0b7a62" title="薄荷"><i></i>薄荷</button><button type="button" class="sw" data-id="apricot" data-mode="light" style="--a:#fffcf8;--b:#333333;--c:#c4693a" title="杏仁"><i></i>杏仁</button><button type="button" class="sw" data-id="aurora" data-mode="light" style="--a:#ffffff;--b:#18181b;--c:#1677e6" title="极光"><i></i>极光</button><button type="button" class="sw" data-id="navy" data-mode="light" style="--a:#ffffff;--b:#16263b;--c:#e0491a" title="藏青"><i></i>藏青</button><button type="button" class="sw" data-id="geist-dark" data-mode="dark" style="--a:#0a0a0a;--b:#ededed;--c:#47a8ff" title="玄黑"><i></i>玄黑</button><button type="button" class="sw" data-id="gold" data-mode="dark" style="--a:#1b202b;--b:#ece6d8;--c:#c9a55c" title="律金"><i></i>律金</button><button type="button" class="sw" data-id="nebula" data-mode="dark" style="--a:#0d0b1a;--b:#e8e5f6;--c:#9d85ff" title="星夜"><i></i>星夜</button><button type="button" class="sw" data-id="ink" data-mode="dark" style="--a:#1c1d1f;--b:#e6e3dc;--c:#6fc2b4" title="墨夜"><i></i>墨夜</button></div><p class="hint">/ 十套主题随日夜轮换，悬停色块可预览</p></div>
+  </article>
+</section>
+
+<section class="demo" id="demo">
+  <div class="wrap" style="text-align:center"><div class="label rv" style="justify-content:center"><b>/</b> 现场演示</div><h2 class="rv d1">现在就试试</h2><p class="sub rv d2">窗口里运行的是真正的 Library。它会先自动演示；你一动鼠标，它就交给你。</p></div>
+  <div class="pills"><span id="pill-note">动态批注，实时堆叠</span><span id="pill-tr">沉浸式翻译，悬停即译</span></div>
+  <div class="frame" id="frame"><iframe id="appframe" title="SlashSci Library 演示" data-src="/app/?lang=zh&tour=1#bunne-2024-build-697e,vaswani-2017-attention-c68d"></iframe></div>
+  <div class="refs"><span class="rk">演示文献</span>
+    <ol>
+      <li>Bunne C, Roohani Y, Rosen Y, et al. How to build the virtual cell with artificial intelligence: priorities and opportunities. <i>Cell</i>. 2024;187(25):7045–7063. <a href="https://doi.org/10.1016/j.cell.2024.11.015" target="_blank" rel="noopener">doi:10.1016/j.cell.2024.11.015</a></li>
+      <li>Vaswani A, Shazeer N, Parmar N, et al. Attention is all you need. In: <i>Advances in Neural Information Processing Systems 30 (NeurIPS 2017)</i>. Long Beach, CA; 2017. <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">arXiv:1706.03762</a></li>
+    </ol></div>
+</section>
+
+<section class="trust" id="trust"><div class="wrap">
+  <div class="label rv"><b>/</b> 数据</div>
+  <h2 class="rv d1">你的文献，只在你的电脑上。</h2>
+  <div class="grid">
+    <div class="rv"><h3>本机存储</h3><p>文献以 JSON、Markdown 和 XML 等开放格式保存在本机文件夹，不上传服务器，也不被任何平台锁定。SQLite 只做可重建的索引。</p></div>
+    <div class="rv d1"><h3>密钥自己保管</h3><p>翻译与 AI 服务的密钥只保存在你的电脑里，用哪一家由你决定；接 Ollama 可以完全离线。</p></div>
+    <div class="rv d2"><h3>随时带走</h3><p>整库一键导出，换电脑、做存档，都不依赖我们。原文不可变，你的批注、译文和修改分开存放。</p></div>
+  </div>
+  <div class="fmt rv d2"><span><b>paper.json</b> 原文块树</span><span><b>annotations.json</b> 批注</span><span><b>translations/zh.json</b> 译文，按句对齐</span><span><b>notes.md</b> 笔记</span><span><b>source/</b> 原始 PDF / XML</span><span><b>index.sqlite</b> 可重建</span></div>
 </div></section>
-<section class="block"><div class="wrap">
-  <div class="label"><b>/</b> 路线</div><h2>一个产品，三种功能</h2>
-  <div class="soon"><div><h3>文献库<span class="tag">内测中</span></h3><p>管理、精读与批注文献。</p></div>
-    <div><h3>Agent<span class="tag">规划中</span></h3><p>让 AI 帮你完成检索、整理和分析。</p></div>
-    <div><h3>Bot<span class="tag">规划中</span></h3><p>在日常工作的地方随时调用。</p></div></div>
+
+<section class="series" id="products"><div class="wrap">
+  <div class="label rv"><b>/</b> 斜杠科研系列</div>
+  <h2 class="rv d1">一个平台，三个产品</h2>
+  <div class="strip">
+    <div class="cur rv"><span class="k">Slash / 01</span><h3><i>/</i>Library<span class="tag">内测中</span></h3><p>文献管理与沉浸式阅读：导入、阅读、翻译、批注、语料、检索。</p></div>
+    <div class="rv d1"><span class="k">Slash / 02</span><h3><i>/</i>Studio<span class="tag">开发中</span></h3><p>科研构思与可视化工作流编排：从文献到假设，从假设到实验设计。</p></div>
+    <div class="rv d2"><span class="k">Slash / 03</span><h3><i>/</i>Bot<span class="tag">开发中</span></h3><p>个人科研助手与任务自动化：盯文献、跑流程、写草稿，都基于你自己的库。</p></div>
+  </div>
 </div></section>
-<section class="block" id="download"><div class="wrap">
-  <div class="label"><b>/</b> 下载</div><h2>下载与安装</h2>
-  <p style="margin-bottom:24px"><a class="btn" href="https://github.com/SlashSci/slashsci/releases/latest">前往下载页</a></p>
-  <ol class="steps"><li><b>Mac</b>：打开 .dmg，把 SlashSci 拖进「应用程序」。第一次打开如提示「无法验证开发者」，到「系统设置 → 隐私与安全性」点「仍要打开」。</li>
+
+<section class="dl" id="download"><div class="wrap">
+  <div class="label rv"><b>/</b> 下载</div>
+  <h2 class="rv d1">下载与安装</h2>
+  <div class="notice rv"><div><span class="k">/ 内测阶段 · 安装包定向发放</span><p>SlashSci Library 目前处于小范围内测。为保证每一条反馈都能得到及时跟进，安装包暂不公开下载，仅通过内测社区发放。加入任一内测群，即可获取最新版本、安装指引与更新通知。</p></div><a class="btn" href="#community">加入内测社区 →</a></div>
+  <div class="box">
+    <div class="os rv"><b>macOS</b><small>Apple 芯片 · macOS 13 及以上</small><span class="file">内测成员定向发放</span></div>
+    <div class="os rv d1"><b>Windows</b><small>64 位 · Windows 10 及以上</small><span class="file">内测成员定向发放</span></div>
+  </div>
+  <p class="how rv d2">安装说明（适用于内测版）</p>
+  <ol class="steps rv d2">
+    <li><b>Mac</b>：打开 .dmg，把 SlashSci 拖进「应用程序」。第一次打开如提示「无法验证开发者」，到「系统设置 → 隐私与安全性」点「仍要打开」。</li>
     <li><b>Windows</b>：双击 .exe。出现蓝色的「Windows 已保护你的电脑」时，点「更多信息」，再点「仍要运行」。</li>
-    <li>新版本发布后，应用左侧会出现「新版本」按钮，点一下即可下载。</li></ol>
+    <li>新版本发布后，应用左侧会出现「新版本」按钮，点一下即可下载。</li>
+  </ol>
+</div></section>
+
+<section class="community" id="community"><div class="wrap">
+  <div class="label rv"><b>/</b> 内测社区</div>
+  <h2 class="rv d1">加入内测，一起打磨 Library</h2>
+  <p class="sub rv d2">第一时间获取新版本，直接向开发者反馈问题与建议。</p>
+  <div class="cgrid">
+    <div class="cc rv" style="--bc:#5865f2">
+      <div class="ch"><i></i><b>Discord</b></div><p>扫码或通过链接加入 Discord 社区</p>
+      <figure class="qr"><span class="qrm" role="img" aria-label="Discord 扫码加入" style="--q:url(/img/qr-discord.png)"></span><figcaption>扫码加入</figcaption></figure>
+      <a class="btn alt" href="https://discord.com/invite/ewNMAHvWsp" target="_blank" rel="noopener">加入 Discord →</a>
+    </div>
+    <div class="cc rv d1" style="--bc:#07c160">
+      <div class="ch"><i></i><b>微信</b></div><p>用微信扫码加入内测群</p>
+      <figure class="qr"><span class="qrm" role="img" aria-label="微信 扫码加入" style="--q:url(/img/qr-wechat.png)"></span><figcaption>扫码加入</figcaption></figure>
+      
+    </div>
+    <div class="cc rv d2" style="--bc:#ff2442">
+      <div class="ch"><i></i><b>小红书</b></div><p>扫码或通过链接加入小红书群</p>
+      <figure class="qr"><span class="qrm" role="img" aria-label="小红书 扫码加入" style="--q:url(/img/qr-xhs.png)"></span><figcaption>扫码加入</figcaption></figure>
+      <a class="btn alt" href="http://xhslink.com/m/MAL0EEu5FS" target="_blank" rel="noopener">加入小红书群 →</a>
+    </div>
+  </div>
 </div></section>
 </main>
-<footer><div class="wrap"><span>© SlashSci 斜杠科研</span><span><a href="https://github.com/SlashSci/slashsci/issues">问题反馈</a></span></div></footer>
+<footer><div class="wrap"><span class="big"><img src="/img/logo.svg" alt="">SlashSci <span style="font-weight:300;color:var(--accent)">/</span> 斜杠科研</span><span><a href="https://github.com/SlashSci/slashsci/issues" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>问题反馈</a><a href="https://github.com/SlashSci/slashsci/releases" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>版本记录</a></span><p class="copy">© 2026 SlashSci. All rights reserved.</p></div></footer>
+<button type="button" class="totop" id="totop" aria-label="回到顶部" title="回到顶部"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5"/></svg></button>
+<div class="cdot" id="cdot" aria-hidden="true"></div>
+
+<script>
+(function(){
+  var RM = matchMedia("(prefers-reduced-motion: reduce)").matches, IS_ROOT = true, ROOT = document.documentElement;
+  var NARROW = function(){ return matchMedia("(max-width: 980px)").matches; };
+  var esc = function(s){ return String(s).replace(/[<>&]/g, function(c){ return {"<":"&lt;",">":"&gt;","&":"&amp;"}[c]; }); };
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }); }, {threshold:.15});
+  document.querySelectorAll(".rv").forEach(function(el){ io.observe(el); });
+  var hd = document.getElementById("hd");
+  // ---- smooth scrolling, done in script so it works the same everywhere (CSS smooth scrolling is switched off by
+  // the system's reduce-motion setting). A wheel or touch hands control back to the visitor at once.
+  var smoothTo = function(el, to, done){
+    var win = el === window, from = win ? scrollY : el.scrollTop, d = to - from;
+    cancelAnimationFrame(el._sa);
+    if (Math.abs(d) < 2) { if (done) done(); return; }
+    var dur = Math.min(1100, Math.max(420, Math.abs(d) * .35)), t0 = 0;
+    var ease = function(t){ return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
+    var off = function(){ removeEventListener("wheel", stop); removeEventListener("touchstart", stop); };
+    var stop = function(){ cancelAnimationFrame(el._sa); off(); };
+    addEventListener("wheel", stop, {passive:true}); addEventListener("touchstart", stop, {passive:true});
+    var step = function(ts){
+      if (!t0) t0 = ts;
+      var p = Math.min(1, (ts - t0) / dur), y = from + d * ease(p);
+      if (win) scrollTo({ top: y, behavior: "instant" }); else el.scrollTop = y;
+      if (p < 1) el._sa = requestAnimationFrame(step); else { off(); if (done) done(); }
+    };
+    el._sa = requestAnimationFrame(step);
+  };
+  var HDR = 64;
+  document.addEventListener("click", function(e){
+    var a = e.target.closest && e.target.closest('a[href^="#"]'); if (!a || a.getAttribute("href").length < 2) return;
+    var t = document.getElementById(a.getAttribute("href").slice(1)); if (!t) return;
+    e.preventDefault();
+    history.replaceState(null, "", "#" + t.id);
+    smoothTo(window, Math.max(0, t.getBoundingClientRect().top + scrollY - HDR));
+  });
+  document.querySelector(".brand").addEventListener("click", function(e){ e.preventDefault(); history.replaceState(null, "", location.pathname + location.search); smoothTo(window, 0); });
+
+  // ---- switching language keeps the place: the section (or feature band) at the top of the screen, and how far into it
+  var PK = "slashsci-site-pos";
+  var anchors = function(){ return [].slice.call(document.querySelectorAll("main > section, .band")); };
+  document.querySelectorAll("a[data-lang]").forEach(function(a){ a.addEventListener("click", function(){
+    var list = anchors(), at = -1, r = 0;
+    list.forEach(function(el, i){ var b = el.getBoundingClientRect(); if (b.top <= HDR + 1 && b.bottom > HDR) { at = i; r = (HDR - b.top) / b.height; } });
+    try { sessionStorage.setItem(PK, JSON.stringify({ i: at, r: r, y: scrollY })); } catch(e){}
+  }); });
+  (function(){
+    var p; try { p = JSON.parse(sessionStorage.getItem(PK) || "null"); sessionStorage.removeItem(PK); } catch(e){}
+    if (!p || !p.y) return;
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    var place = function(){ var el = anchors()[p.i]; var y = el ? el.getBoundingClientRect().top + scrollY + p.r * el.offsetHeight - HDR : p.y; scrollTo({ top: Math.max(0, Math.round(y)), behavior: "instant" }); return scrollY; };
+    var set = place();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ if (Math.abs(scrollY - set) < 2) place(); });
+  })();
+
+  // ---- language: remember an explicit choice; on the root page send first-time visitors to their browser language ----
+  var K = "slashsci-site-lang", sel = document.getElementById("langsel");
+  document.querySelectorAll("a[data-lang]").forEach(function(a){ a.addEventListener("click", function(){ try { localStorage.setItem(K, a.dataset.lang); } catch(e){} }); });
+  // ---- highlight inset: 2% of the shorter side, 1-4px, the same on all four sides
+  document.addEventListener("pointerover", function(e){
+    var el = e.target.closest && e.target.closest(".pi,.btn.alt,.langsel .lbtn,.modebtn,.langsel .menu a,.strip>div,.gbtn"); if (!el || el._hli) return;
+    el._hli = 1; var r = el.getBoundingClientRect(); el.style.setProperty("--hli", Math.max(1, Math.min(4, Math.round(Math.min(r.width, r.height) * .02))) + "px");
+  }, {passive:true});
+  // ---- header dropdowns: open on hover or click; leaving closes after a grace period, so the pointer can cross to the menu ----
+  var dds = [].slice.call(document.querySelectorAll(".dd")), lastPointer = "mouse";
+  document.addEventListener("pointerdown", function(e){ lastPointer = e.pointerType; }, {capture:true, passive:true});
+  var shut = function(dd){ clearTimeout(dd._t); dd.classList.remove("open"); dd.querySelector(".ddbtn").setAttribute("aria-expanded", "false"); };
+  var open = function(dd){ clearTimeout(dd._t); dds.forEach(function(o){ if (o !== dd) shut(o); }); dd.classList.add("open"); dd.querySelector(".ddbtn").setAttribute("aria-expanded", "true"); };
+  dds.forEach(function(dd){
+    dd.addEventListener("pointerenter", function(e){ if (e.pointerType !== "touch") open(dd); });
+    dd.addEventListener("pointerleave", function(e){ if (e.pointerType !== "touch") { clearTimeout(dd._t); dd._t = setTimeout(function(){ shut(dd); }, 300); } });
+    // a mouse click on a hovered button keeps it open; touch and keyboard toggle
+    dd.querySelector(".ddbtn").addEventListener("click", function(){ if (dd.classList.contains("open") && lastPointer !== "mouse") shut(dd); else open(dd); lastPointer = ""; });
+  });
+  document.addEventListener("click", function(e){ dds.forEach(function(dd){ if (!dd.contains(e.target)) shut(dd); }); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") dds.forEach(shut); });
+  if (IS_ROOT) {
+    var saved; try { saved = localStorage.getItem(K); } catch(e){}
+    var to = saved || (function(){ var l = ((navigator.languages && navigator.languages[0]) || navigator.language || "zh").toLowerCase(); if (/^zh-(tw|hk|mo|hant)/.test(l)) return "zh-hant"; return /^zh/.test(l) ? "zh" : "en"; })();
+    if (to === "zh-hant") { location.replace("zh-hant/" + location.search + location.hash); return; } else if (to === "en") { location.replace("en/" + location.search + location.hash); return; }
+  }
+
+  // ---- day / night: follows local time unless the visitor picked one; picking the time's own mode returns to automatic ----
+  var MK = "slashsci-site-mode", modeHooks = [];
+  var autoMode = function(){ var h = new Date().getHours(); return h >= 7 && h < 19 ? "light" : "dark"; };
+  var setMode = function(m){ if (ROOT.dataset.mode === m) return; ROOT.dataset.mode = m; modeHooks.forEach(function(f){ f(m); }); };
+  document.getElementById("modebtn").addEventListener("click", function(){
+    var next = ROOT.dataset.mode === "dark" ? "light" : "dark";
+    try { if (next === autoMode()) localStorage.removeItem(MK); else localStorage.setItem(MK, next); } catch(e){}
+    setMode(next);
+  });
+  setInterval(function(){ var s; try { s = localStorage.getItem(MK); } catch(e){} if (!s) setMode(autoMode()); }, 5 * 60 * 1000);
+
+  // ---- hero: the quotations take turns; ?q=1…5 picks the first one shown ----
+  var QUOTES = [{"en":"After a certain high level of technical skill is achieved, science and art tend to coalesce in esthetics, plasticity, and form. *The greatest scientists are always artists as well.*","enBy":"Albert Einstein · 1923","zh":"技艺臻于一定高度之后，科学与艺术便在美感、可塑性与形式上趋于融合。*最伟大的科学家，无一不是艺术家。*","zhBy":"阿尔伯特·爱因斯坦 · 1923"},{"en":"The scientist does not study nature because it is useful; *he studies it because he delights in it, and he delights in it because it is beautiful.*","enBy":"Henri Poincaré · Science and Method · 1908","zh":"科学家研究自然，并非因为其有用；*只为乐在其中，而乐在其中，是因为自然是美的。*","zhBy":"亨利·庞加莱 ·《科学与方法》· 1908"},{"en":"A scientist in his laboratory is not a mere technician: *he is also a child confronting natural phenomena that impress him as though they were fairy tales.*","enBy":"Marie Curie","zh":"实验室里的科学家不只是技术员：*他也是一个孩子，置身于自然现象面前，如同听着童话般为之着迷。*","zhBy":"玛丽·居里 · 1903 年诺贝尔物理学奖、1911 年化学奖"},{"en":"*The most beautiful thing we can experience is the mysterious.* It is the source of all true art and science.","enBy":"Albert Einstein · Living Philosophies · 1931","zh":"*我们所能体验到的最美的东西，是神秘。*它是一切真正艺术与科学的源泉。","zhBy":"阿尔伯特·爱因斯坦 ·《我的世界观》· 1931"},{"en":"I used to play with it. I used to do whatever I felt like doing — it didn't have to do with whether it was important for the development of nuclear physics, *but whether it was interesting and amusing for me to play with.*","enBy":"Richard Feynman · Surely You're Joking, Mr. Feynman! · 1985","zh":"我从前是在“玩”物理。想做什么就做什么，不管它对核物理的发展是否重要，*只看它是否有趣、玩起来是否开心。*","zhBy":"理查德·费曼 ·《别闹了，费曼先生》· 1965 年诺贝尔物理学奖"}];
+  var params = new URLSearchParams(location.search), hero = document.getElementById("hero");
+  var pick = function(key, n){ return Math.min(n, Math.max(1, parseInt(params.get(key) || "1", 10) || 1)) - 1; };
+  var mk = function(s){ return esc(s).replace(/\*(.+?)\*/g, "<mark>$1</mark>"); };
+  var qEn = document.getElementById("q-en"), qEnBy = document.getElementById("q-en-by"), qZh = document.getElementById("q-zh"), qZhBy = document.getElementById("q-zh-by");
+  var show = function(i){ var Q = QUOTES[i]; qEn.innerHTML = mk(Q.en); qEnBy.textContent = Q.enBy; qZh.innerHTML = mk(Q.zh); qZhBy.textContent = Q.zhBy; bounds(); };
+  var heroSeen = true;
+  new IntersectionObserver(function(es){ heroSeen = es[0].isIntersecting; }, {threshold:.2}).observe(hero);
+  // ---- hero quote transitions. ?fx=1 flicker (default), ?fx=2 drift, ?fx=3 slash wipe.
+  // Flicker only changes opacity, so it also runs with reduced motion; the two moving ones fall back to it then,
+  // unless one is asked for by ?fx.
+  var FXQ = params.get("fx"), FX = FXQ === "2" || FXQ === "3" ? +FXQ : 1;
+  if (RM && !FXQ) FX = 1;
+  hero.classList.add("fx" + FX);
+  var qBlocks = [].slice.call(document.querySelectorAll(".face blockquote")), rnd = Math.random;
+  var CJKRE = /[⺀-鿿豈-﫿＀-￯　-〿]/;
+  var WORDRE = /\s+|[⺀-鿿豈-﫿＀-￯　-〿]|[^\s⺀-鿿豈-﫿＀-￯　-〿]+/g;
+  // text in spans: one per character (flicker) or one per word and CJK character (drift); marks keep their place
+  function splitText(root, perChar){
+    var out = [];
+    (function walk(node){
+      [].slice.call(node.childNodes).forEach(function(n){
+        if (n.nodeType === 1) { if (!n.classList.contains("wipe") && !n.classList.contains("tk")) walk(n); return; }
+        if (n.nodeType !== 3) return;
+        var parts = perChar ? Array.from(n.nodeValue) : (n.nodeValue.match(WORDRE) || []), frag = document.createDocumentFragment();
+        parts.forEach(function(p){
+          if (/^\s+$/.test(p)) { frag.appendChild(document.createTextNode(p)); return; }
+          var s = document.createElement("span"); s.className = "tk"; s.textContent = p; frag.appendChild(s); out.push(s);
+        });
+        n.parentNode.replaceChild(frag, n);
+      });
+    })(root);
+    return out;
+  }
+  function playQuote(kind){
+    var done = [];
+    qBlocks.forEach(function(bq){
+      if (FX === 3) {
+        var w = bq.querySelector(".wipe"), sk = " skewX(-14deg)";
+        done.push(w.animate(kind === "out" ? [{ transform: "translateX(-120%)" + sk }, { transform: "translateX(0)" + sk }] : [{ transform: "translateX(0)" + sk }, { transform: "translateX(120%)" + sk }],
+          { duration: kind === "out" ? 520 : 680, easing: "cubic-bezier(.65,0,.35,1)", fill: "forwards" }).finished);
+        return;
+      }
+      var tks = splitText(bq, FX === 1), n = tks.length || 1;
+      tks.forEach(function(s, i){
+        var a = i / n, o;
+        if (FX === 1) o = kind === "in"
+          ? s.animate([{ opacity: 0 }, { opacity: .85, offset: .35 }, { opacity: .1, offset: .55 }, { opacity: 1 }], { duration: 260 + rnd() * 340, delay: a * 450 + rnd() * 600, fill: "backwards" })
+          : s.animate([{ opacity: 1 }, { opacity: .12, offset: .4 }, { opacity: .7, offset: .6 }, { opacity: 0 }], { duration: 180 + rnd() * 260, delay: rnd() * 420, fill: "forwards" });
+        else o = kind === "in"
+          ? s.animate([{ opacity: 0, transform: "translateY(.5em)" }, { opacity: 1, transform: "none" }], { duration: 520 + rnd() * 640, delay: a * 520 + rnd() * 280, fill: "backwards", easing: "cubic-bezier(.2,.7,.2,1)" })
+          : s.animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateY(-.4em)" }], { duration: 280 + rnd() * 380, delay: rnd() * 260, fill: "forwards", easing: "cubic-bezier(.4,0,1,1)" });
+        done.push(o.finished);
+      });
+    });
+    return Promise.all(done);
+  }
+  var HOLD = 8000, qi;
+  function turn(){
+    if (!heroSeen || document.hidden) { setTimeout(turn, 1500); return; }   // only turn while the hero is on screen
+    playQuote("out").then(function(){ qi = (qi + 1) % QUOTES.length; show(qi); return playQuote("in"); }).then(function(){ setTimeout(turn, HOLD); });
+  }
+
+  // ---- hero: the slash follows the pointer across its whole range. The range is measured from the quotation:
+  // at the left end the slash's face shows the whole Chinese text, at the right end the page face shows the whole English.
+  var div = document.getElementById("div"), qBox = document.querySelector(".face.en blockquote");
+  var invEls = [].slice.call(document.querySelectorAll("#hd .ptrig, #hd .nav > a, #hd .langsel, #hd .modebtn")), invX = [];
+  var W = 1, H = 1, xmin = .2, xmax = .9, target = .56, cur = .56, raf = 0;
+  function fitQuotes(){
+    document.querySelectorAll(".face blockquote").forEach(function(bq){
+      bq.style.width = "";
+      var L = 1e9, R = -1e9, rg = document.createRange();
+      [bq.querySelector("p"), bq.querySelector("footer")].forEach(function(el){
+        rg.selectNodeContents(el); var rs = rg.getClientRects();
+        for (var i = 0; i < rs.length; i++) if (rs[i].width) { L = Math.min(L, rs[i].left); R = Math.max(R, rs[i].right); }
+      });
+      var cs = getComputedStyle(bq), pad = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+      if (R > L) bq.style.width = Math.ceil(R - L + pad + 2) + "px";
+    });
+  }
+  function bounds(){
+    fitQuotes();
+    W = hero.clientWidth; H = hero.clientHeight;
+    var l = qBox.offsetLeft, t = qBox.offsetTop, r = l + qBox.offsetWidth, b = t + qBox.offsetHeight;   // offsets ignore the fade's transform
+    xmin = (l - 16) / W + .22 * t / H;                          // the edge (x·W − 22%·W·y/H) left of the text at its top line
+    xmax = (r + 16) / W + .22 * b / H;                          // and right of it at its bottom line
+    if (xmax < xmin + .3) xmax = xmin + .3;
+    invX = invEls.map(function(el){ var q = el.getBoundingClientRect(); return q.left + q.width / 2; });
+    target = Math.min(xmax, Math.max(xmin, target)); cur = Math.min(xmax, Math.max(xmin, cur)); place();
+  }
+  function inv(){   // header items over the slash's face take its ink (only while the header is transparent)
+    var solid = scrollY > 40; hd.classList.toggle("solid", solid);
+    var edge = cur * W - .22 * W * (32 + scrollY) / H;
+    for (var i = 0; i < invEls.length; i++) invEls[i].classList.toggle("inv", !solid && invX[i] > edge);
+  }
+  function place(){
+    var dx = W * .22, ang = Math.atan2(dx, H);           // the edge runs from (x,0) to (x-22%,H)
+    div.style.transform = "translate(" + (cur * W - dx / 2 - 1) + "px,-50%) rotate(" + ang + "rad)";
+    hero.style.setProperty("--x", (cur * 100).toFixed(2) + "%");
+    inv();
+  }
+  // time-based easing: the slash closes ~63% of the gap every TAU ms, the same on 60 Hz and 120 Hz screens.
+  // It is driven by the visitor, so it eases even with reduced motion on (only the automatic sway is switched off).
+  var TAU = 150, tPrev = 0;
+  function tick(ts){
+    var dt = tPrev ? Math.min(64, ts - tPrev) : 16; tPrev = ts;
+    cur += (target - cur) * (1 - Math.exp(-dt / TAU)); place();
+    if (Math.abs(target - cur) > .0005) raf = requestAnimationFrame(tick); else { raf = 0; tPrev = 0; }
+  }
+  var follow = function(){ if (!raf) raf = requestAnimationFrame(tick); };
+  hero.addEventListener("pointermove", function(e){
+    if (e.pointerType === "touch") return;
+    hero.style.animation = "none";
+    var t = Math.min(1, Math.max(0, (e.clientX / W - .08) / .84)); target = xmin + t * (xmax - xmin); follow();
+  }, {passive:true});
+  hero.addEventListener("pointerleave", function(e){ if (e.pointerType === "touch") return; target = Math.min(xmax, Math.max(xmin, .56)); follow(); });
+  if (RM) hero.style.animation = "none";
+  addEventListener("scroll", inv, {passive:true});
+  qi = pick("q", QUOTES.length); if (qi > 0) show(qi); else bounds();
+  addEventListener("resize", bounds, {passive:true});
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(bounds);
+  playQuote("in"); setTimeout(turn, HOLD);
+
+  // ---- 01 and 02 use the app's 素白 by day and 玄黑 by night ----
+  var plainMocks = [document.getElementById("mlearn"), document.getElementById("mnotes")];
+  var plain = function(m){ plainMocks.forEach(function(el){ if (el) el.dataset.theme = m === "dark" ? "geist-dark" : "geist"; }); };
+  plain(ROOT.dataset.mode); modeHooks.push(plain);
+
+  // ---- 01: immersive translation. The sentence under the pointer gets its card; it rests on one sentence otherwise ----
+  var SENTS = [{"zh":"细胞可以说是生命最基本的单位，是理解生物学的核心。","v":[["fundamental unit","基本单位","arguably 表示“可以说、有理由认为”，是克制的强调"],["central to","对……至关重要"]]},{"zh":"每个细胞都是一个动态、自适应的系统，会随环境不断改变自身状态。","v":[["adaptive","自适应的","与 dynamic 并列，强调会随环境调整"],["in response to","作为对……的响应"]]},{"zh":"与此同时，单细胞与空间组学数据正以前所未有的速度积累，过去几年里每六个月就翻一番。","v":[["unprecedented","前所未有的"],["doubling every six months","每六个月翻一番","用具体倍增周期代替“增长很快”"]]},{"zh":"AI 虚拟细胞的一项决定性功能，是建模细胞的响应与动态，而不只是静态的状态。","v":[["defining function","决定性功能","defining 指“足以界定其本质的”"],["cellular responses","细胞响应"],["rather than","而非"]]},{"zh":"这样的模型应整合细胞生物学的广泛知识，并泛化到训练数据中不存在的状态。","v":[["generalize to","泛化到","机器学习术语：在未见过的数据上仍然有效"],["training data","训练数据"]]}];
+  var mlearn = document.getElementById("mlearn");
+  if (mlearn) {
+    var lp = document.getElementById("mlearn-p"), lc = document.getElementById("mlearn-c"), lzh = lc.querySelector(".zh"), lch = lc.querySelector(".chips"), lbody = mlearn.querySelector(".mk-body"), lcur = -1, LDEF = 3, ltimer = 0;
+    var lshow = function(i){
+      if (i === lcur) return; lcur = i;
+      var S = SENTS[i];
+      lp.querySelectorAll(".ls").forEach(function(s, k){ s.classList.toggle("on", k === i); });
+      lzh.textContent = S.zh;
+      lch.innerHTML = S.v.map(function(w){ return '<div class="w"><b>' + esc(w[0]) + '</b>' + esc(w[1]) + (w[2] ? '<em>' + esc(w[2]) + '</em>' : '') + '</div>'; }).join("");
+      if (NARROW()) return;
+      var el = lp.querySelector('.ls[data-i="' + i + '"]'), r = el.getClientRects()[0] || el.getBoundingClientRect(), b = lbody.getBoundingClientRect();
+      var y = Math.max(10, Math.min(r.top - b.top - 6, b.height - lc.offsetHeight - 10));
+      lc.style.transform = "translateY(" + Math.round(y) + "px)";
+    };
+    var lrelay = function(){ var i = lcur; lcur = -1; lshow(i < 0 ? LDEF : i); };
+    lp.addEventListener("pointerover", function(e){ var s = e.target.closest(".ls"); if (s) { clearTimeout(ltimer); lshow(+s.dataset.i); } });
+    mlearn.addEventListener("pointerleave", function(){ clearTimeout(ltimer); ltimer = setTimeout(function(){ lshow(LDEF); }, 700); });
+    lshow(LDEF); addEventListener("resize", lrelay, {passive:true});
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(lrelay);
+  }
+
+  // ---- 02: margin notes, placed as NotesColumn.tsx places them. A note whose passage is still below waits in a
+  // queue in reading order; as the passage approaches, the card glides level with it by the time it reaches the
+  // reading line (28% down) and rises with it; cards never overlap; once the passage has gone past the top, the card
+  // folds into a one-line row at the top of the column. A curve joins each card to its passage.
+  var mn = document.getElementById("mnotes");
+  if (mn) {
+    var nb = mn.querySelector(".mk-body"), nm = mn.querySelector(".mk-margin"), nsc = mn.querySelector(".mk-scroll"), nsvg = mn.querySelector(".mk-links"), nmore = mn.querySelector(".nc-more");
+    var ncards = [].slice.call(mn.querySelectorAll(".nc")), nmarks = {}, nfull = {};
+    mn.querySelectorAll(".hl").forEach(function(m){ nmarks[m.dataset.n] = m; });
+    var nhover = null, nactive = null, nraf = 0, GAP = 6, ROW = 20, LINE = .28;
+    var measure = function(){ ncards.forEach(function(c){ var r = c.classList.contains("row"); c.classList.remove("row"); nfull[c.dataset.n] = c.offsetHeight; if (r) c.classList.add("row"); }); };
+    var draw = function(){
+      nraf = 0;
+      if (NARROW()) { ncards.forEach(function(c){ c.style.transform = c.style.opacity = ""; c.classList.remove("row"); }); nsvg.innerHTML = ""; nmore.hidden = true; return; }
+      // read every rect first
+      var b = nb.getBoundingClientRect(), cr = nm.getBoundingClientRect(), H = cr.height, colX = cr.left - b.left, colTop = cr.top - b.top, colW = cr.width;
+      var para = nsc.querySelector(".mk-paper p").getBoundingClientRect(), textX = para.left - b.left - 6;
+      var f = nhover || nactive;
+      var info = ncards.map(function(c){ var r = nmarks[c.dataset.n].getClientRects()[0]; return { c: c, n: c.dataset.n, y: r ? r.top + r.height / 2 - cr.top : undefined }; });
+      var center = H * LINE, lead = H * .95;
+      var travel = function(y){ var x = Math.min(1, Math.max(0, 1 - (y - center) / lead)); return x * x * (3 - 2 * x); };
+      var floor = 6;
+      info.forEach(function(i){ if (i.y !== undefined && i.y < 0 && i.n !== nactive) { i.mode = "row"; i.top = floor; i.t = 1; floor += ROW + 4; } });
+      if (floor > 6) floor += 6;
+      info.forEach(function(i){
+        if (i.mode) return;
+        var t = i.y === undefined ? 0 : i.y < 0 ? 1 : travel(i.y);
+        i.mode = "card"; i.t = t; i.top = Math.max(i.y === undefined ? floor : t * (i.y - 14) + (1 - t) * floor, floor);
+        floor = i.top + nfull[i.n] + GAP;
+      });
+      // then write once
+      var out = "", hidden = 0;
+      info.forEach(function(i){
+        var c = i.c, row = i.mode === "row";
+        c.classList.toggle("row", row);
+        c.classList.toggle("focus", i.n === f);
+        c.style.transform = "translateY(" + Math.round(i.top) + "px)";
+        c.style.opacity = row || i.n === f ? 1 : (.86 + .14 * i.t).toFixed(3);
+        if (row) return;
+        if (i.top > H - 30) { hidden++; return; }
+        if (i.y === undefined || i.t < .04) return;
+        var x1 = colX + colW - 12, y1 = colTop + i.top + 13, x2 = textX, y2 = colTop + i.y, dx = Math.max(12, (x2 - x1) / 2);
+        var col = "var(--l" + c.dataset.c + ")", op = Math.min(1, i.t * 1.25) * (f && f !== i.n ? .55 : 1);
+        out += '<g class="' + (f === i.n ? "on" : "") + '" style="opacity:' + op.toFixed(3) + '"><path d="M' + x1 + ' ' + y1 + ' C' + (x1 + dx) + ' ' + y1 + ', ' + (x2 - dx) + ' ' + y2 + ', ' + x2 + ' ' + y2 + '" style="stroke:' + col + '"/>'
+          + '<circle cx="' + x1 + '" cy="' + y1 + '" r="3" stroke-width="1.4" style="fill:var(--mraised);stroke:' + col + '"/>'
+          + (i.y >= 0 && i.y <= H ? '<circle cx="' + x2 + '" cy="' + y2 + '" r="2.6" style="fill:' + col + '"/>' : '') + '</g>';
+      });
+      for (var k in nmarks) nmarks[k].classList.toggle("focus", k === f);
+      nsvg.innerHTML = out;
+      nmore.hidden = !hidden; if (hidden) nmore.textContent = nmore.dataset.t.replace("{n}", hidden);
+    };
+    var later = function(){ if (!nraf) nraf = requestAnimationFrame(draw); };
+    // a click puts the passage on the reading line, as opening a note does in the app
+    var go = function(n){ var m = nmarks[n]; nactive = n; later(); smoothTo(nsc, Math.max(0, Math.min(nsc.scrollHeight - nsc.clientHeight, m.offsetTop + m.offsetHeight / 2 - nsc.clientHeight * LINE))); };
+    ncards.forEach(function(c){ c.addEventListener("click", function(){ go(c.dataset.n); }); });
+    Object.keys(nmarks).forEach(function(k){ nmarks[k].addEventListener("click", function(){ nactive = k; later(); }); });
+    mn.addEventListener("click", function(e){ if (!e.target.closest("[data-n]")) { nactive = null; later(); } });
+    mn.addEventListener("pointerover", function(e){ var t = e.target.closest("[data-n]"); if (t && t.dataset.n !== nhover) { nhover = t.dataset.n; later(); } });
+    mn.addEventListener("pointerout", function(e){ var t = e.target.closest("[data-n]"), to = e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest("[data-n]"); if (t && (!to || to.dataset.n !== t.dataset.n)) { nhover = null; later(); } });
+    nsc.addEventListener("scroll", later, {passive:true});
+    var relayout = function(){ measure(); later(); };
+    addEventListener("resize", relayout, {passive:true});
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
+    measure(); later();
+
+    // While 02 is on screen and nobody is using it, the text reads itself slowly so the stacking is visible;
+    // a pointer over the mock (or any touch) hands it over, and it carries on a few seconds after the pointer leaves.
+    var aRaf = 0, aLast = 0, aWait = 0, aPos = 0, nseen = false, held = false, aTimer = 0, SPEED = .022;
+    var step = function(ts){
+      aRaf = 0;
+      if (held || !nseen || document.hidden) return;
+      var dt = aLast ? Math.min(64, ts - aLast) : 0; aLast = ts;
+      if (ts >= aWait) {
+        var max = nsc.scrollHeight - nsc.clientHeight;
+        if (aPos >= max - 1) { smoothTo(nsc, 0); aPos = 0; aWait = ts + 2600; }
+        else { aPos = Math.min(max, aPos + dt * SPEED); nsc.scrollTop = aPos; }
+      }
+      aRaf = requestAnimationFrame(step);
+    };
+    var kick = function(){ if (!aRaf && !RM && !held) { aLast = 0; aPos = nsc.scrollTop; aRaf = requestAnimationFrame(step); } };
+    new IntersectionObserver(function(es){ nseen = es[0].isIntersecting; if (nseen) { if (!aWait) aWait = performance.now() + 1200; kick(); } }, {threshold:.5}).observe(mn);
+    mn.addEventListener("pointerenter", function(){ held = true; clearTimeout(aTimer); });
+    mn.addEventListener("pointerleave", function(e){ if (e.pointerType === "touch") return; clearTimeout(aTimer); aTimer = setTimeout(function(){ held = false; aWait = performance.now() + 600; kick(); }, 3000); });
+    mn.addEventListener("touchstart", function(){ held = true; }, {passive:true});
+  }
+
+  // ---- 03: the library fades from theme to theme: light ones by day, dark ones by night. A swatch previews its theme ----
+  var lw = document.querySelector(".libwrap");
+  if (lw) {
+    var IDS = {"light":["geist","paper","mint","apricot","aurora","navy"],"dark":["geist-dark","gold","nebula","ink"]}, base = lw.querySelector(".base"), over = lw.querySelector(".over"), sws = [].slice.call(lw.parentNode.querySelectorAll(".sw"));
+    var tok = 0, paused = false, libSeen = false, shown = base.dataset.theme;
+    var mark = function(id){ shown = id; sws.forEach(function(b){ b.classList.toggle("on", b.dataset.id === id); }); };
+    var fade = function(id, instant){
+      if (id === shown) return; mark(id);
+      var k = ++tok;
+      if (instant) { base.dataset.theme = id; over.classList.remove("show"); return; }
+      over.dataset.theme = id; over.classList.remove("snap"); void over.offsetWidth; over.classList.add("show");
+      setTimeout(function(){ if (k !== tok) return; base.dataset.theme = id; over.classList.add("snap"); over.classList.remove("show"); }, 1150);
+    };
+    fade(IDS[ROOT.dataset.mode][0], true);
+    modeHooks.push(function(m){ fade(IDS[m][0], true); });
+    new IntersectionObserver(function(es){ libSeen = es[0].isIntersecting; }, {threshold:.3}).observe(lw);
+    setInterval(function(){
+      if (paused || !libSeen || document.hidden) return;
+      var list = IDS[ROOT.dataset.mode], i = list.indexOf(shown);
+      fade(list[(i + 1) % list.length]);
+    }, 3200);
+    sws.forEach(function(b){ var go = function(){ paused = true; fade(b.dataset.id); }; b.addEventListener("pointerenter", go); b.addEventListener("click", go); });
+    lw.parentNode.addEventListener("pointerleave", function(){ paused = false; });
+  }
+
+  // ---- scroll reveal: 15% in view, fade and rise over 400ms, siblings 80ms apart, once
+  document.querySelectorAll(".rv").forEach(function(el){
+    var sib = [].filter.call(el.parentNode.children, function(c){ return c.classList.contains("rv"); });
+    el.style.transitionDelay = sib.indexOf(el) * 80 + "ms";
+  });
+
+  var FINE = matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  // ---- custom cursor (mouse and trackpad only): an accent dot on the pointer; over anything
+  // clickable it grows into a translucent ring with a clear centre, so the text under it stays readable
+  if (FINE) {
+    var cdot = document.getElementById("cdot");
+    var HOT = "a,button,summary,label,[role=button],.sw,.hl,.ddbtn";
+    ROOT.classList.add("has-cur");
+    addEventListener("pointermove", function(e){
+      if (e.pointerType !== "mouse" && e.pointerType !== "pen") return;
+      cdot.style.transform = "translate3d(" + e.clientX + "px," + e.clientY + "px,0)"; cdot.classList.add("vis");
+    }, {passive:true});
+    document.addEventListener("pointerover", function(e){
+      var t = e.target;
+      cdot.classList.toggle("away", t.tagName === "IFRAME");       // the live demo keeps its own cursor
+      cdot.classList.toggle("ring", !!(t.closest && t.closest(HOT)));
+    }, {passive:true});
+    document.addEventListener("mouseout", function(e){ if (!e.relatedTarget) cdot.classList.remove("vis"); });
+  }
+
+  // ---- back to top: pops in once the page is a screen down; a click glides back up and the button pops out at the top
+  var totop = document.getElementById("totop"), returning = false;
+  var topState = function(){ totop.classList.toggle("show", scrollY > innerHeight || (returning && scrollY > 2)); };
+  addEventListener("scroll", topState, {passive:true});
+  totop.addEventListener("click", function(){ returning = true; smoothTo(window, 0, function(){ returning = false; topState(); }); });
+  topState();
+
+  // ---- live demo window ----
+  var fr = document.getElementById("appframe"), frame = document.getElementById("frame");
+  function fit(){ var k = frame.clientWidth / 1440; fr.style.transform = "scale(" + k + ")"; frame.style.height = Math.round(820 * k) + "px"; }
+  fit(); addEventListener("resize", fit, {passive:true});
+  var demoSrc = function(){ return fr.dataset.src.replace("&tour=1", "&tour=1&mode=" + ROOT.dataset.mode); };
+  new IntersectionObserver(function(e, o){ if(e[0].isIntersecting){ fr.src = demoSrc(); o.disconnect(); } }, {rootMargin:"600px"}).observe(frame);
+  modeHooks.push(function(){ if (fr.getAttribute("src")) fr.src = demoSrc(); });
+  var pn = document.getElementById("pill-note"), pt = document.getElementById("pill-tr");
+  addEventListener("message", function(e){ if(!e.data || e.data.slash !== "tour") return; pn.classList.toggle("on", e.data.kind === "note"); pt.classList.toggle("on", e.data.kind === "tr"); });
+})();
+</script>
 </body>
 </html>

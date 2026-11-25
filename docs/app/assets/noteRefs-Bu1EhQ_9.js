@@ -1,0 +1,8 @@
+var e=String.raw`(?:title|[abr]\d+)(?:#\d+-\d+)?`,t=new RegExp(String.raw`\[\[(${e}(?:\s*,\s*${e})*)\]\]`,`g`);function n(e){let[t,n]=e.trim().split(`#`);if(!n)return{block:t};let[r,i]=n.split(`-`).map(Number);return{block:t,start:r,end:i}}var r=e=>e.split(/\s*,\s*/).map(n);function i(e){let t=e.block.replace(/^[abr]0*/,``);return e.block===`title`?`标题`:e.block.startsWith(`a`)?`摘要 ${t}`:e.block.startsWith(`r`)?`参 ${t}`:`§${t}`}function a(e){let n=new Map;for(let i of e.matchAll(t))for(let e of r(i[1]))n.set(e.block,[...n.get(e.block)??[],e]);return n}function o(e){return e.map(e=>`> ${e.quote.replace(/\s+/g,` `).trim()} [[${e.blockId}#${e.start}-${e.end}]]`).join(`
+>
+`)}function s(e,t,n){let r,i;for(let a of e.querySelectorAll(`[data-o]`)){if(a.closest(`[data-noann], .zh, .zh-under`))continue;let e=Number(a.dataset.o);if(a.dataset.len){let o=Number(a.dataset.len);!r&&t<e+o&&t>=e&&(r=[a,0]),n>e&&n<=e+o&&(i=[a,a.childNodes.length]);continue}let o=document.createTreeWalker(a,NodeFilter.SHOW_TEXT),s=e;for(let e=o.nextNode();e;e=o.nextNode())!r&&t>=s&&t<s+e.length&&(r=[e,t-s]),n>s&&n<=s+e.length&&(i=[e,n-s]),s+=e.length}if(!r||!i)return;let a=document.createRange();try{a.setStart(...r),a.setEnd(...i)}catch{return}return a}function c(e,t){let n=`[[${t}]]`,r=e.split(`
+`),i=r.findIndex(e=>e.includes(n));return i<0?e:(/^\s*>/.test(r[i])?(r.splice(i,1),r[i]!==void 0&&/^\s*>\s*$/.test(r[i])?r.splice(i,1):i>0&&/^\s*>\s*$/.test(r[i-1])&&!/^\s*>/.test(r[i]??``)&&r.splice(i-1,1)):r[i]=r[i].replace(n,``).replace(/\s{2,}/g,` `).trimEnd(),r.join(`
+`).replace(/\n{3,}/g,`
+
+`).trim()+`
+`)}export{o as a,n as i,a as n,i as o,s as r,c as s,t};
