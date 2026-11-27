@@ -609,7 +609,7 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
   </div>
   <p class="how rv d2">安装说明（内测版）</p>
   <ol class="steps rv d2">
-    <li><b>Mac</b>：打开 .dmg，把 SlashSci 拖进「应用程序」。第一次打开如提示「无法验证开发者」，到「系统设置 → 隐私与安全性」点「仍要打开」。</li>
+    <li><b>Mac</b>：打开 .dmg，把 SlashSci 拖进「应用程序」。第一次打开如提示「无法验证开发者」，到「系统设置 → 隐私与安全性」点「仍要打开」；如提示「已损坏，无法打开」，在「终端」运行 <code>xattr -cr /Applications/SlashSci.app</code> 后再打开。</li>
     <li><b>Windows</b>：双击 .exe 安装。出现蓝色的「Windows 已保护你的电脑」时，点「更多信息」，再点「仍要运行」。</li>
     <li>新版本发布后，应用左侧会出现「新版本」按钮，点一下即可下载。</li>
   </ol>

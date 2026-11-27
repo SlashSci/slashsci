@@ -124,6 +124,11 @@ Builds are shared through the beta community; members can also download the late
 The beta is not signed yet, and this is the system's standard message for unsigned apps. You only need to do this once.
 
 - **macOS** (“can't verify the developer”): go to System Settings → Privacy & Security and click “Open Anyway” near the bottom.
+- **macOS** (“is damaged and can't be opened” / “You should eject the disk image”): this is the quarantine flag macOS adds to downloads; the app is not actually damaged. Drag SlashSci into Applications first, then run this in Terminal and open it again:
+
+  ```
+  xattr -cr /Applications/SlashSci.app
+  ```
 - **Windows** (blue “Windows protected your PC” screen): click “More info”, then “Run anyway”.
 
 </details>
