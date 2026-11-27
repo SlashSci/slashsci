@@ -13,7 +13,7 @@
 <p align="center">
 <a href="../../releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/SlashSci/slashsci?style=flat-square&label=beta&color=2D5A67"></a>
 <img alt="macOS" src="https://img.shields.io/badge/macOS-Apple_silicon-2D5A67?style=flat-square&logo=apple&logoColor=white">
-<img alt="Windows" src="https://img.shields.io/badge/Windows-coming_soon-8a9a9c?style=flat-square">
+<img alt="Windows" src="https://img.shields.io/badge/Windows-64--bit-2D5A67?style=flat-square&logo=windows&logoColor=white">
 <img alt="MCP" src="https://img.shields.io/badge/MCP-built--in-2D5A67?style=flat-square">
 <a href="https://discord.com/invite/ewNMAHvWsp"><img alt="Discord" src="https://img.shields.io/badge/Discord-join-5865F2?style=flat-square&logo=discord&logoColor=white"></a>
 </p>
@@ -27,7 +27,7 @@
 </p>
 
 > [!NOTE]
-> **内测阶段 · 首批开放 macOS**：SlashSci Library 目前处于小范围内测，首批开放 macOS（Apple 芯片），Windows 版将在稳定后推出。加入内测社区，即可获取安装包、安装指引与更新通知，并直接向开发者反馈。
+> **内测阶段 · macOS 与 Windows**：SlashSci Library 目前处于小范围内测，macOS（Apple 芯片）与 Windows（64 位）版本均已开放。加入内测社区，即可获取安装包、安装指引与更新通知，并直接向开发者反馈。
 
 ## 核心能力
 
@@ -107,20 +107,24 @@ index.sqlite            可重建
 | 平台 | 系统要求 | 状态 |
 | --- | --- | --- |
 | **macOS** | Apple 芯片 · macOS 13 及以上 | 内测中 · [下载最新版](../../releases/latest) |
-| **Windows** | 64 位 · Windows 10 及以上 | 即将推出 |
+| **Windows** | 64 位 · Windows 10 及以上 | 内测中 · [下载最新版](../../releases/latest) |
 
 安装包通过内测社区发放；已加入的成员也可以直接在 [Releases](../../releases/latest) 下载最新版本。
 
-**安装说明（macOS 内测版）**
+**安装说明（内测版）**
 
-1. 下载 `SlashSci-<版本>-arm64.dmg`，打开后把 SlashSci 拖进「应用程序」。
-2. 第一次打开时如果被系统拦截，见下方说明。
-3. 新版本发布后，应用左侧会出现「新版本」按钮，点一下即可下载。
+1. **macOS**：下载 `SlashSci-<版本>-arm64.dmg`，打开后把 SlashSci 拖进「应用程序」。
+2. **Windows**：下载 `SlashSci-<版本>-x64.exe`，双击安装。
+3. 第一次打开时如果被系统拦截，见下方说明。
+4. 新版本发布后，应用左侧会出现「新版本」按钮，点一下即可下载。
 
 <details>
-<summary>第一次打开时提示「无法验证开发者」？</summary>
+<summary>第一次打开时被系统拦截？</summary>
 
-内测版尚未签名，这是 macOS 对未签名应用的默认提示。到「系统设置 → 隐私与安全性」，在页面下方点「仍要打开」即可，只需操作一次。
+内测版尚未签名，这是系统对未签名应用的默认提示，只需操作一次。
+
+- **macOS**（提示「无法验证开发者」）：到「系统设置 → 隐私与安全性」，在页面下方点「仍要打开」。
+- **Windows**（蓝色的「Windows 已保护你的电脑」）：点「更多信息」，再点「仍要运行」。
 
 </details>
 
@@ -136,19 +140,19 @@ index.sqlite            可重建
 <td align="center" width="33%">
 <img src="docs/img/readme/qr-discord.png" width="148" alt="Discord"><br>
 <b>Discord</b><br>
-<sub>加入 Discord 社区</sub><br>
+<sub>扫码或通过链接加入 Discord 社区</sub><br>
 <a href="https://discord.com/invite/ewNMAHvWsp">加入 Discord →</a>
 </td>
 <td align="center" width="33%">
 <img src="docs/img/readme/qr-wechat.png" width="148" alt="微信"><br>
 <b>微信</b><br>
-<sub>加入微信内测群</sub><br>
+<sub>用微信扫码加入内测群</sub><br>
 &nbsp;
 </td>
 <td align="center" width="33%">
 <img src="docs/img/readme/qr-xhs.png" width="148" alt="小红书"><br>
 <b>小红书</b><br>
-<sub>加入小红书内测群</sub><br>
+<sub>扫码或通过链接加入小红书群</sub><br>
 <a href="http://xhslink.com/m/MAL0EEu5FS">加入小红书群 →</a>
 </td>
 </tr>

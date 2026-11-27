@@ -13,7 +13,7 @@
 <p align="center">
 <a href="../../releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/SlashSci/slashsci?style=flat-square&label=beta&color=2D5A67"></a>
 <img alt="macOS" src="https://img.shields.io/badge/macOS-Apple_silicon-2D5A67?style=flat-square&logo=apple&logoColor=white">
-<img alt="Windows" src="https://img.shields.io/badge/Windows-coming_soon-8a9a9c?style=flat-square">
+<img alt="Windows" src="https://img.shields.io/badge/Windows-64--bit-2D5A67?style=flat-square&logo=windows&logoColor=white">
 <img alt="MCP" src="https://img.shields.io/badge/MCP-built--in-2D5A67?style=flat-square">
 <a href="https://discord.com/invite/ewNMAHvWsp"><img alt="Discord" src="https://img.shields.io/badge/Discord-join-5865F2?style=flat-square&logo=discord&logoColor=white"></a>
 </p>
@@ -27,7 +27,7 @@
 </p>
 
 > [!NOTE]
-> **內測階段 · 首批開放 macOS**：SlashSci Library 目前處於小範圍內測，首批開放 macOS（Apple 晶片），Windows 版將在穩定後推出。加入內測社群，即可獲取安裝包、安裝指引與更新通知，並直接向開發者反饋。
+> **內測階段 · macOS 與 Windows**：SlashSci Library 目前處於小範圍內測，macOS（Apple 晶片）與 Windows（64 位）版本均已開放。加入內測社群，即可獲取安裝包、安裝指引與更新通知，並直接向開發者反饋。
 
 ## 核心能力
 
@@ -107,20 +107,24 @@ index.sqlite            可重建
 | 平臺 | 系統要求 | 狀態 |
 | --- | --- | --- |
 | **macOS** | Apple 晶片 · macOS 13 及以上 | 內測中 · [下載最新版](../../releases/latest) |
-| **Windows** | 64 位 · Windows 10 及以上 | 即將推出 |
+| **Windows** | 64 位 · Windows 10 及以上 | 內測中 · [下載最新版](../../releases/latest) |
 
 安裝包通過內測社群發放；已加入的成員也可以直接在 [Releases](../../releases/latest) 下載最新版本。
 
-**安裝說明（macOS 內測版）**
+**安裝說明（內測版）**
 
-1. 下載 `SlashSci-<版本>-arm64.dmg`，開啟後把 SlashSci 拖進「應用程式」。
-2. 第一次開啟時如果被系統攔截，見下方說明。
-3. 新版本釋出後，應用左側會出現「新版本」按鈕，點一下即可下載。
+1. **macOS**：下載 `SlashSci-<版本>-arm64.dmg`，開啟後把 SlashSci 拖進「應用程式」。
+2. **Windows**：下載 `SlashSci-<版本>-x64.exe`，雙擊安裝。
+3. 第一次開啟時如果被系統攔截，見下方說明。
+4. 新版本釋出後，應用左側會出現「新版本」按鈕，點一下即可下載。
 
 <details>
-<summary>第一次開啟時提示「無法驗證開發者」？</summary>
+<summary>第一次開啟時被系統攔截？</summary>
 
-內測版尚未簽名，這是 macOS 對未簽名應用的預設提示。到「系統設定 → 隱私與安全性」，在頁面下方點「仍要開啟」即可，只需操作一次。
+內測版尚未簽名，這是系統對未簽名應用的預設提示，只需操作一次。
+
+- **macOS**（提示「無法驗證開發者」）：到「系統設定 → 隱私與安全性」，在頁面下方點「仍要開啟」。
+- **Windows**（藍色的「Windows 已保護你的電腦」）：點「更多資訊」，再點「仍要執行」。
 
 </details>
 

@@ -13,7 +13,7 @@ Block-level · Immersive · Local-first · Agent-ready</p>
 <p align="center">
 <a href="../../releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/SlashSci/slashsci?style=flat-square&label=beta&color=2D5A67"></a>
 <img alt="macOS" src="https://img.shields.io/badge/macOS-Apple_silicon-2D5A67?style=flat-square&logo=apple&logoColor=white">
-<img alt="Windows" src="https://img.shields.io/badge/Windows-coming_soon-8a9a9c?style=flat-square">
+<img alt="Windows" src="https://img.shields.io/badge/Windows-64--bit-2D5A67?style=flat-square&logo=windows&logoColor=white">
 <img alt="MCP" src="https://img.shields.io/badge/MCP-built--in-2D5A67?style=flat-square">
 <a href="https://discord.com/invite/ewNMAHvWsp"><img alt="Discord" src="https://img.shields.io/badge/Discord-join-5865F2?style=flat-square&logo=discord&logoColor=white"></a>
 </p>
@@ -27,7 +27,7 @@ Block-level · Immersive · Local-first · Agent-ready</p>
 </p>
 
 > [!NOTE]
-> **Closed beta · macOS first**: SlashSci Library is in a small closed beta, opening first on macOS (Apple silicon); the Windows version will follow once it is stable. Join the beta community for builds, install guidance and update notices, and to talk to the developer directly.
+> **Closed beta · macOS and Windows**: SlashSci Library is in a small closed beta, now on both macOS (Apple silicon) and Windows (64-bit). Join the beta community for builds, install guidance and update notices, and to talk to the developer directly.
 
 ## What it does
 
@@ -107,20 +107,24 @@ index.sqlite            rebuildable
 | Platform | Requirements | Status |
 | --- | --- | --- |
 | **macOS** | Apple silicon · macOS 13 or later | In beta · [latest build](../../releases/latest) |
-| **Windows** | 64-bit · Windows 10 or later | Coming soon |
+| **Windows** | 64-bit · Windows 10 or later | In beta · [latest build](../../releases/latest) |
 
 Builds are shared through the beta community; members can also download the latest version from [Releases](../../releases/latest).
 
-**Installing the macOS beta**
+**Installing the beta**
 
-1. Download `SlashSci-<version>-arm64.dmg`, open it and drag SlashSci into Applications.
-2. If macOS blocks the first launch, see below.
-3. When a new version is out, an “Update” button appears on the left of the app; click it to download.
+1. **macOS**: download `SlashSci-<version>-arm64.dmg`, open it and drag SlashSci into Applications.
+2. **Windows**: download `SlashSci-<version>-x64.exe` and double-click it to install.
+3. If the system blocks the first launch, see below.
+4. When a new version is out, an “Update” button appears on the left of the app; click it to download.
 
 <details>
-<summary>macOS says it can't verify the developer?</summary>
+<summary>Blocked on first launch?</summary>
 
-The beta is not signed yet, and this is macOS's standard message for unsigned apps. Go to System Settings → Privacy & Security and click “Open Anyway” near the bottom. You only need to do this once.
+The beta is not signed yet, and this is the system's standard message for unsigned apps. You only need to do this once.
+
+- **macOS** (“can't verify the developer”): go to System Settings → Privacy & Security and click “Open Anyway” near the bottom.
+- **Windows** (blue “Windows protected your PC” screen): click “More info”, then “Run anyway”.
 
 </details>
 
