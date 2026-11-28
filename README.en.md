@@ -19,6 +19,7 @@ Block-level · Immersive · Local-first · Agent-ready</p>
 </p>
 
 <p align="center">
+<a href="https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ"><b>Apply for the beta</b></a> ·
 <a href="https://slashsci.com/en/"><b>Website</b></a> ·
 <a href="https://slashsci.com/en/#demo"><b>Try it online</b></a> ·
 <a href="#download-and-install"><b>Download</b></a> ·
@@ -27,7 +28,7 @@ Block-level · Immersive · Local-first · Agent-ready</p>
 </p>
 
 > [!NOTE]
-> **Closed beta · macOS and Windows**: SlashSci Library is in a small closed beta, now on both macOS (Apple silicon) and Windows (64-bit). Join the beta community for builds, install guidance and update notices, and to talk to the developer directly.
+> **Alpha beta · activation code required**: SlashSci Library is in a small alpha beta. The macOS (Apple silicon) and Windows (64-bit) installers can be downloaded freely; during the beta the app needs an activation code. [Apply for the beta →](https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ) (about 3 minutes), and once you are approved the code is sent to the email address you gave.
 
 ## What it does
 
@@ -109,14 +110,15 @@ index.sqlite            rebuildable
 | **macOS** | Apple silicon · macOS 13 or later | In beta · [latest build](../../releases/latest) |
 | **Windows** | 64-bit · Windows 10 or later | In beta · [latest build](../../releases/latest) |
 
-Builds are shared through the beta community; members can also download the latest version from [Releases](../../releases/latest).
+The installers can be downloaded from [Releases](../../releases/latest); during the beta the app needs an activation code. [Apply for the beta](https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ) (about 3 minutes), and once you are approved the code is sent to your email.
 
 **Installing the beta**
 
 1. **macOS**: download `SlashSci-<version>-arm64.dmg`, open it and drag SlashSci into Applications.
 2. **Windows**: download `SlashSci-<version>-x64.exe` and double-click it to install.
 3. If the system blocks the first launch, see below.
-4. When a new version is out, an “Update” button appears on the left of the app; click it to download.
+4. The first time you open the app it shows the activation page: enter the email the code was sent to and the code, and click “Activate”.
+5. When a new version is out, an “Update” button appears on the left of the app; click it to download.
 
 <details>
 <summary>Blocked on first launch?</summary>
@@ -143,19 +145,19 @@ The beta is not signed yet, and this is the system's standard message for unsign
 <table>
 <tr>
 <td align="center" width="33%">
-<img src="docs/img/readme/qr-discord.png" width="148" alt="Discord"><br>
+<img src="docs/img/qr-discord.png" width="148" alt="Discord"><br>
 <b>Discord</b><br>
 <sub>Scan or follow the link to join the Discord community</sub><br>
 <a href="https://discord.com/invite/ewNMAHvWsp">Join Discord →</a>
 </td>
 <td align="center" width="33%">
-<img src="docs/img/readme/qr-wechat.png" width="148" alt="WeChat"><br>
+<img src="docs/img/qr-wechat.png" width="148" alt="WeChat"><br>
 <b>WeChat</b><br>
 <sub>Scan with WeChat to join the beta group</sub><br>
 &nbsp;
 </td>
 <td align="center" width="33%">
-<img src="docs/img/readme/qr-xhs.png" width="148" alt="Xiaohongshu"><br>
+<img src="docs/img/qr-xhs.png" width="148" alt="Xiaohongshu"><br>
 <b>Xiaohongshu</b><br>
 <sub>Scan or follow the link to the Xiaohongshu group</sub><br>
 <a href="http://xhslink.com/m/MAL0EEu5FS">Join the Xiaohongshu group →</a>

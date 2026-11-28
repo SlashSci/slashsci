@@ -57,6 +57,9 @@ header .wrap{display:flex;align-items:center;height:64px}
 .nav{display:flex;align-items:center;gap:2px;margin-left:auto}
 .nav a,.ptrig{font:inherit;font-size:14px;color:var(--ink2);text-decoration:none;padding:8px 12px;background:none;border:0;cursor:pointer;transition:color .15s}
 .nav a:hover,.ptrig:hover{color:var(--ink)}
+/* the beta application: the one filled button in the header, on every screen size */
+.nav a.napply{display:inline-flex;align-items:center;height:34px;margin:0 8px 0 10px;padding:0 14px;background:var(--accent);color:var(--paper);font-size:13.5px;font-weight:500;transition:background-color .15s}
+.nav a.napply:hover{color:var(--paper);background:color-mix(in srgb,var(--accent) 85%,var(--ink))}
 /* header items that sit over the slash's face take that face's ink */
 #hd .inv{color:var(--deep-ink2)}
 #hd .inv:hover,#hd .langsel.inv.open .lbtn{color:var(--deep-ink)}
@@ -99,7 +102,7 @@ html[data-mode=dark] .modebtn .i-moon{display:block}
 .langsel .menu a:hover{color:var(--ink)}
 .langsel .menu a.on{color:var(--ink);font-weight:500}
 /* hero: two faces of one quotation, split by the slash */
-.hero{position:relative;height:100svh;min-height:680px;overflow:hidden;--x:56%;cursor:crosshair}
+.hero{position:relative;height:100svh;min-height:680px;overflow:hidden;--x:56%;--k:22%;cursor:crosshair}
 .face{position:absolute;inset:0;display:grid;place-items:center;padding:24vh 8vw 32vh}
 .face blockquote{position:relative;margin:0;max-width:1000px}
 /* quote transitions: drift moves words, so they become boxes (the underline follows each word); the wipe is a slash-edged panel */
@@ -114,8 +117,8 @@ html[data-mode=dark] .modebtn .i-moon{display:block}
 .hero.fx3 .wipe::before{left:0}.hero.fx3 .wipe::after{right:0}
 .hero.fx3 .face.zh .wipe::before,.hero.fx3 .face.zh .wipe::after{background:var(--deep-acc)}
 .face p{font:400 clamp(20px,2.6vw,34px)/1.55 var(--serif);color:var(--ink3);letter-spacing:-.005em;text-wrap:balance}
-.face.en,.hero h1.ttl{clip-path:polygon(0 0,var(--x) 0,calc(var(--x) - 22%) 100%,0 100%)}
-.face.zh{background:color-mix(in srgb,var(--deep) 88%,transparent);clip-path:polygon(var(--x) 0,100% 0,100% 100%,calc(var(--x) - 22%) 100%)}
+.face.en,.hero h1.ttl{clip-path:polygon(0 0,var(--x) 0,calc(var(--x) - var(--k)) 100%,0 100%)}
+.face.zh{background:color-mix(in srgb,var(--deep) 88%,transparent);clip-path:polygon(var(--x) 0,100% 0,100% 100%,calc(var(--x) - var(--k)) 100%)}
 .face.zh p{color:var(--deep-ink2)}
 .face p mark{background:none;text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:.16em;text-decoration-skip-ink:none;color:var(--ink)}
 .face.zh p mark{color:var(--deep-ink);text-decoration-color:var(--deep-acc)}
@@ -145,7 +148,6 @@ html[lang=en] .hero .ttl{font-size:clamp(44px,9vw,136px);letter-spacing:-.045em}
 .hero .cta .btn.alt{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,transparent);background:none;transition:color .18s,background-color .18s,border-color .18s}
 .hero .cta .btn.alt:hover{color:var(--paper);border-color:var(--accent);background:var(--accent)}
 .hero .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
-@media (hover:none){.hero{animation:sway 9s ease-in-out infinite alternate}@keyframes sway{from{--x:46%}to{--x:70%}}}
 /* features: one per band; the number, label and heading stack, and the mock's top meets the heading's */
 .faces{padding:0}
 .band{position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:64px;padding:96px 40px 120px;max-width:1280px;margin:0 auto;border-top:1px solid var(--line);--numh:calc(clamp(72px,10vw,132px) * .9)}
@@ -359,16 +361,16 @@ html[data-mode=dark] .frame{background:#0a0a0a}
 .os b{font-size:28px;font-weight:600;letter-spacing:-.02em}
 .os small{font-size:13px;color:var(--ink3)}
 .os .file{font:12px/1 var(--mono);color:var(--ink2);margin-top:12px}
+a.os{color:inherit}a.os:hover{background:var(--card2)}
 .os.soon>*{opacity:.5}
 /* cards are frosted white: translucent, so the background shows softly through. --card for cards, --card2 for the notice,
    --card3 for the community cards (lighter still). Highlights (hover, the header, the active pill) are the data band's
    deep teal at low opacity: --hl for a hover, --hl2 for something chosen or held */
 :root{--card:rgba(255,255,255,.58);--card2:rgba(255,255,255,.7);--card3:rgba(255,255,255,.4);--card-blur:blur(6px);
 --hl:color-mix(in srgb,var(--deep) 4%,transparent);--hl2:color-mix(in srgb,var(--deep) 8%,transparent)}
-/* --chrome: the colour of the hero's page face as rendered (paper with the drawing over it), for the header and menus.
-   --qr: the colour of the slash's face as rendered, for the QR codes */
-:root{--chrome:#f2f5f3;--qr:#2a454a}
-html[data-mode=dark]{--chrome:#0d171a;--qr:#cad8d4}
+/* --chrome: the colour of the hero's page face as rendered (paper with the drawing over it), for the header and menus. */
+:root{--chrome:#f2f5f3}
+html[data-mode=dark]{--chrome:#0d171a}
 /* a highlight is a tinted panel set in from the edge of its button or card. The inset is the same on all four sides and
    is 2% of the element's shorter side (1-4px), set by script on hover (--hli). It fades in and out; nothing moves */
 @property --hla{syntax:"<color>";inherits:false;initial-value:transparent}
@@ -405,8 +407,9 @@ html[data-mode=dark]{--card:rgba(16,36,42,.58);--card2:rgba(16,36,42,.72);--card
 .ch b{font-weight:600}
 .cc p{font-size:14px;color:var(--ink3)}
 .qr{margin:8px 0 0;width:132px}
-.qrm{display:block;width:132px;height:132px;padding:5px;background:transparent;border:1px solid var(--line);position:relative}
-.qrm::after{content:"";position:absolute;inset:5px;background:var(--qr);-webkit-mask:var(--q) center/contain no-repeat;mask:var(--q) center/contain no-repeat}
+/* the codes are full-colour images (each platform's colour, its logo in the middle) on white, so they can be pressed and held to save */
+.qrm{display:block;width:132px;height:132px;background:#fff;border:1px solid var(--line);position:relative}
+.qrm img{display:block;position:absolute;inset:0;width:100%;height:100%;-webkit-touch-callout:default;-webkit-user-select:auto;user-select:auto}
 
 .qr figcaption{margin-top:6px;font:500 10.5px/1 var(--mono);letter-spacing:.12em;color:var(--ink3)}
 .qr.empty{height:132px;display:grid;place-items:center;border:1px dashed var(--line2);font:500 11px/1.4 var(--mono);color:var(--ink3);text-align:center;padding:10px}
@@ -438,9 +441,141 @@ opacity:0;transform:translateY(14px) scale(.6);pointer-events:none;transition:op
 body>footer a:hover{color:var(--ink)}
 body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1px solid var(--line);font-size:12px;color:var(--ink3)}
 @media (max-width:980px){.face footer{font-size:10px;letter-spacing:.08em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}.refs{grid-template-columns:1fr;padding:0 24px;width:auto}.langsel{margin-left:auto}.band{grid-template-columns:1fr;padding:72px 24px 96px}.band:nth-child(even) .txt{order:0}.band .vis{padding-top:0}.trust .grid,.strip,.dl .box{grid-template-columns:1fr}.pmenu,.nav a{display:none}.frame,.pills{display:none}.hero .bar{flex-direction:column;align-items:flex-start}.hero .side{display:none}.intro ul{grid-template-columns:1fr}.face{padding:20vh 24px 36vh}.face p{font-size:19px}.hero .ttl .b{bottom:34vh}
-.mk-body.learn{grid-template-columns:40px 1fr}.mk-learn{grid-column:1/-1;padding:0 12px 14px}.lcard{position:static;transform:none!important}
-.mock{aspect-ratio:auto}.cgrid{grid-template-columns:1fr}.cc+.cc,.os+.os{border-left:0;border-top:1px solid var(--line)}.mk-body.notes{grid-template-columns:40px 1fr;height:auto}.mk-scroll{height:280px}.mk-margin{grid-column:1/-1;order:2;padding:12px;display:grid;gap:6px}.mk-margin .nc{position:relative;left:0;right:0}.nc-more{display:none}.mk-links{display:none}
-.mk-body.lib{grid-template-columns:40px 1fr}.mk-side{display:none}.mk-row{grid-template-columns:16px 1fr 58px 28px}.mk-row>span:nth-child(4),.mk-row>span:nth-child(7){display:none}.mk-top .mk-tool,.mk-top .mk-seg{display:none}}
+.mock.lib{aspect-ratio:auto}.cgrid{grid-template-columns:1fr}.cc+.cc,.os+.os{border-left:0;border-top:1px solid var(--line)}.mk-body.lib{grid-template-columns:40px 1fr}.mk-side{display:none}.mk-row{grid-template-columns:16px 1fr 58px 28px}.mk-row>span:nth-child(4),.mk-row>span:nth-child(7){display:none}.mk-top .mk-tool,.mk-top .mk-seg{display:none}}
+/* text variants: pointer vs touch, wide vs narrow */
+.ht,.nw,.mshot,.mnav{display:none}
+@media (hover:none){.hp{display:none}.ht{display:inline}}
+/* phone menu */
+.mbtn{width:44px;height:44px;display:grid;place-content:center;gap:5px;background:none;border:0;padding:0;color:var(--ink2);cursor:pointer}
+.mbtn i{display:block;width:18px;height:1.5px;background:currentColor;transition:transform .18s var(--ease)}
+.mnav.open .mbtn i:first-child{transform:translateY(3.25px) rotate(45deg)}
+.mnav.open .mbtn i:last-child{transform:translateY(-3.25px) rotate(-45deg)}
+.msheet{position:fixed;left:0;right:0;top:64px;max-height:calc(100svh - 64px);overflow:auto;overscroll-behavior:contain;padding:4px 24px 28px;background:var(--chrome);border-bottom:1px solid var(--line);box-shadow:0 30px 60px -30px rgba(0,0,0,.35);
+  opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .18s var(--ease),transform .18s var(--ease),visibility 0s linear .18s}
+.mnav.open .msheet{opacity:1;visibility:visible;transform:none;transition:opacity .18s var(--ease),transform .18s var(--ease),visibility 0s}
+.msheet a{display:flex;align-items:center;justify-content:space-between;height:54px;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:17px;font-weight:500}
+.msheet a::after{content:"/";color:var(--accent);font-weight:300;font-size:20px}
+.msheet a small{margin-left:auto;margin-right:14px;font:500 11px/1 var(--mono);letter-spacing:.08em;color:var(--ink3)}
+.msheet .ph{margin:24px 0 8px;font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.mp{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:15px;color:var(--ink2)}
+.mp b{font-weight:600;color:var(--ink)}
+.mp i{font:500 10.5px/1.7 var(--mono);font-style:normal;padding:0 6px;border:1px solid var(--line);color:var(--ink3)}
+.mp.on i{border-color:var(--accent);color:var(--accent)}
+#hd:has(.mnav.open){background:var(--chrome);border-color:var(--line)}
+@media (max-width:980px){
+  .mnav{display:block}.wd{display:none}.nw{display:inline}
+  .mshot{display:block;width:min(720px,calc(100vw - 40px));margin:28px auto 0;border:1px solid var(--line);box-shadow:0 30px 70px -36px rgba(0,0,0,.45);background:#fff}
+  .mshot img{display:block;width:100%;height:auto}
+}
+@media (max-width:760px){
+  .wrap{padding:0 20px}
+  .nav a.napply{height:32px;margin:0 4px 0 0;padding:0 12px;font-size:13px}
+  .langsel .lbtn,.modebtn{width:40px;height:44px}
+  /* hero: a steep slash. It rests under the English quotation and sweeps up to show the Chinese (script: flip mode) */
+  .hero{--k:260%;--x:240%;min-height:600px}
+  .divider{height:320vh}
+  .face{padding:142px 20px calc(var(--barh,190px) + 104px)}
+  .face p{font-size:18px;line-height:1.55}
+  .hero .ttl{font-size:60px}
+  .hero .ttl .a{left:20px;top:82px}
+  .hero .ttl .b{right:20px;bottom:calc(var(--barh,190px) + 18px)}
+  .hero .bar{padding:0 20px 24px}
+  .intro .ld{font-size:16px}
+  .intro ul{grid-template-columns:auto auto;gap:2px 22px;font-size:13px}
+  .intro li span{display:none}
+  .hero .cta{margin-top:16px;flex-wrap:nowrap;width:100%}
+  .hero .bar>div{width:100%}
+  .hero .cta .btn{flex:1 1 auto;justify-content:center;padding:0 14px;white-space:nowrap;background:var(--accent);border-color:var(--accent);color:var(--paper)}
+  .hero .cta .btn.alt{background:var(--paper);border-color:var(--line2);color:var(--ink)}
+  /* features */
+  .band{padding:56px 20px 72px;gap:28px;--numh:58px}
+  .band .num{font-size:64px;margin-bottom:14px}
+  .band h3{margin-top:14px;font-size:40px}
+  .band .d{font-size:19px}
+  .band ul{margin-top:20px;gap:10px}
+  .band li{font-size:14.5px}
+  /* 01 and 02 stay side by side, as in the app: the text column, and the card or note column beside it */
+  .mock.learn,.mock.notes{aspect-ratio:4/5}
+  .mk-body.learn{grid-template-columns:24px 1fr 42%}
+  .mk-body.notes{grid-template-columns:24px 40% 1fr}
+  .mock .mk-rail{gap:8px}.mock .mk-rail i{width:9px;height:9px}
+  .mock.learn .mk-paper{padding:10px 10px}
+  .mock .lcard{right:8px;padding:7px 8px}
+  .mk-scroll .mk-paper{padding:10px 10px 90px 16px}
+  .mock .nc{left:6px;right:8px}
+  .nc-more{left:6px;right:8px}
+  .themes{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:14px -20px 0;padding:0 20px 2px}
+  .themes::-webkit-scrollbar{display:none}
+  .themes .k,.sw{flex:none}
+  .sw{height:36px;padding:0 10px 0 6px;font-size:12px}
+  /* sections */
+  .demo,.trust{padding:72px 0}
+  .series{padding:72px 0 56px}
+  .dl,.community{padding-bottom:72px}
+  .demo h2,.series h2,.dl h2,.community h2{font-size:32px}
+  .trust h2{font-size:34px}
+  .trust .grid{margin-top:36px;gap:28px}
+  .trust .fmt{margin-top:36px;display:grid;gap:6px}
+  .refs{padding:0 20px;font-size:11px}
+  .strip>div{padding:28px 20px 32px}
+  .strip h3{font-size:34px}
+  .notice{padding:22px 20px}
+  .notice .btn{width:100%;justify-content:center}
+  .os{padding:26px 20px}
+  /* community cards: text and link on the left, the code on the right */
+  .cc{display:grid;grid-template-columns:1fr 108px;align-content:start;gap:8px 16px;padding:22px 20px}
+  .cc>.qr{grid-column:2;grid-row:1/span 3;margin:0;width:108px}
+  .cc .qrm{width:108px;height:108px}
+  .cc .qr figcaption{text-align:center}
+  .cc .btn{margin-top:4px}
+  :root{--card-blur:none}
+  body>footer{padding:36px 0 44px}
+  body>footer a{margin:0 20px 0 0;min-height:44px}
+  .totop{right:16px;bottom:16px}
+}
+/* release page */
+.rall{display:inline-block;margin-top:16px;font-size:14px;color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 40%,transparent);transition:border-color .15s}
+.rall:hover{border-color:var(--accent)}
+.rel{padding:140px 0 100px}
+.rel h1{font:600 clamp(36px,5vw,64px)/1.05 var(--sans);letter-spacing:-.04em;margin:18px 0 12px}
+.rel .sub{font-size:17px;color:var(--ink2);max-width:640px}
+.rlatest{margin-top:40px;padding:28px 32px;border:1px solid var(--line);border-left:3px solid var(--accent);background:var(--card2);-webkit-backdrop-filter:var(--card-blur);backdrop-filter:var(--card-blur)}
+.rlatest .k{font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.rlatest .k em{font-style:normal;text-transform:none}
+.rdl{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.rdl .btn{height:auto;min-height:52px;padding:8px 20px;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;font-size:15px}
+.rdl .btn small{font-weight:400;font-size:12px;opacity:.72}
+.rlatest p{margin-top:16px;font-size:13.5px;line-height:1.7;color:var(--ink3)}
+.rlatest p a{color:var(--accent);text-decoration:none}
+.rlist{margin-top:56px;border-top:1px solid var(--line)}
+.ritem{display:grid;grid-template-columns:180px 1fr;gap:32px;padding:44px 0;border-bottom:1px solid var(--line);scroll-margin-top:80px}
+.rmeta b{display:block;font:600 30px/1 var(--sans);letter-spacing:-.03em}
+.rmeta time{display:block;margin-top:10px;font:12px/1 var(--mono);color:var(--ink3)}
+.rmeta i{display:inline-block;margin-top:12px;font:500 10.5px/1.7 var(--mono);font-style:normal;padding:0 7px;border:1px solid var(--accent);color:var(--accent);letter-spacing:.06em}
+.rbody{min-width:0;max-width:760px}
+.rlead{font:400 18px/1.6 var(--serif);color:var(--ink)}
+.rchg{margin-top:6px;font-size:15px;line-height:1.7;color:var(--ink2)}
+.rchg h4{margin:22px 0 8px;font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.rchg p{margin-top:10px}
+.rchg ul{margin:0;padding:0;list-style:none}
+.rchg li{position:relative;padding-left:20px;margin:5px 0}
+.rchg li::before{content:"/";position:absolute;left:0;color:var(--accent);font-weight:300}
+.rchg li li{font-size:14px;color:var(--ink3);margin:3px 0}
+.rchg li li::before{content:"–";color:var(--ink3)}
+.rchg b,.rlead b{color:var(--ink);font-weight:600}
+.rchg a,.rlead a{color:var(--accent)}
+.rchg code,.rlead code{font:.88em var(--mono);padding:0 4px;background:var(--hl2)}
+.rchg pre{margin:8px 0;padding:10px 14px;background:var(--hl2);overflow-x:auto;font:13px/1.6 var(--mono)}
+.rgone{margin-top:20px;font:12px/1.6 var(--mono);color:var(--ink3)}
+.rassets:empty{display:none}
+.rassets{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}
+.rassets a{display:inline-flex;align-items:center;gap:10px;min-height:40px;padding:0 14px;border:1px solid var(--line2);text-decoration:none;font-size:13.5px;font-weight:500;color:var(--ink);transition:border-color .15s}
+.rassets a:hover{border-color:var(--ink)}
+.rassets span{font:12px var(--mono);font-weight:400;color:var(--ink2)}
+.rassets small{font:11px var(--mono);color:var(--ink3)}
+@media (max-width:760px){.rel{padding:96px 0 64px}.rlatest{padding:22px 20px}.rdl .btn{width:100%}
+  .ritem{grid-template-columns:1fr;gap:14px;padding:32px 0}.rmeta{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 14px}.rmeta time,.rmeta i{margin-top:0}
+  .rassets a{width:100%}.rassets span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}.rassets small{margin-left:auto}}
 @media (prefers-reduced-motion:reduce){.hero .ttl .a,.hero .ttl .b{opacity:1;transform:none;animation:none;transition:none}.hero{animation:none}}
 </style>
 </head>
@@ -453,10 +588,13 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
       <div class="pi"><span class="dot"></span><b>Studio</b><i>In development</i><p>Research ideation and visual workflow orchestration</p></div>
       <div class="pi"><span class="dot"></span><b>Bot</b><i>In development</i><p>Personal research assistant and task automation</p></div>
     </div></div>
-  <nav class="nav"><a href="#faces">Features</a><a href="#demo">Demo</a><a href="#trust">Data</a><a href="#download">Download</a><a href="#community">Beta</a><a href="https://github.com/SlashSci/slashsci/issues" target="_blank" rel="noopener">Feedback</a>
+  <nav class="nav"><a href="#faces">Features</a><a href="#demo">Demo</a><a href="#trust">Data</a><a href="#download">Download</a><a href="#community">Beta</a><a href="https://github.com/SlashSci/slashsci/issues" target="_blank" rel="noopener">Feedback</a><a class="napply" href="https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ" target="_blank" rel="noopener">Apply</a>
     <div class="langsel dd" id="langsel"><button type="button" class="lbtn ddbtn" aria-haspopup="true" aria-expanded="false" aria-label="Language" title="Language"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="6.3"/><path d="M1.7 8h12.6M8 1.7c-2.2 2.1-2.2 10.5 0 12.6M8 1.7c2.2 2.1 2.2 10.5 0 12.6"/></svg></button>
       <div class="menu"><a hreflang="zh-Hans" data-lang="zh" href="../">简体中文</a><a hreflang="zh-Hant" data-lang="zh-hant" href="../zh-hant/">繁體中文</a><a class="on" hreflang="en" data-lang="en" href="../en/">English</a></div></div>
-    <button type="button" class="modebtn" id="modebtn" aria-label="Toggle light / dark" title="Toggle light / dark"><svg class="i-sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1.5v1.6M8 12.9v1.6M1.5 8h1.6M12.9 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1"/></svg><svg class="i-moon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" aria-hidden="true"><path d="M13.2 10.1A5.6 5.6 0 0 1 5.9 2.8a5.6 5.6 0 1 0 7.3 7.3z"/></svg></button></nav>
+    <button type="button" class="modebtn" id="modebtn" aria-label="Toggle light / dark" title="Toggle light / dark"><svg class="i-sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1.5v1.6M8 12.9v1.6M1.5 8h1.6M12.9 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1"/></svg><svg class="i-moon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" aria-hidden="true"><path d="M13.2 10.1A5.6 5.6 0 0 1 5.9 2.8a5.6 5.6 0 1 0 7.3 7.3z"/></svg></button>
+    <div class="mnav dd" id="mnav"><button type="button" class="mbtn ddbtn" aria-haspopup="true" aria-expanded="false" aria-label="Menu"><i></i><i></i></button>
+      <div class="msheet"><a href="#faces">Features</a><a href="#demo">Demo</a><a href="#trust">Data</a><a href="#download">Download</a><a href="#community">Beta</a><a href="https://github.com/SlashSci/slashsci/issues" target="_blank" rel="noopener">Feedback<small>GitHub ↗</small></a>
+        <div class="ph">The SlashSci series</div><div class="mp on"><b>Library</b><i>In beta</i></div><div class="mp"><b>Studio</b><i>In development</i></div><div class="mp"><b>Bot</b><i>In development</i></div></div></div></nav>
 </div></header>
 
 <main>
@@ -467,8 +605,8 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
   <div class="divider" id="div"></div>
   <div class="bar">
     <div><div class="intro"><p class="nm">/ SlashSci Library</p><p class="ld">Literature management, rebuilt for the AI era</p>
-      <ul><li><b>Block-level</b>papers as structured data, not PDFs</li><li><b>Immersive</b>sentence-by-sentence translation, anchored notes</li><li><b>Local-first</b>every file stays on your machine</li><li><b>Agent-ready</b>built-in MCP for direct model access</li></ul></div>
-      <div class="cta"><a class="btn" href="#community">Join the beta</a><a class="btn alt" href="#demo">Try it in the browser</a></div></div>
+      <ul><li><b>Block-level</b><span>papers as structured data, not PDFs</span></li><li><b>Immersive</b><span>sentence-by-sentence translation, anchored notes</span></li><li><b>Local-first</b><span>every file stays on your machine</span></li><li><b>Agent-ready</b><span>built-in MCP for direct model access</span></li></ul></div>
+      <div class="cta"><a class="btn" href="https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ" target="_blank" rel="noopener">Join the beta</a><a class="btn alt" href="#demo">Try it in the browser</a></div></div>
     <p class="side">SlashSci Library · Beta 0.1<br>macOS (Apple silicon) · Windows 64-bit</p>
   </div>
 </section>
@@ -487,7 +625,7 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
     </div>
     <div class="mk-learn"><div class="lcard" id="mlearn-c"><div class="zh"></div><div class="vk"><small>Key words</small><div class="chips"></div></div></div></div>
   </div>
-</div><p class="hint">/ Move the pointer over any sentence</p></div>
+</div><p class="hint">/ <span class="hp">Move the pointer over any sentence</span><span class="ht">Tap any sentence</span></p></div>
   </article>
   <article class="band rv">
     <div class="txt"><span class="num">02</span><span class="job">Anchored annotation</span><h3>Capture</h3><p class="d">Every thought, anchored to the source.</p>
@@ -519,7 +657,7 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
     </div></div>
     <svg class="mk-links" aria-hidden="true"></svg>
   </div>
-</div><p class="hint">/ Scroll the text: notes follow their passages and stack. Click one to jump to it</p></div>
+</div><p class="hint">/ <span class="hp">Scroll the text: notes follow their passages and stack. Click one to jump to it</span><span class="ht">Swipe the text: notes follow their passages and stack. Tap one to jump to it</span></p></div>
   </article>
   <article class="band rv">
     <div class="txt"><span class="num">03</span><span class="job">A local library</span><h3>Command</h3><p class="d">Your data stays local; your search stays instant.</p>
@@ -563,13 +701,14 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
     </div>
   </div>
 </div></div>
-      <div class="themes"><span class="k">Themes</span><button type="button" class="sw" data-id="geist" data-mode="light" style="--a:#ffffff;--b:#171717;--c:#0a6cf0" title="Plain"><i></i>Plain</button><button type="button" class="sw" data-id="paper" data-mode="light" style="--a:#fbf9f4;--b:#23221f;--c:#1f6b63" title="Paper"><i></i>Paper</button><button type="button" class="sw" data-id="mint" data-mode="light" style="--a:#fcfaf4;--b:#1d2422;--c:#0b7a62" title="Mint"><i></i>Mint</button><button type="button" class="sw" data-id="apricot" data-mode="light" style="--a:#fffcf8;--b:#333333;--c:#c4693a" title="Almond"><i></i>Almond</button><button type="button" class="sw" data-id="aurora" data-mode="light" style="--a:#ffffff;--b:#18181b;--c:#1677e6" title="Aurora"><i></i>Aurora</button><button type="button" class="sw" data-id="navy" data-mode="light" style="--a:#ffffff;--b:#16263b;--c:#e0491a" title="Navy"><i></i>Navy</button><button type="button" class="sw" data-id="geist-dark" data-mode="dark" style="--a:#0a0a0a;--b:#ededed;--c:#47a8ff" title="Noir"><i></i>Noir</button><button type="button" class="sw" data-id="gold" data-mode="dark" style="--a:#1b202b;--b:#ece6d8;--c:#c9a55c" title="Gold"><i></i>Gold</button><button type="button" class="sw" data-id="nebula" data-mode="dark" style="--a:#0d0b1a;--b:#e8e5f6;--c:#9d85ff" title="Nebula"><i></i>Nebula</button><button type="button" class="sw" data-id="ink" data-mode="dark" style="--a:#1c1d1f;--b:#e6e3dc;--c:#6fc2b4" title="Ink"><i></i>Ink</button></div><p class="hint">/ Ten themes rotate with the time of day; hover a swatch to preview</p></div>
+      <div class="themes"><span class="k">Themes</span><button type="button" class="sw" data-id="geist" data-mode="light" style="--a:#ffffff;--b:#171717;--c:#0a6cf0" title="Plain"><i></i>Plain</button><button type="button" class="sw" data-id="paper" data-mode="light" style="--a:#fbf9f4;--b:#23221f;--c:#1f6b63" title="Paper"><i></i>Paper</button><button type="button" class="sw" data-id="mint" data-mode="light" style="--a:#fcfaf4;--b:#1d2422;--c:#0b7a62" title="Mint"><i></i>Mint</button><button type="button" class="sw" data-id="apricot" data-mode="light" style="--a:#fffcf8;--b:#333333;--c:#c4693a" title="Almond"><i></i>Almond</button><button type="button" class="sw" data-id="aurora" data-mode="light" style="--a:#ffffff;--b:#18181b;--c:#1677e6" title="Aurora"><i></i>Aurora</button><button type="button" class="sw" data-id="navy" data-mode="light" style="--a:#ffffff;--b:#16263b;--c:#e0491a" title="Navy"><i></i>Navy</button><button type="button" class="sw" data-id="geist-dark" data-mode="dark" style="--a:#0a0a0a;--b:#ededed;--c:#47a8ff" title="Noir"><i></i>Noir</button><button type="button" class="sw" data-id="gold" data-mode="dark" style="--a:#1b202b;--b:#ece6d8;--c:#c9a55c" title="Gold"><i></i>Gold</button><button type="button" class="sw" data-id="nebula" data-mode="dark" style="--a:#0d0b1a;--b:#e8e5f6;--c:#9d85ff" title="Nebula"><i></i>Nebula</button><button type="button" class="sw" data-id="ink" data-mode="dark" style="--a:#1c1d1f;--b:#e6e3dc;--c:#6fc2b4" title="Ink"><i></i>Ink</button></div><p class="hint">/ <span class="hp">Ten themes rotate with the time of day; hover a swatch to preview</span><span class="ht">Ten themes rotate with the time of day; tap a swatch to preview</span></p></div>
   </article>
 </section>
 
 <section class="demo" id="demo">
-  <div class="wrap" style="text-align:center"><div class="label rv" style="justify-content:center"><b>/</b> Live demo</div><h2 class="rv d1">Try it now</h2><p class="sub rv d2">The window runs the real Library. It demonstrates itself first; move your mouse and it hands over to you.</p></div>
+  <div class="wrap" style="text-align:center"><div class="label rv" style="justify-content:center"><b>/</b> Live demo</div><h2 class="rv d1">Try it now</h2><p class="sub rv d2"><span class="wd">The window runs the real Library. It demonstrates itself first; move your mouse and it hands over to you.</span><span class="nw">This is Library's real reading view. Open this page on a computer to try it hands-on in the demo window.</span></p></div>
   <div class="pills"><span id="pill-note">Live notes, stacking as you read</span><span id="pill-tr">Immersive translation on hover</span></div>
+  <picture class="mshot"><source media="(min-width:981px)" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><img src="/img/app-m-en/.jpg" alt="Library's reading view: immersive mode, margin notes and paper details" width="1200" height="750" loading="lazy" decoding="async"></picture>
   <div class="frame" id="frame"><iframe id="appframe" title="SlashSci Library demo" data-src="/app/?lang=en&tour=1#bunne-2024-build-697e,vaswani-2017-attention-c68d"></iframe></div>
   <div class="refs"><span class="rk">Papers in the demo</span>
     <ol>
@@ -602,15 +741,17 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
 <section class="dl" id="download"><div class="wrap">
   <div class="label rv"><b>/</b> Download</div>
   <h2 class="rv d1">Download and install</h2>
-  <div class="notice rv"><div><span class="k">/ Closed beta · macOS and Windows</span><p>SlashSci Library is in a small closed beta, now on both macOS (Apple silicon) and Windows (64-bit). So that every piece of feedback gets a prompt answer, builds are not publicly downloadable yet; they are shared through the beta community. Join any of the groups to get the latest build, install guidance and update notices.</p></div><a class="btn" href="#community">Join the beta community →</a></div>
+  <div class="notice rv"><div><span class="k">/ Alpha beta · activation code required</span><p>SlashSci Library is in a small alpha beta. The macOS (Apple silicon) and Windows (64-bit) installers can be downloaded freely; during the beta the app needs an activation code. Apply for the beta (about 3 minutes), and once you are approved the code is sent to the email address you gave.</p></div><a class="btn" href="https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ" target="_blank" rel="noopener">Apply for the beta →</a></div>
   <div class="box">
-    <div class="os rv"><b>macOS</b><small>Apple silicon · macOS 13 or later</small><span class="file">Available to beta members</span></div>
-    <div class="os rv d1"><b>Windows</b><small>64-bit · Windows 10 or later</small><span class="file">Available to beta members</span></div>
+    <a class="os rv" href="/en/releases/"><b>macOS</b><small>Apple silicon · macOS 13 or later</small><span class="file">Go to downloads →</span></a>
+    <a class="os rv d1" href="/en/releases/"><b>Windows</b><small>64-bit · Windows 10 or later</small><span class="file">Go to downloads →</span></a>
   </div>
+  <a class="rall rv d2" href="/en/releases/">All versions and release notes →</a>
   <p class="how rv d2">Installing the beta</p>
   <ol class="steps rv d2">
     <li><b>Mac</b>: open the .dmg and drag SlashSci into Applications. If macOS says it can't verify the developer, go to System Settings → Privacy &amp; Security and click “Open Anyway”. If it says the app “is damaged and can't be opened”, run <code>xattr -cr /Applications/SlashSci.app</code> in Terminal, then open it again.</li>
     <li><b>Windows</b>: double-click the .exe. If the blue “Windows protected your PC” screen appears, click “More info”, then “Run anyway”.</li>
+    <li><b>Activate</b>: the first time you open the app it shows the activation page; enter the email the code was sent to, paste the code starting with SLASHSCI-, and click “Activate”.</li>
     <li>When a new version is out, an “Update” button appears on the left of the app; click it to download.</li>
   </ol>
 </div></section>
@@ -622,30 +763,29 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
   <div class="cgrid">
     <div class="cc rv" style="--bc:#5865f2">
       <div class="ch"><i></i><b>Discord</b></div><p>Scan or follow the link to join the Discord community</p>
-      <figure class="qr"><span class="qrm" role="img" aria-label="Discord Scan to join" style="--q:url(/img/qr-discord.png)"></span><figcaption>Scan to join</figcaption></figure>
+      <figure class="qr"><span class="qrm"><img src="/img/qr-discord.png?v=0d830dde" alt="Discord Scan to join" width="480" height="480" loading="lazy" decoding="async"></span><figcaption><span class="hp">Scan to join</span><span class="ht">Hold to save</span></figcaption></figure>
       <a class="btn alt" href="https://discord.com/invite/ewNMAHvWsp" target="_blank" rel="noopener">Join Discord →</a>
     </div>
     <div class="cc rv d1" style="--bc:#07c160">
-      <div class="ch"><i></i><b>WeChat</b></div><p>Scan with WeChat to join the beta group</p>
-      <figure class="qr"><span class="qrm" role="img" aria-label="WeChat Scan to join" style="--q:url(/img/qr-wechat.png)"></span><figcaption>Scan to join</figcaption></figure>
+      <div class="ch"><i></i><b>WeChat</b></div><p><span class="hp">Scan with WeChat to join the beta group</span><span class="ht">Press and hold the code to save it, then scan it from your photos in WeChat</span></p>
+      <figure class="qr"><span class="qrm"><img src="/img/qr-wechat.png?v=e23fc182" alt="WeChat Scan to join" width="480" height="480" loading="lazy" decoding="async"></span><figcaption><span class="hp">Scan to join</span><span class="ht">Hold to save</span></figcaption></figure>
       
     </div>
     <div class="cc rv d2" style="--bc:#ff2442">
       <div class="ch"><i></i><b>Xiaohongshu</b></div><p>Scan or follow the link to the Xiaohongshu group</p>
-      <figure class="qr"><span class="qrm" role="img" aria-label="Xiaohongshu Scan to join" style="--q:url(/img/qr-xhs.png)"></span><figcaption>Scan to join</figcaption></figure>
+      <figure class="qr"><span class="qrm"><img src="/img/qr-xhs.png?v=b0942cdd" alt="Xiaohongshu Scan to join" width="480" height="480" loading="lazy" decoding="async"></span><figcaption><span class="hp">Scan to join</span><span class="ht">Hold to save</span></figcaption></figure>
       <a class="btn alt" href="http://xhslink.com/m/MAL0EEu5FS" target="_blank" rel="noopener">Join the Xiaohongshu group →</a>
     </div>
   </div>
 </div></section>
 </main>
-<footer><div class="wrap"><span class="big"><img src="/img/logo.svg" alt="">SlashSci</span><span><a href="https://github.com/SlashSci/slashsci/issues" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Feedback</a><a href="https://github.com/SlashSci/slashsci/releases" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Releases</a></span><p class="copy">© 2026 SlashSci. All rights reserved.</p></div></footer>
+<footer><div class="wrap"><span class="big"><img src="/img/logo.svg" alt="">SlashSci</span><span><a href="https://github.com/SlashSci/slashsci/issues" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Feedback</a><a href="/en/releases/"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M5.5 4h8M5.5 8h8M5.5 12h8"/><circle cx="2.6" cy="4" r=".6" fill="currentColor"/><circle cx="2.6" cy="8" r=".6" fill="currentColor"/><circle cx="2.6" cy="12" r=".6" fill="currentColor"/></svg>Releases</a></span><p class="copy">© 2026 SlashSci. All rights reserved.</p></div></footer>
 <button type="button" class="totop" id="totop" aria-label="Back to top" title="Back to top"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5"/></svg></button>
 <div class="cdot" id="cdot" aria-hidden="true"></div>
 
 <script>
 (function(){
   var RM = matchMedia("(prefers-reduced-motion: reduce)").matches, IS_ROOT = false, ROOT = document.documentElement;
-  var NARROW = function(){ return matchMedia("(max-width: 980px)").matches; };
   var esc = function(s){ return String(s).replace(/[<>&]/g, function(c){ return {"<":"&lt;",">":"&gt;","&":"&amp;"}[c]; }); };
   var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }); }, {threshold:.15});
   document.querySelectorAll(".rv").forEach(function(el){ io.observe(el); });
@@ -705,13 +845,15 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
     el._hli = 1; var r = el.getBoundingClientRect(); el.style.setProperty("--hli", Math.max(1, Math.min(4, Math.round(Math.min(r.width, r.height) * .02))) + "px");
   }, {passive:true});
   // ---- header dropdowns: open on hover or click; leaving closes after a grace period, so the pointer can cross to the menu ----
-  var dds = [].slice.call(document.querySelectorAll(".dd")), lastPointer = "mouse";
+  var dds = [].slice.call(document.querySelectorAll(".dd")), lastPointer = "mouse", mnav = document.getElementById("mnav");
+  mnav.querySelector(".msheet").addEventListener("click", function(e){ if (e.target.closest("a")) shut(mnav); });
+  new MutationObserver(function(){ inv(); }).observe(mnav, {attributes:true, attributeFilter:["class"]});
   document.addEventListener("pointerdown", function(e){ lastPointer = e.pointerType; }, {capture:true, passive:true});
   var shut = function(dd){ clearTimeout(dd._t); dd.classList.remove("open"); dd.querySelector(".ddbtn").setAttribute("aria-expanded", "false"); };
   var open = function(dd){ clearTimeout(dd._t); dds.forEach(function(o){ if (o !== dd) shut(o); }); dd.classList.add("open"); dd.querySelector(".ddbtn").setAttribute("aria-expanded", "true"); };
   dds.forEach(function(dd){
-    dd.addEventListener("pointerenter", function(e){ if (e.pointerType !== "touch") open(dd); });
-    dd.addEventListener("pointerleave", function(e){ if (e.pointerType !== "touch") { clearTimeout(dd._t); dd._t = setTimeout(function(){ shut(dd); }, 300); } });
+    dd.addEventListener("pointerenter", function(e){ if (e.pointerType !== "touch" && dd !== mnav) open(dd); });
+    dd.addEventListener("pointerleave", function(e){ if (e.pointerType !== "touch" && dd !== mnav) { clearTimeout(dd._t); dd._t = setTimeout(function(){ shut(dd); }, 300); } });
     // a mouse click on a hovered button keeps it open; touch and keyboard toggle
     dd.querySelector(".ddbtn").addEventListener("click", function(){ if (dd.classList.contains("open") && lastPointer !== "mouse") shut(dd); else open(dd); lastPointer = ""; });
   });
@@ -795,14 +937,22 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
   var HOLD = 8000, qi;
   function turn(){
     if (!heroSeen || document.hidden) { setTimeout(turn, 1500); return; }   // only turn while the hero is on screen
-    playQuote("out").then(function(){ qi = (qi + 1) % QUOTES.length; show(qi); return playQuote("in"); }).then(function(){ setTimeout(turn, HOLD); });
+    // flip mode: halfway through each quotation the slash sweeps to the Chinese side (like the pointer-driven slash,
+    // this runs with reduced motion on too: it is one sweep per quotation, not a loop)
+    if (FLIPM && side === "en") { setSide("zh"); setTimeout(turn, HOLD / 2); return; }
+    playQuote("out").then(function(){ qi = (qi + 1) % QUOTES.length; show(qi); if (FLIPM && side !== "en") setSide("en"); return playQuote("in"); })
+      .then(function(){ setTimeout(turn, FLIPM ? HOLD / 2 : HOLD); });
   }
 
   // ---- hero: the slash follows the pointer across its whole range. The range is measured from the quotation:
   // at the left end the slash's face shows the whole Chinese text, at the right end the page face shows the whole English.
-  var div = document.getElementById("div"), qBox = document.querySelector(".face.en blockquote");
-  var invEls = [].slice.call(document.querySelectorAll("#hd .ptrig, #hd .nav > a, #hd .langsel, #hd .modebtn")), invX = [];
+  var bar = hero.querySelector(".bar"), div = document.getElementById("div"), qBox = document.querySelector(".face.en blockquote");
+  var invEls = [].slice.call(document.querySelectorAll("#hd .ptrig, #hd .nav > a:not(.napply), #hd .langsel, #hd .modebtn, #hd .mbtn")), invX = [];
   var W = 1, H = 1, xmin = .2, xmax = .9, target = .56, cur = .56, raf = 0;
+  // flip mode (touch screens and phones): no pointer to follow, so the slash rests on one side of the quotation and
+  // sweeps to the other once per quotation, or when the hero is tapped. Phones use a steep slash (K: run over height).
+  var K = .22, FLIPM = false, side = "en";
+  var PHONE = matchMedia("(max-width: 760px)"), TOUCH = matchMedia("(hover: none)");
   function fitQuotes(){
     document.querySelectorAll(".face blockquote").forEach(function(bq){
       bq.style.width = "";
@@ -812,26 +962,30 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
         for (var i = 0; i < rs.length; i++) if (rs[i].width) { L = Math.min(L, rs[i].left); R = Math.max(R, rs[i].right); }
       });
       var cs = getComputedStyle(bq), pad = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
-      if (R > L) bq.style.width = Math.ceil(R - L + pad + 2) + "px";
+      var fc = getComputedStyle(bq.parentNode), room = bq.parentNode.clientWidth - parseFloat(fc.paddingLeft) - parseFloat(fc.paddingRight) + pad;   // never wider than the face (a one-line citation can be)
+      if (R > L) bq.style.width = Math.ceil(Math.min(room, R - L + pad + 2)) + "px";
     });
   }
   function bounds(){
     fitQuotes();
-    W = hero.clientWidth; H = hero.clientHeight;
+    W = hero.clientWidth; H = hero.clientHeight; K = PHONE.matches ? 2.6 : .22; FLIPM = PHONE.matches || TOUCH.matches;
+    hero.style.setProperty("--barh", bar.offsetHeight + "px");   // phones stack the title and quotation above the intro
     var l = qBox.offsetLeft, t = qBox.offsetTop, r = l + qBox.offsetWidth, b = t + qBox.offsetHeight;   // offsets ignore the fade's transform
-    xmin = (l - 16) / W + .22 * t / H;                          // the edge (x·W − 22%·W·y/H) left of the text at its top line
-    xmax = (r + 16) / W + .22 * b / H;                          // and right of it at its bottom line
+    xmin = (l - 16) / W + K * (t - 16) / H;                          // the edge (x·W − 22%·W·y/H) left of the text at its top line
+    xmax = (r + 16) / W + K * (b + 16) / H;                          // and right of it at its bottom line
     if (xmax < xmin + .3) xmax = xmin + .3;
     invX = invEls.map(function(el){ var q = el.getBoundingClientRect(); return q.left + q.width / 2; });
-    target = Math.min(xmax, Math.max(xmin, target)); cur = Math.min(xmax, Math.max(xmin, cur)); place();
+    if (FLIPM) { target = side === "en" ? xmax : xmin; if (!raf) cur = target; }
+    else { target = Math.min(xmax, Math.max(xmin, target)); cur = Math.min(xmax, Math.max(xmin, cur)); }
+    place();
   }
   function inv(){   // header items over the slash's face take its ink (only while the header is transparent)
-    var solid = scrollY > 40; hd.classList.toggle("solid", solid);
-    var edge = cur * W - .22 * W * (32 + scrollY) / H;
+    var solid = scrollY > 40 || mnav.classList.contains("open"); hd.classList.toggle("solid", solid);
+    var edge = cur * W - K * W * (32 + scrollY) / H;
     for (var i = 0; i < invEls.length; i++) invEls[i].classList.toggle("inv", !solid && invX[i] > edge);
   }
   function place(){
-    var dx = W * .22, ang = Math.atan2(dx, H);           // the edge runs from (x,0) to (x-22%,H)
+    var dx = W * K, ang = Math.atan2(dx, H);           // the edge runs from (x,0) to (x-22%,H)
     div.style.transform = "translate(" + (cur * W - dx / 2 - 1) + "px,-50%) rotate(" + ang + "rad)";
     hero.style.setProperty("--x", (cur * 100).toFixed(2) + "%");
     inv();
@@ -839,6 +993,7 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
   // time-based easing: the slash closes ~63% of the gap every TAU ms, the same on 60 Hz and 120 Hz screens.
   // It is driven by the visitor, so it eases even with reduced motion on (only the automatic sway is switched off).
   var TAU = 150, tPrev = 0;
+  var setSide = function(sd){ side = sd; target = sd === "en" ? xmax : xmin; TAU = 340; follow(); };
   function tick(ts){
     var dt = tPrev ? Math.min(64, ts - tPrev) : 16; tPrev = ts;
     cur += (target - cur) * (1 - Math.exp(-dt / TAU)); place();
@@ -846,17 +1001,32 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
   }
   var follow = function(){ if (!raf) raf = requestAnimationFrame(tick); };
   hero.addEventListener("pointermove", function(e){
-    if (e.pointerType === "touch") return;
-    hero.style.animation = "none";
+    if (e.pointerType === "touch" || FLIPM) return;
+    TAU = 150;
     var t = Math.min(1, Math.max(0, (e.clientX / W - .08) / .84)); target = xmin + t * (xmax - xmin); follow();
   }, {passive:true});
-  hero.addEventListener("pointerleave", function(e){ if (e.pointerType === "touch") return; target = Math.min(xmax, Math.max(xmin, .56)); follow(); });
-  if (RM) hero.style.animation = "none";
+  hero.addEventListener("pointerleave", function(e){ if (e.pointerType === "touch" || FLIPM) return; target = Math.min(xmax, Math.max(xmin, .56)); follow(); });
+  hero.addEventListener("click", function(e){ if (FLIPM && !e.target.closest("a,button")) setSide(side === "en" ? "zh" : "en"); });
   addEventListener("scroll", inv, {passive:true});
   qi = pick("q", QUOTES.length); if (qi > 0) show(qi); else bounds();
   addEventListener("resize", bounds, {passive:true});
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(bounds);
-  playQuote("in"); setTimeout(turn, HOLD);
+  playQuote("in"); setTimeout(turn, FLIPM ? HOLD / 2 : HOLD);
+
+  // ---- the three feature images (01, 02, 03) are pictures of one app, so they share one rule: each is laid out at
+  // the same design width (568px, 360px on phones) and, where its column is wider, scaled up as a whole by the same
+  // factor, at most 1.2x. Laid out wider instead, 01's few sentences would leave the window half empty; scaled
+  // without a cap, its text would grow far past the page text. Script reading rects inside divides by the scale.
+  var MOCK_MAX = 1.2;
+  var fitMock = function(el){
+    var st = el.style; st.width = st.transform = st.transformOrigin = st.marginBottom = "";
+    var W = el.parentNode.clientWidth, D = PHONE.matches ? 360 : 568, k = Math.min(MOCK_MAX, W / D);
+    if (k <= 1.01) return 1;
+    st.width = D + "px"; st.transformOrigin = "0 0"; st.transform = "scale(" + k + ")";
+    st.marginBottom = Math.round(el.offsetHeight * (k - 1)) + "px";
+    return k;
+  };
+  var scaleOf = function(el){ return el.getBoundingClientRect().width / (el.offsetWidth || 1) || 1; };
 
   // ---- 01 and 02 use the app's 素白 by day and 玄黑 by night ----
   var plainMocks = [document.getElementById("mlearn"), document.getElementById("mnotes")];
@@ -874,15 +1044,14 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
       lp.querySelectorAll(".ls").forEach(function(s, k){ s.classList.toggle("on", k === i); });
       lzh.textContent = S.zh;
       lch.innerHTML = S.v.map(function(w){ return '<div class="w"><b>' + esc(w[0]) + '</b>' + esc(w[1]) + (w[2] ? '<em>' + esc(w[2]) + '</em>' : '') + '</div>'; }).join("");
-      if (NARROW()) return;
       var el = lp.querySelector('.ls[data-i="' + i + '"]'), r = el.getClientRects()[0] || el.getBoundingClientRect(), b = lbody.getBoundingClientRect();
-      var y = Math.max(10, Math.min(r.top - b.top - 6, b.height - lc.offsetHeight - 10));
+      var lk = scaleOf(lbody), y = Math.max(10, Math.min((r.top - b.top) / lk - 6, lbody.clientHeight - lc.offsetHeight - 10));   // rects are scaled, offsets are not
       lc.style.transform = "translateY(" + Math.round(y) + "px)";
     };
-    var lrelay = function(){ var i = lcur; lcur = -1; lshow(i < 0 ? LDEF : i); };
+    var lrelay = function(){ fitMock(mlearn); var i = lcur; lcur = -1; lshow(i < 0 ? LDEF : i); };
     lp.addEventListener("pointerover", function(e){ var s = e.target.closest(".ls"); if (s) { clearTimeout(ltimer); lshow(+s.dataset.i); } });
-    mlearn.addEventListener("pointerleave", function(){ clearTimeout(ltimer); ltimer = setTimeout(function(){ lshow(LDEF); }, 700); });
-    lshow(LDEF); addEventListener("resize", lrelay, {passive:true});
+    mlearn.addEventListener("pointerleave", function(e){ if (e.pointerType === "touch") return; clearTimeout(ltimer); ltimer = setTimeout(function(){ lshow(LDEF); }, 700); });
+    fitMock(mlearn); lshow(LDEF); addEventListener("resize", lrelay, {passive:true});
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(lrelay);
   }
 
@@ -899,12 +1068,11 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
     var measure = function(){ ncards.forEach(function(c){ var r = c.classList.contains("row"); c.classList.remove("row"); nfull[c.dataset.n] = c.offsetHeight; if (r) c.classList.add("row"); }); };
     var draw = function(){
       nraf = 0;
-      if (NARROW()) { ncards.forEach(function(c){ c.style.transform = c.style.opacity = ""; c.classList.remove("row"); }); nsvg.innerHTML = ""; nmore.hidden = true; return; }
       // read every rect first
-      var b = nb.getBoundingClientRect(), cr = nm.getBoundingClientRect(), H = cr.height, colX = cr.left - b.left, colTop = cr.top - b.top, colW = cr.width;
-      var para = nsc.querySelector(".mk-paper p").getBoundingClientRect(), textX = para.left - b.left - 6;
+      var b = nb.getBoundingClientRect(), nk = b.width / (nb.offsetWidth || 1) || 1, cr = nm.getBoundingClientRect(), H = cr.height / nk, colX = (cr.left - b.left) / nk, colTop = (cr.top - b.top) / nk, colW = cr.width / nk;
+      var para = nsc.querySelector(".mk-paper p").getBoundingClientRect(), textX = (para.left - b.left) / nk - 6;
       var f = nhover || nactive;
-      var info = ncards.map(function(c){ var r = nmarks[c.dataset.n].getClientRects()[0]; return { c: c, n: c.dataset.n, y: r ? r.top + r.height / 2 - cr.top : undefined }; });
+      var info = ncards.map(function(c){ var r = nmarks[c.dataset.n].getClientRects()[0]; return { c: c, n: c.dataset.n, y: r ? (r.top + r.height / 2 - cr.top) / nk : undefined }; });
       var center = H * LINE, lead = H * .95;
       var travel = function(y){ var x = Math.min(1, Math.max(0, 1 - (y - center) / lead)); return x * x * (3 - 2 * x); };
       var floor = 6;
@@ -946,10 +1114,10 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
     mn.addEventListener("pointerover", function(e){ var t = e.target.closest("[data-n]"); if (t && t.dataset.n !== nhover) { nhover = t.dataset.n; later(); } });
     mn.addEventListener("pointerout", function(e){ var t = e.target.closest("[data-n]"), to = e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest("[data-n]"); if (t && (!to || to.dataset.n !== t.dataset.n)) { nhover = null; later(); } });
     nsc.addEventListener("scroll", later, {passive:true});
-    var relayout = function(){ measure(); later(); };
+    var relayout = function(){ fitMock(mn); measure(); later(); };
     addEventListener("resize", relayout, {passive:true});
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
-    measure(); later();
+    fitMock(mn); measure(); later();
 
     // While 02 is on screen and nobody is using it, the text reads itself slowly so the stacking is visible;
     // a pointer over the mock (or any touch) hands it over, and it carries on a few seconds after the pointer leaves.
@@ -974,6 +1142,7 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
 
   // ---- 03: the library fades from theme to theme: light ones by day, dark ones by night. A swatch previews its theme ----
   var lw = document.querySelector(".libwrap");
+  if (lw) { var lwfit = function(){ fitMock(lw); }; lwfit(); addEventListener("resize", lwfit, {passive:true}); if (document.fonts && document.fonts.ready) document.fonts.ready.then(lwfit); }
   if (lw) {
     var IDS = {"light":["geist","paper","mint","apricot","aurora","navy"],"dark":["geist-dark","gold","nebula","ink"]}, base = lw.querySelector(".base"), over = lw.querySelector(".over"), sws = [].slice.call(lw.parentNode.querySelectorAll(".sw"));
     var tok = 0, paused = false, libSeen = false, shown = base.dataset.theme;

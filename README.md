@@ -19,6 +19,7 @@
 </p>
 
 <p align="center">
+<a href="https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ"><b>申请内测</b></a> ·
 <a href="https://slashsci.com/"><b>官网</b></a> ·
 <a href="https://slashsci.com/#demo"><b>在线试用</b></a> ·
 <a href="#下载与安装"><b>下载</b></a> ·
@@ -27,7 +28,7 @@
 </p>
 
 > [!NOTE]
-> **内测阶段 · macOS 与 Windows**：SlashSci Library 目前处于小范围内测，macOS（Apple 芯片）与 Windows（64 位）版本均已开放。加入内测社区，即可获取安装包、安装指引与更新通知，并直接向开发者反馈。
+> **阿尔法内测 · 激活码激活**：SlashSci Library 目前处于小范围阿尔法内测，macOS（Apple 芯片）与 Windows（64 位）安装包均可直接下载，内测期间需要激活码才能使用。[填写内测申请 →](https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ)（约 3 分钟），审核通过后，激活码会发到你填写的邮箱。
 
 ## 核心能力
 
@@ -109,14 +110,15 @@ index.sqlite            可重建
 | **macOS** | Apple 芯片 · macOS 13 及以上 | 内测中 · [下载最新版](../../releases/latest) |
 | **Windows** | 64 位 · Windows 10 及以上 | 内测中 · [下载最新版](../../releases/latest) |
 
-安装包通过内测社区发放；已加入的成员也可以直接在 [Releases](../../releases/latest) 下载最新版本。
+安装包可以直接在 [Releases](../../releases/latest) 下载，内测期间需要激活码才能使用。[填写内测申请](https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ)（约 3 分钟），审核通过后，激活码会发到你的邮箱。
 
 **安装说明（内测版）**
 
 1. **macOS**：下载 `SlashSci-<版本>-arm64.dmg`，打开后把 SlashSci 拖进「应用程序」。
 2. **Windows**：下载 `SlashSci-<版本>-x64.exe`，双击安装。
 3. 第一次打开时如果被系统拦截，见下方说明。
-4. 新版本发布后，应用左侧会出现「新版本」按钮，点一下即可下载。
+4. 第一次打开时会显示激活页，填入收到激活码的邮箱和激活码，点「激活」。
+5. 新版本发布后，应用左侧会出现「新版本」按钮，点一下即可下载。
 
 <details>
 <summary>第一次打开时被系统拦截？</summary>
@@ -143,19 +145,19 @@ index.sqlite            可重建
 <table>
 <tr>
 <td align="center" width="33%">
-<img src="docs/img/readme/qr-discord.png" width="148" alt="Discord"><br>
+<img src="docs/img/qr-discord.png" width="148" alt="Discord"><br>
 <b>Discord</b><br>
 <sub>扫码或通过链接加入 Discord 社区</sub><br>
 <a href="https://discord.com/invite/ewNMAHvWsp">加入 Discord →</a>
 </td>
 <td align="center" width="33%">
-<img src="docs/img/readme/qr-wechat.png" width="148" alt="微信"><br>
+<img src="docs/img/qr-wechat.png" width="148" alt="微信"><br>
 <b>微信</b><br>
 <sub>用微信扫码加入内测群</sub><br>
 &nbsp;
 </td>
 <td align="center" width="33%">
-<img src="docs/img/readme/qr-xhs.png" width="148" alt="小红书"><br>
+<img src="docs/img/qr-xhs.png" width="148" alt="小红书"><br>
 <b>小红书</b><br>
 <sub>扫码或通过链接加入小红书群</sub><br>
 <a href="http://xhslink.com/m/MAL0EEu5FS">加入小红书群 →</a>
