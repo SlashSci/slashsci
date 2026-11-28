@@ -28,7 +28,7 @@
 </p>
 
 > [!NOTE]
-> **阿爾法內測 · 啟用碼啟用**：SlashSci Library 目前處於小範圍阿爾法內測，macOS（Apple 晶片）與 Windows（64 位）安裝包均可直接下載，內測期間需要啟用碼才能使用。[填寫內測申請 →](https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ)（約 3 分鐘），稽核通過後，啟用碼會發到你填寫的郵箱。
+> **阿爾法內測 · 歡迎申請**：SlashSci Library 正在進行小範圍阿爾法內測，macOS（Apple 晶片）與 Windows（64 位）安裝包均可直接下載。[填寫一份簡短的問卷 →](https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ)（約 3 分鐘）即可申請內測碼，稽核通過後會發到你的郵箱，在軟體裡繫結後就能開始使用。
 
 ## 核心能力
 
@@ -110,14 +110,14 @@ index.sqlite            可重建
 | **macOS** | Apple 晶片 · macOS 13 及以上 | 內測中 · [下載最新版](../../releases/latest) |
 | **Windows** | 64 位 · Windows 10 及以上 | 內測中 · [下載最新版](../../releases/latest) |
 
-安裝包可以直接在 [Releases](../../releases/latest) 下載，內測期間需要啟用碼才能使用。[填寫內測申請](https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ)（約 3 分鐘），稽核通過後，啟用碼會發到你的郵箱。
+安裝包可以直接在 [Releases](../../releases/latest) 下載。[填寫一份簡短的問卷](https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ)（約 3 分鐘）即可申請內測碼，稽核通過後會發到你的郵箱，在軟體裡繫結後就能開始使用。
 
 **安裝說明（內測版）**
 
 1. **macOS**：下載 `SlashSci-<版本>-arm64.dmg`，開啟後把 SlashSci 拖進「應用程式」。
 2. **Windows**：下載 `SlashSci-<版本>-x64.exe`，雙擊安裝。
 3. 第一次開啟時如果被系統攔截，見下方說明。
-4. 第一次開啟時會顯示啟用頁，填入收到啟用碼的郵箱和啟用碼，點「啟用」。
+4. 第一次開啟時，填入收到內測碼的郵箱和內測碼，點「繫結」。
 5. 新版本釋出後，應用左側會出現「新版本」按鈕，點一下即可下載。
 
 <details>

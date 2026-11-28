@@ -28,7 +28,7 @@
 </p>
 
 > [!NOTE]
-> **阿尔法内测 · 激活码激活**：SlashSci Library 目前处于小范围阿尔法内测，macOS（Apple 芯片）与 Windows（64 位）安装包均可直接下载，内测期间需要激活码才能使用。[填写内测申请 →](https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ)（约 3 分钟），审核通过后，激活码会发到你填写的邮箱。
+> **阿尔法内测 · 欢迎申请**：SlashSci Library 正在进行小范围阿尔法内测，macOS（Apple 芯片）与 Windows（64 位）安装包均可直接下载。[填写一份简短的问卷 →](https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ)（约 3 分钟）即可申请内测码，审核通过后会发到你的邮箱，在软件里绑定后就能开始使用。
 
 ## 核心能力
 
@@ -110,14 +110,14 @@ index.sqlite            可重建
 | **macOS** | Apple 芯片 · macOS 13 及以上 | 内测中 · [下载最新版](../../releases/latest) |
 | **Windows** | 64 位 · Windows 10 及以上 | 内测中 · [下载最新版](../../releases/latest) |
 
-安装包可以直接在 [Releases](../../releases/latest) 下载，内测期间需要激活码才能使用。[填写内测申请](https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ)（约 3 分钟），审核通过后，激活码会发到你的邮箱。
+安装包可以直接在 [Releases](../../releases/latest) 下载。[填写一份简短的问卷](https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ)（约 3 分钟）即可申请内测码，审核通过后会发到你的邮箱，在软件里绑定后就能开始使用。
 
 **安装说明（内测版）**
 
 1. **macOS**：下载 `SlashSci-<版本>-arm64.dmg`，打开后把 SlashSci 拖进「应用程序」。
 2. **Windows**：下载 `SlashSci-<版本>-x64.exe`，双击安装。
 3. 第一次打开时如果被系统拦截，见下方说明。
-4. 第一次打开时会显示激活页，填入收到激活码的邮箱和激活码，点「激活」。
+4. 第一次打开时，填入收到内测码的邮箱和内测码，点「绑定」。
 5. 新版本发布后，应用左侧会出现「新版本」按钮，点一下即可下载。
 
 <details>

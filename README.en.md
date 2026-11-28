@@ -28,7 +28,7 @@ Block-level · Immersive · Local-first · Agent-ready</p>
 </p>
 
 > [!NOTE]
-> **Alpha beta · activation code required**: SlashSci Library is in a small alpha beta. The macOS (Apple silicon) and Windows (64-bit) installers can be downloaded freely; during the beta the app needs an activation code. [Apply for the beta →](https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ) (about 3 minutes), and once you are approved the code is sent to the email address you gave.
+> **Alpha beta · applications open**: SlashSci Library is in a small alpha beta. The macOS (Apple silicon) and Windows (64-bit) installers can be downloaded freely. [Fill in a short questionnaire →](https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ) (about 3 minutes) to request a beta code; once approved, it's sent to your email, and you link it in the app to get started.
 
 ## What it does
 
@@ -110,14 +110,14 @@ index.sqlite            rebuildable
 | **macOS** | Apple silicon · macOS 13 or later | In beta · [latest build](../../releases/latest) |
 | **Windows** | 64-bit · Windows 10 or later | In beta · [latest build](../../releases/latest) |
 
-The installers can be downloaded from [Releases](../../releases/latest); during the beta the app needs an activation code. [Apply for the beta](https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ) (about 3 minutes), and once you are approved the code is sent to your email.
+The installers can be downloaded from [Releases](../../releases/latest). [Fill in a short questionnaire](https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ) (about 3 minutes) to request a beta code; once approved, it's sent to your email, and you link it in the app to get started.
 
 **Installing the beta**
 
 1. **macOS**: download `SlashSci-<version>-arm64.dmg`, open it and drag SlashSci into Applications.
 2. **Windows**: download `SlashSci-<version>-x64.exe` and double-click it to install.
 3. If the system blocks the first launch, see below.
-4. The first time you open the app it shows the activation page: enter the email the code was sent to and the code, and click “Activate”.
+4. The first time you open the app, enter the email the code was sent to and the code, and click “Link”.
 5. When a new version is out, an “Update” button appears on the left of the app; click it to download.
 
 <details>

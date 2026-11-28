@@ -566,7 +566,8 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
 .rchg a,.rlead a{color:var(--accent)}
 .rchg code,.rlead code{font:.88em var(--mono);padding:0 4px;background:var(--hl2)}
 .rchg pre{margin:8px 0;padding:10px 14px;background:var(--hl2);overflow-x:auto;font:13px/1.6 var(--mono)}
-.rgone{margin-top:20px;font:12px/1.6 var(--mono);color:var(--ink3)}
+.rgone{margin-top:18px;font-size:14px;line-height:1.7;color:var(--ink3)}
+.rgone a{color:var(--accent)}
 .rassets:empty{display:none}
 .rassets{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}
 .rassets a{display:inline-flex;align-items:center;gap:10px;min-height:40px;padding:0 14px;border:1px solid var(--line2);text-decoration:none;font-size:13.5px;font-weight:500;color:var(--ink);transition:border-color .15s}
@@ -604,7 +605,7 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
   <p class="sub">SlashSci Library 的每一个版本：更新了什么，以及对应的安装包。</p>
   <div class="rlatest"><span class="k">/ 最新版本 · <em>v0.1.3</em> · 2026-11-28</span>
     <div class="rdl"><a class="btn" href="https://github.com/SlashSci/slashsci/releases/download/v0.1.3/SlashSci-0.1.3-arm64.dmg">macOS<small>Apple 芯片 · macOS 13 及以上 · 152 MB</small></a><a class="btn" href="https://github.com/SlashSci/slashsci/releases/download/v0.1.3/SlashSci-0.1.3-x64.exe">Windows<small>64 位 · Windows 10 / 11 · 151 MB</small></a></div>
-    <p>内测期间需要激活码才能使用： <a href="https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ" target="_blank" rel="noopener">申请内测，获取激活码 →</a><br>安装步骤和第一次打开时的系统提示，见 <a href="/#download">下载与安装 →</a> Intel 芯片的 Mac 暂不支持。<br>安装包存放在 GitHub，国内下载较慢时，可以在内测群里获取。</p></div>
+    <p>正在进行阿尔法内测，填写简短问卷即可申请内测码： <a href="https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ" target="_blank" rel="noopener">申请内测 →</a><br>安装步骤和第一次打开时的系统提示，见 <a href="/#download">下载与安装 →</a> Intel 芯片的 Mac 暂不支持。<br>安装包存放在 GitHub，国内下载较慢时，可以在内测群里获取。</p></div>
   <div class="rlist">
     <article class="ritem" id="v0.1.3">
       <div class="rmeta"><b>0.1.3</b><time datetime="2026-11-28T14:58:32Z">2026-11-28</time><i>最新</i></div>
@@ -613,18 +614,18 @@ body>footer .copy{flex-basis:100%;margin-top:20px;padding-top:20px;border-top:1p
     </article>
     <article class="ritem" id="v0.1.2">
       <div class="rmeta"><b>0.1.2</b><time datetime="2026-11-28T13:47:26Z">2026-11-28</time></div>
-      <div class="rbody"><p class="rlead">SlashSci Library 0.1.2 内测版。这一版加入了阿尔法内测资格。</p><div class="rchg"><h4>新增</h4><ul><li><b>内测资格</b>：在「设置 → 关于」填入邮箱和激活码即可激活，本机验证，不联网。成员信息只存在本机，不进备份。</li><li><b>反馈</b>：发送反馈时可附带内测成员编号。</li></ul></div>
-        <p class="rgone">此版本的安装包已下架：内测从 0.1.3 起需要激活码才能使用。</p><div class="rassets"></div></div>
+      <div class="rbody"><p class="rlead">SlashSci Library 0.1.2 内测版。这一版加入了阿尔法内测资格。</p><div class="rchg"><h4>新增</h4><ul><li><b>内测资格</b>：在「设置 → 关于」填入邮箱和内测码即可绑定，本机验证，不联网。成员信息只存在本机，不进备份。</li><li><b>反馈</b>：发送反馈时可附带内测成员编号。</li></ul></div>
+        <p class="rgone">从 0.1.3 起，SlashSci Library 进入阿尔法内测：填写一份简短的问卷，就能申请内测码。欢迎<a href="https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ" target="_blank" rel="noopener">申请加入</a>，并下载<a href="#v0.1.3">最新版本</a>。早期版本的安装包已不再提供。</p><div class="rassets"></div></div>
     </article>
     <article class="ritem" id="v0.1.1">
       <div class="rmeta"><b>0.1.1</b><time datetime="2026-11-27T21:18:42Z">2026-11-28</time></div>
       <div class="rbody"><p class="rlead">SlashSci Library 0.1.1 内测版。这一版修复了 Mac 上「已损坏，无法打开」的问题，并新增了「反馈」。</p><div class="rchg"><h4>新增</h4><ul><li><b>反馈</b>：左侧栏新增「反馈」按钮。黄色三角报错气泡和界面崩溃卡片里也有「反馈」，会自动带上当时的报错。</li></ul><h4>修复</h4><ul><li>Mac 下载后提示「SlashSci.app 已损坏，无法打开」的问题已修复。</li><li>桌面版演示笔记时，右侧大纲顶部的按钮点不动；图片查看器、对话框和右键菜单的顶部也有同样的问题。现已修复。</li></ul><h4>改动</h4><ul><li>演示时的浮动大纲：点击标题跳转后，鼠标移开约半秒才收起。</li></ul></div>
-        <p class="rgone">此版本的安装包已下架：内测从 0.1.3 起需要激活码才能使用。</p><div class="rassets"></div></div>
+        <p class="rgone">从 0.1.3 起，SlashSci Library 进入阿尔法内测：填写一份简短的问卷，就能申请内测码。欢迎<a href="https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ" target="_blank" rel="noopener">申请加入</a>，并下载<a href="#v0.1.3">最新版本</a>。早期版本的安装包已不再提供。</p><div class="rassets"></div></div>
     </article>
     <article class="ritem" id="v0.1.0">
       <div class="rmeta"><b>0.1.0</b><time datetime="2026-11-25T15:09:56Z">2026-11-25</time></div>
       <div class="rbody"><p class="rlead">SlashSci Library 首个内测版，支持 macOS（Apple 芯片）和 Windows（64 位）。</p>
-        <p class="rgone">此版本的安装包已下架：内测从 0.1.3 起需要激活码才能使用。</p><div class="rassets"></div></div>
+        <p class="rgone">从 0.1.3 起，SlashSci Library 进入阿尔法内测：填写一份简短的问卷，就能申请内测码。欢迎<a href="https://xybioinfo.feishu.cn/share/base/shrcnYgv3JESRb7W4mUVEw9qzxZ" target="_blank" rel="noopener">申请加入</a>，并下载<a href="#v0.1.3">最新版本</a>。早期版本的安装包已不再提供。</p><div class="rassets"></div></div>
     </article>
   </div>
 </div></section>
