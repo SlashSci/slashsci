@@ -135,6 +135,17 @@ index.sqlite            可重建
 
 </details>
 
+### 让 AI 助手帮你安装
+
+不想自己开终端？把下面这段复制给能在电脑上运行命令的 AI 助手（如 WorkBuddy、Codex、Claude Code），让它帮你装好。
+
+```text
+帮我安装 SlashSci Library（https://github.com/SlashSci/slashsci）。
+从最新的 Release 下载对应我电脑的安装包：Mac（Apple 芯片）用 .dmg，Windows 用 .exe。
+内测版没有签名：Mac 上装到「应用程序」后运行 xattr -cr /Applications/SlashSci.app；Windows 上对 .exe 运行 Unblock-File 后再安装。
+装好后帮我打开它。
+```
+
 > [!TIP]
 > 你的文献保存在本机的 `SlashSci-Library` 文件夹里。建议隔一段时间在「设置 → 文献库 → 导出整个文献库」备份一次。
 

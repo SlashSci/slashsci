@@ -135,6 +135,17 @@ The beta is not signed yet, and this is the system's standard message for unsign
 
 </details>
 
+### Let an AI assistant install it
+
+Rather not open Terminal yourself? Copy the text below into an AI assistant that can run commands on your computer (such as WorkBuddy, Codex or Claude Code) and let it do the install.
+
+```text
+Install SlashSci Library (https://github.com/SlashSci/slashsci) for me.
+Download the installer for my computer from the latest release: the .dmg for a Mac with Apple silicon, the .exe for Windows.
+The beta isn't signed: on Mac, after installing to /Applications, run xattr -cr /Applications/SlashSci.app; on Windows, run Unblock-File on the .exe before installing.
+Then open it.
+```
+
 > [!TIP]
 > Your library lives in the `SlashSci-Library` folder on your computer. Back it up now and then with Settings → Library → Export the whole library.
 
